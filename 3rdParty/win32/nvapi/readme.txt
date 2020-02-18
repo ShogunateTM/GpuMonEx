@@ -1,0 +1,1 @@
+Place the NVAPI source files here.  Get it from developer.nvidia.com
