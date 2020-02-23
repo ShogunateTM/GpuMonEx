@@ -139,7 +139,7 @@ BOOL KmtDetectGpu()
 
 	/* Search for an Intel GPU.  If we don't find one, exit. */
 
-	do {
+	/*do {
 		if( SUCCEEDED( KmtGetAdapter( i, &DxgiDesc ) ) )
 		{
 			if( wcsstr( DxgiDesc.Description, L"Intel(R)" ) != NULL )
@@ -152,7 +152,7 @@ BOOL KmtDetectGpu()
 		}
 
 		i++;
-	} while(true);
+	} while(true);*/
 
 	/* Load the gdi32.dll directly, and get a function pointer to the necessary function. */
 
