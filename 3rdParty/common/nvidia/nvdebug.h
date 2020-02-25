@@ -91,11 +91,11 @@ public:
 	}
 
 	// Flush the current output
-#ifdef _WIN32
-	void NVDebug::EndOutput()
-#else
+//#ifdef _WIN32
+//	void NVDebug::EndOutput()
+//#else
     void EndOutput()
-#endif
+//#endif
 	{
 		m_strStream << std::endl << std::ends;
 
@@ -107,6 +107,7 @@ public:
 		}
 
 		OutputDebugStringA(m_strStream.str().c_str());
+		std::cout << m_strStream.str();
 
 		//m_strStream.freeze(false);
 		//m_strStream.seekp(0);

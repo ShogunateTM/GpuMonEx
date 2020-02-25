@@ -170,7 +170,7 @@ BOOL KmtDetectGpu()
 		return FALSE;
 	}
 
-	FreeLibrary( hGdi );
+	KmtGetAdapter( 0, &DxgiDesc );
 
 	return TRUE;
 }
@@ -325,6 +325,8 @@ int D3DKMT_Initialize()
 void D3DKMT_Uninitialize()
 {
 	//_LOG( __FUNCTION__ << "D3DKMT driver uninitialization completed.\n" );
+	
+	FreeLibrary( hGdi );
 }
 
 int D3DKMT_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails )
@@ -338,7 +340,7 @@ int D3DKMT_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails )
 	}
 
 	DXGI_ADAPTER_DESC2 desc;
-	HRESULT hr = KmtGetAdapter( 0, &desc );
+	HRESULT hr = KmtGetAdapter( AdapterNumber, &desc );
 	if( FAILED( hr ) )
 		return 0;
 

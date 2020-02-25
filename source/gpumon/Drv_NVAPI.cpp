@@ -161,8 +161,12 @@ int  NvGetGpuTemperature()
 }
 
 
+#include <d3d11_2.h>
+
 /* Logging file */
 std::ofstream logfi;
+
+extern HRESULT KmtGetAdapter( UINT Index, DXGI_ADAPTER_DESC2* Desc );
 
 
 int NVAPI_Initialize()
@@ -188,9 +192,20 @@ int NVAPI_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails )
 
 	_LOG( __FUNCTION__ << "(): Gathering GPU details...\n" );
 
+#if 0
 	strcpy( pGpuDetails->DeviceDesc, "NVIDIA Something..." );
 	pGpuDetails->DeviceID = 0xFFFF;	/* TODO */
 	pGpuDetails->VendorID = 0x10DE;	/* This is always a given */
+#else
+	DXGI_ADAPTER_DESC2 desc;
+	HRESULT hr = KmtGetAdapter( AdapterNumber, &desc );
+	if( FAILED( hr ) )
+		return 0;
+
+	wcstombs( pGpuDetails->DeviceDesc, desc.Description, 128 );
+	pGpuDetails->DeviceID = desc.DeviceId;
+	pGpuDetails->VendorID = desc.VendorId;
+#endif
 
 	return 1;
 }
