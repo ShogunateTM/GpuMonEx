@@ -2,38 +2,11 @@
 //
 
 #include "..\platform.h"
+#include "..\gmdebug.h"
 #include "..\gpumon\DriverEnum.h"
 
 #include <memory>
 #include <cstdlib>
-
-/* 
- * Classic NVSDK helper headers 
- */
-#include <nvdebug.h>
-
-/* 
- * GpuMon debugging macros 
- */
-#define GPUMON_DEBUG_LVL	3
-
-#define GPUMON_ERROR	1
-#define GPUMON_WARNING	2
-#define GPUMON_DEBUG	3
-
-#define GLOG( a, b ) \
-	std::cout << b << std::endl; \
-	DISPDBG( a, b )
-
-
-/*
- * gpucmd error codes
- */
-#define ERR_OK			0
-#define ERR_NOPARAMS	1
-#define ERR_MISSINGHW	2
-#define ERR_BADPARAMS	3
-#define ERR_DRVFAIL		4
 
 
 #if defined(_M_X64) || defined(__amd64__)
@@ -95,7 +68,7 @@ bool InitializeGpuMon( int DriverType, int Adapter,  GPUDRIVER* driver )
     hGpuMonDll = LoadLibraryA( GPUMON_DLL );
 	if( !hGpuMonDll )
 	{
-		DISPDBG( GPUMON_ERROR, "ERROR: Could not open " << GPUMON_DLL << "!\nGetLastError(): " << GetLastError() << "\n\n" );
+		GLOG( GPUMON_ERROR, "ERROR: Could not open " << GPUMON_DLL << "!\nGetLastError(): " << GetLastError() << "\n\n" );
 		return false;
 	}
 	
@@ -103,14 +76,14 @@ bool InitializeGpuMon( int DriverType, int Adapter,  GPUDRIVER* driver )
 	pfnDrv_GetGpuDriver = (void (*)(int, GPUDRIVER*)) GetProcAddress( hGpuMonDll, "Drv_GetGpuDriver" );
 	if( !pfnDrv_GetGpuDriver )
 	{
-		DISPDBG( GPUMON_ERROR, "ERROR: Could not locate Drv_GetGpuDriver() within module " << GPUMON_DLL << "!\nGetLastError(): " << GetLastError() << "\n\n" );
+		GLOG( GPUMON_ERROR, "ERROR: Could not locate Drv_GetGpuDriver() within module " << GPUMON_DLL << "!\nGetLastError(): " << GetLastError() << "\n\n" );
 		return false;
 	}
 
 	/* TODO: Laziness: Actually enumerate the GPUs when Drv_Default is passed in */
 
 	/* Get the driver and attempt to initialize it */
-	pfnDrv_GetGpuDriver( Drv_D3DKMT, driver );
+	pfnDrv_GetGpuDriver( DriverType, driver );
             
 	if( !driver->Initialize() )
 	{
@@ -244,7 +217,7 @@ int main( int argc, char** argv )
 	 * Start by loading the appropriate DLL
 	 */
 	
-	if( !InitializeGpuMon( Drv_D3DKMT, 0, &driver ) )
+	if( !InitializeGpuMon( GpuType, 0, &driver ) )
 		return ERR_DRVFAIL;
 
 	/* If desired, print out the adapter info of the detected GPU */
@@ -256,10 +229,10 @@ int main( int argc, char** argv )
 			return ERR_DRVFAIL;
 
 		GLOG( 3, details.DeviceDesc );
-		DISPDBG( 3, std::showbase << std::internal << std::setfill('0') << std::hex );
-		DISPDBG( 3, "Device ID: " << details.DeviceID );
-		DISPDBG( 3, "Vendor ID: " << details.VendorID );
-		DISPDBG( 3, std::dec );
+		GLOG( 3, std::showbase << std::internal << std::setfill('0') << std::hex );
+		GLOG( 3, "Device ID: " << details.DeviceID );
+		GLOG( 3, "Vendor ID: " << details.VendorID );
+		GLOG( 3, std::dec );
 
 //		return 0;
 	}
@@ -271,7 +244,7 @@ int main( int argc, char** argv )
 	{
 		GetSystemTime( &Time );
 
-		DISPDBG( 3, "Start time: " << Time.wMonth << "/" <<
+		GLOG( 3, "Start time: " << Time.wMonth << "/" <<
 			Time.wDay << "/" << Time.wYear << 
 			" (" << Time.wHour << ":" << Time.wMinute << ":" <<
 			Time.wSecond << ")" << std::endl );
@@ -281,7 +254,7 @@ int main( int argc, char** argv )
 
     for( int i = 0; i < Seconds; i++ )
     {
-        GLOG( 3, "GPU Usage: " << driver.GetOverallGpuLoad() << "%" << std::endl );
+        GLOG( 3, "GPU Usage: " << driver.GetOverallGpuLoad() << "%" );
 
         Sleep(1000);
     }
@@ -290,7 +263,7 @@ int main( int argc, char** argv )
 	{
 		GetSystemTime( &Time );
 
-		DISPDBG( 3, "Stop time: " << Time.wMonth << "/" <<
+		GLOG( 3, "Stop time: " << Time.wMonth << "/" <<
 			Time.wDay << "/" << Time.wYear << 
 			" (" << Time.wHour << ":" << Time.wMinute << ":" <<
 			Time.wSecond << ")" << std::endl );

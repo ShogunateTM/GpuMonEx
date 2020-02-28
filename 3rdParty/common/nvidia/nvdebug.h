@@ -107,7 +107,6 @@ public:
 		}
 
 		OutputDebugStringA(m_strStream.str().c_str());
-		std::cout << m_strStream.str();
 
 		//m_strStream.freeze(false);
 		//m_strStream.seekp(0);
