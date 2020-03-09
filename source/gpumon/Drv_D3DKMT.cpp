@@ -48,6 +48,7 @@ typedef _com_ptr_t<_com_IIID<IDXGIFactory2, &IID_IDXGIFactory2>> CDXGIFactory2;
 
 
 PFND3DKMT_QUERYSTATISTICS	pfnD3DKMTQueryStatistics = nullptr;
+PFND3DKMT_OPENADAPTERFROMLUID pfnD3DKMTOpenAdapterFromLuid = nullptr;
 HMODULE						hGdi = nullptr;
 DXGI_ADAPTER_DESC2			DxgiDesc;
 UINT						AdapterNumber = 0;
@@ -167,6 +168,13 @@ BOOL KmtDetectGpu()
 	if( !pfnD3DKMTQueryStatistics )
 	{
 		_ERROR( "Unable to locate D3DKMTQueryStatistics()!" << std::endl );
+		return FALSE;
+	}
+
+	pfnD3DKMTOpenAdapterFromLuid = (PFND3DKMT_OPENADAPTERFROMLUID) GetProcAddress( hGdi, "D3DKMTOpenAdapterFromLuid" );
+	if( !pfnD3DKMTOpenAdapterFromLuid )
+	{
+		_ERROR( "Unable to locate D3DKMTOpenAdapterFromLuid()!" << std::endl );
 		return FALSE;
 	}
 

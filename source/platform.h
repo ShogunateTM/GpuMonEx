@@ -35,6 +35,8 @@
 #include <windows.h>
 #include <mmsystem.h>
 #include <process.h>
+#include <Psapi.h>
+#include <TlHelp32.h>
 
 #endif
 
