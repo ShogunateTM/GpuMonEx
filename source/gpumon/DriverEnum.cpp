@@ -37,6 +37,7 @@ void Drv_GetGpuDriver( int DriverType, GPUDRIVER* pDriver )
         pDriver->Uninitialize = D3DKMT_Uninitialize;
         pDriver->GetGpuDetails = D3DKMT_GetGpuDetails;
         pDriver->GetOverallGpuLoad = D3DKMT_GetOverallGpuLoad;
+        pDriver->GetProcessGpuLoad = D3DKMT_GetProcessGpuLoad;
         pDriver->GetGpuTemperature = D3DKMT_GetGpuTemperature;
     }
     else
@@ -48,6 +49,7 @@ void Drv_GetGpuDriver( int DriverType, GPUDRIVER* pDriver )
             pDriver->Uninitialize = NVAPI_Uninitialize;
             pDriver->GetGpuDetails = NVAPI_GetGpuDetails;
             pDriver->GetOverallGpuLoad = NVAPI_GetOverallGpuLoad;
+            pDriver->GetProcessGpuLoad = NVAPI_GetProcessGpuLoad;
             pDriver->GetGpuTemperature = NVAPI_GetGpuTemperature;
         }
         /* AMD driver */
@@ -57,6 +59,7 @@ void Drv_GetGpuDriver( int DriverType, GPUDRIVER* pDriver )
             pDriver->Uninitialize = AMDGS_Uninitialize;
             pDriver->GetGpuDetails = AMDGS_GetGpuDetails;
             pDriver->GetOverallGpuLoad = AMDGS_GetOverallGpuLoad;
+            pDriver->GetProcessGpuLoad = AMDGS_GetProcessGpuLoad;
             pDriver->GetGpuTemperature = AMDGS_GetGpuTemperature;
         }
         /* D3DKMT driver (Intel and everything else) */
@@ -66,6 +69,7 @@ void Drv_GetGpuDriver( int DriverType, GPUDRIVER* pDriver )
             pDriver->Uninitialize = D3DKMT_Uninitialize;
             pDriver->GetGpuDetails = D3DKMT_GetGpuDetails;
             pDriver->GetOverallGpuLoad = D3DKMT_GetOverallGpuLoad;
+            pDriver->GetProcessGpuLoad = D3DKMT_GetProcessGpuLoad;
             pDriver->GetGpuTemperature = D3DKMT_GetGpuTemperature;
         }
     }

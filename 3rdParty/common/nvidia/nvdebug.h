@@ -97,7 +97,7 @@ public:
     void EndOutput()
 //#endif
 	{
-		m_strStream << std::endl << std::ends;
+		m_strStream << /*std::endl <<*/ std::ends;
 
 		// Don't make a huge debug file.
 		if (m_dbgLog.tellp() < MaxDebugFileSize)

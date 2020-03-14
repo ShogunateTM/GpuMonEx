@@ -251,6 +251,48 @@ int  KmtGetGpuUsage()
 
 
 /*
+ * Name: KmtGetProcessGpuUsage
+ * Desc: Returns the GPU usage of a specific process that is currently running
+ *
+ * NOTES: See link below.
+ *		  https://stackoverflow.com/questions/13017148/how-do-i-get-gpu-usage-per-process
+ *
+ *		  Windows: *Should* work as long as the process handle was created with PROCESS_QUERY_INFORMATION.
+ */
+int KmtGetProcessGpuUsage( void* pProcess )
+{
+	LUID luid = { 20 };
+	TOKEN_PRIVILEGES privs = { 1, { luid, SE_PRIVILEGE_ENABLED } };
+	HANDLE hToken;
+	int Usage = 0;
+
+	/* TODO: Find out exactly what this does, and why it is necessary... */
+	if( OpenProcessToken( pProcess, TOKEN_ADJUST_PRIVILEGES, &hToken ) )
+	{
+		if( AdjustTokenPrivileges( hToken, FALSE, &privs, sizeof( privs ), NULL, NULL ) )
+		{
+		}
+		else
+		{
+			__asm int 3;
+		}
+	}
+
+	/* Probably not necessary */
+	/*D3DKMT_OPENADAPTERFROMLUID OpenAdapterFromLUID;
+	ZeroMemory( &OpenAdapterFromLUID, sizeof( OpenAdapterFromLUID ) );
+	OpenAdapterFromLUID.AdapterLuid = DxgiDesc.AdapterLuid;
+	ULONG ret = pfnD3DKMTOpenAdapterFromLuid( &OpenAdapterFromLUID );*/
+
+	D3DKMT_QUERYSTATISTICS stats = { D3DKMT_QUERYSTATISTICS_PROCESS, DxgiDesc.AdapterLuid, pProcess };
+	ULONG status = pfnD3DKMTQueryStatistics( &stats );
+	if( status == 0 )
+		Usage = stats.QueryResult.ProcessInformation.SystemMemory.BytesAllocated;
+
+	return Usage;
+}
+
+/*
  * Name: KmtGetGpuTemperature
  * Desc: Returns the temperature of the GPU.
  * NOTE: Since the intel GPU is integrated with the same die as the CPU itself, this will
@@ -362,6 +404,11 @@ int D3DKMT_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails )
 int D3DKMT_GetOverallGpuLoad()
 {
 	return KmtGetGpuUsage();
+}
+
+int D3DKMT_GetProcessGpuLoad( void* pProcess )
+{
+	return KmtGetProcessGpuUsage( pProcess );
 }
 
 int D3DKMT_GetGpuTemperature()

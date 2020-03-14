@@ -26,8 +26,8 @@
 	DISPDBG( GPUMON_WARNING, "GWARN: " << b )
 
 #define GERROR( b ) \
-	std::cout << "GERROR: " << b << std::endl; \
-	DISPDBG( GPUMON_GERROR, "GERROR: " << b )
+	std::cerr << "GERROR: " << b << std::endl; \
+	DISPDBG( GPUMON_ERROR, "GERROR: " << b )
 
 /*
  * gpucmd error codes
@@ -37,5 +37,6 @@
 #define ERR_MISSINGHW	2
 #define ERR_BADPARAMS	3
 #define ERR_DRVFAIL		4
+#define ERR_PROCNOEXIST 5
 
 #endif // __GMDEBUG_H__

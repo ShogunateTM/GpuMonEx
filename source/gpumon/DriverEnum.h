@@ -18,7 +18,8 @@ enum
     Drv_Default = -1,   /* Returns the default driver for the primary display adapter */
     Drv_D3DKMT = 0,     /* Works for all GPUs under windows (in theory), including Intel HD */
     Drv_NVAPI,          /* NVIDIA only */
-    Drv_AMDGS           /* AMD only */
+    Drv_AMDGS,          /* AMD only */
+    Drv_MAX
 };
 
 
@@ -35,6 +36,7 @@ typedef struct _GPUDRIVER
     void (*Uninitialize)();
     int (*GetGpuDetails)( int, GPUDETAILS* );
     int (*GetOverallGpuLoad)();
+    int (*GetProcessGpuLoad)( void* );
     int (*GetGpuTemperature)();
 } GPUDRIVER;
 

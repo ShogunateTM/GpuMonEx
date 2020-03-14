@@ -37,6 +37,7 @@
 #include <process.h>
 #include <Psapi.h>
 #include <TlHelp32.h>
+#include <shellapi.h>
 
 #endif
 

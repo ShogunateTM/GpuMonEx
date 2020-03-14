@@ -3,12 +3,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LocalDebuggerWorkingDirectory>..\..\..\bin</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-a -nvidia</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--duration 10 --debug-level 3 --timestamp --logging out.txt --select-adapter 0 --adapter-info --adapter-usage  --process-usage /o C:\Shogunate\Looptil\looptil.exe</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LocalDebuggerWorkingDirectory>..\..\..\bin</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-a -nvidia</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--duration 10 --debug-level 3 --timestamp --logging out.txt --select-adapter 0 --adapter-info --adapter-usage  --process-usage /o C:\Shogunate\Looptil\looptil.exe</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerWorkingDirectory>..\..\..\bin</LocalDebuggerWorkingDirectory>

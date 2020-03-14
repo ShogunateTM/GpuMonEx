@@ -215,6 +215,11 @@ int NVAPI_GetOverallGpuLoad()
 	return NvGetGpuLoad();
 }
 
+int NVAPI_GetProcessGpuLoad( void* pProcess )
+{
+	return 0;
+}
+
 int NVAPI_GetGpuTemperature()
 {
 	return NvGetGpuTemperature();
