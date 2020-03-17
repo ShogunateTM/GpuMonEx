@@ -9,12 +9,15 @@ typedef struct _GMPROCESS
     void* hProcess;
     void* hThread;
     DWORD dwID;
-};
+} GMPROCESS;
 
-void* CreateNewProcess( const CHAR* szProcessName );
-void* OpenProcessByName( const CHAR* szProcessName );
-void* OpenProcessByID( DWORD dwProcessID );
+
+bool CreateNewProcess( const CHAR* szProcessName, GMPROCESS* pProcess );
+bool OpenProcessByName( const CHAR* szProcessName, GMPROCESS* pProcess );
+bool OpenProcessByID( DWORD dwProcessID, GMPROCESS* pProcess );
+void CloseProcess( GMPROCESS* pProcess );
+void TerminateProcess( GMPROCESS* pProcess );
 bool Is32BitProcess( DWORD dwProcessID );
-bool ProcessIsActive( void* pProcess );
+bool ProcessIsActive( GMPROCESS* pProcess );
 
 #endif // __PROCESS_ENUMERATION_H__

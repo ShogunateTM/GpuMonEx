@@ -146,7 +146,7 @@ int main( int argc, char** argv )
 	bool DebugEnabled = false;
 	char DebugFile[2048];
 
-	void* Process = NULL;
+	GMPROCESS Process;
 
 	std::unique_ptr<NVDebug> dbg;
 	
@@ -168,9 +168,9 @@ int main( int argc, char** argv )
 
 	std::atexit( []() 
 		{ 
-			driver[Drv_D3DKMT].Uninitialize(); 
-			driver[Drv_NVAPI].Uninitialize(); 
-			driver[Drv_AMDGS].Uninitialize(); 
+			if( driver[Drv_D3DKMT].Uninitialize ) driver[Drv_D3DKMT].Uninitialize(); 
+			if( driver[Drv_NVAPI].Uninitialize ) driver[Drv_NVAPI].Uninitialize();
+			if( driver[Drv_AMDGS].Uninitialize ) driver[Drv_AMDGS].Uninitialize(); 
 		} );
 
 	SetConsoleCtrlHandler( HandlerRoutine, TRUE );
@@ -286,8 +286,7 @@ int main( int argc, char** argv )
 			if( ARGUMENT( "/o" ) )
 			{
 				i++;
-				Process = CreateNewProcess( argv[i] );
-				if( !Process )
+				if( !CreateNewProcess( argv[i], &Process ) )				
 				{
 					GERROR( "Error creating new process!" );
 					return ERR_PROCNOEXIST;
@@ -298,8 +297,7 @@ int main( int argc, char** argv )
 			if( ARGUMENT( "/e" ) )
 			{
 				i++;
-				Process = OpenProcessByName( argv[i] );
-				if( !Process )
+				if( !OpenProcessByName( argv[i], &Process ) )
 				{
 					GERROR( "Error opening process!" );
 					return ERR_PROCNOEXIST;
@@ -310,8 +308,7 @@ int main( int argc, char** argv )
 			if( ARGUMENT( "/id" ) )
 			{
 				i++;
-				Process = OpenProcessByID( atoi( argv[i] ) );
-				if( !Process )
+				if( !OpenProcessByID( atoi( argv[i] ), &Process ) )
 				{
 					GERROR( "Error opening process!" );
 					return ERR_PROCNOEXIST;
@@ -383,7 +380,7 @@ int main( int argc, char** argv )
 			}
 			if( ShowProcessUsage )
 			{
-				int GpuUsage = driver[Drv_D3DKMT].GetProcessGpuLoad( Process );
+				int GpuUsage = driver[Drv_D3DKMT].GetProcessGpuLoad( Process.hProcess );
 				GLOG( 3, "Process GPU Usage: " << GpuUsage << "%" );
 			}
 
@@ -403,6 +400,8 @@ int main( int argc, char** argv )
 
 	/*if( logfi.is_open() )
 		logfi.close();*/
+
+	TerminateProcess( &Process );
     
     return 0;
 }

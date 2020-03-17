@@ -84,14 +84,13 @@ BOOL EnableDebugPrivileges()
  * Name: CreateNewProcess
  * Desc: Launches a new process from an executable file on disk.
  */
-void* CreateNewProcess( const CHAR* szProcessName )
+bool CreateNewProcess( const CHAR* szProcessName, GMPROCESS* pProcess )
 {
-    void* hProcess = NULL;
-
 #if _WIN32
     if( !DebugPrivilegesEnabled )
         DebugPrivilegesEnabled = EnableDebugPrivileges();
 
+#if 0
     /* Normally we would use CreateProcess but that would return both a process and a thread
        handle to manage.  With ShellExecuteEx, there's only the handle to the process to worry
        about.  Plus, you can either wait for the process to exit, or end it yourself. 
@@ -124,9 +123,37 @@ void* CreateNewProcess( const CHAR* szProcessName )
        See if it can be changed using OpenProcess() ... */
 
     hProcess = (void*) sei.hProcess;
+#else
+    /* Before starting a new process, get the directory first */
+    char drive[_MAX_DRIVE], dir[_MAX_DIR], file[_MAX_FNAME], ext[_MAX_EXT];
+    _splitpath( szProcessName, drive, dir, file, ext );
+    std::string pdir = drive; pdir.append(dir);
+
+    PROCESS_INFORMATION pi = { 0 };
+    STARTUPINFOA        si = { 0 };
+
+    si.cb = sizeof( si );
+    si.dwFlags = STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_SHOWNORMAL;
+
+    BOOL ret = CreateProcessA( szProcessName,
+                NULL,           /* TODO: User params */
+                NULL, NULL,
+                TRUE,           /* Do we need to inherit handles or no? */
+                0,              /* Probably should set some flags... */
+                NULL,
+                pdir.c_str(),   /* Set current directory to .exe location */
+                &si,
+                &pi );
+
+    pProcess->hProcess = pi.hProcess;
+    pProcess->hThread = pi.hThread;
+    pProcess->dwID = GetProcessId( pi.hProcess );
 #endif
 
-    return hProcess;
+#endif
+
+    return true;
 }
 
 
@@ -144,10 +171,8 @@ void* CreateNewProcess( const CHAR* szProcessName )
  *         out of date at the time it was called, so there's race condition.  See link below:
  *         https://stackoverflow.com/questions/865152/how-can-i-get-a-process-handle-by-its-name-in-c
  */
-void* OpenProcessByName( const CHAR* szProcessName )
+bool OpenProcessByName( const CHAR* szProcessName, GMPROCESS* pProcess )
 {
-    void* hProcess = NULL;
-
 #ifdef _WIN32
     if( !DebugPrivilegesEnabled )
         DebugPrivilegesEnabled = EnableDebugPrivileges();
@@ -183,13 +208,16 @@ void* OpenProcessByName( const CHAR* szProcessName )
 
     if( dwProcessID != 0 )
     {
-        hProcess = (HANDLE)OpenProcess( PROCESS_ALL_ACCESS, FALSE, dwProcessID );
-        if( !hProcess )
-            hProcess = (HANDLE)OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, dwProcessID );
+        pProcess->hProcess = (HANDLE)OpenProcess( PROCESS_ALL_ACCESS, FALSE, dwProcessID );
+        if( !pProcess->hProcess )
+            pProcess->hProcess = (HANDLE)OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, dwProcessID );
+
+        pProcess->dwID = dwProcessID;
+        pProcess->hThread = NULL;
     }
 #endif
 
-    return hProcess;
+    return true;
 }
 
 
@@ -197,23 +225,59 @@ void* OpenProcessByName( const CHAR* szProcessName )
  * Name: OpenProcessByID
  * Desc: Opens a given process using the process's ID number.
  */
-void* OpenProcessByID( DWORD dwProcessID )
+bool OpenProcessByID( DWORD dwProcessID, GMPROCESS* pProcess )
 {
-    void* hProcess = NULL;
-
 #ifdef _WIN32
     if( !DebugPrivilegesEnabled )
         DebugPrivilegesEnabled = EnableDebugPrivileges();
 
     /* Attempt to open this process with all access.  If we fail, use read-only flags */
-    hProcess = (HANDLE) OpenProcess( PROCESS_ALL_ACCESS, FALSE, dwProcessID );
-    if( !hProcess )
-        hProcess = (HANDLE) OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, dwProcessID );
+    pProcess->hProcess = (HANDLE) OpenProcess( PROCESS_ALL_ACCESS, FALSE, dwProcessID );
+    if( !pProcess->hProcess )
+        pProcess->hProcess = (HANDLE) OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, dwProcessID );
+
+    pProcess->dwID = GetProcessId( pProcess->hProcess );
+    pProcess->hThread = NULL;
 #endif
 
-    return hProcess;
+    return true;
 }
 
+
+/*
+ * Name: CloseProcess
+ * Desc: Closes the process handle and the thread (if a handle to that exists).
+ */
+void CloseProcess( GMPROCESS* pProcess )
+{
+    if( !pProcess )
+        return;
+
+#if _WIN32
+    if( pProcess->hThread )
+        CloseHandle( pProcess->hThread );
+    if( pProcess->hProcess )
+        CloseHandle( pProcess->hProcess );
+#endif
+}
+
+
+/*
+ * Name: TerminateProcess
+ * Desc: Closes the process handle and the thread (if a handle to that exists).
+ */
+void TerminateProcess( GMPROCESS* pProcess )
+{
+    if( !pProcess )
+        return;
+
+#if _WIN32
+    if( pProcess->hThread )
+        CloseHandle( pProcess->hThread );
+    if( pProcess->hProcess )
+        TerminateProcess( pProcess->hProcess, 0 );
+#endif
+}
 
 /*
  * Name: Is32BitProcess
@@ -246,10 +310,10 @@ bool Is32BitProcess( DWORD dwProcessID )
  * Name: ProcessIsActive
  * Desc: Returns true if the process handle is valid and running.
  */
-bool ProcessIsActive( void* pProcess )
+bool ProcessIsActive( GMPROCESS* pProcess )
 {
 #ifdef _WIN32
-    DWORD dwResult = WaitForSingleObject( pProcess, 0 );
+    DWORD dwResult = WaitForSingleObject( pProcess->hProcess, 0 );
 
     if( dwResult == WAIT_OBJECT_0 )
         return true;
