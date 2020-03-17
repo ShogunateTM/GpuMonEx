@@ -9,7 +9,9 @@
 #include <memory>
 #include <cstdlib>
 
+#ifdef _WIN32
 #pragma warning (disable:4996)
+#endif
 
 #if defined(_M_X64) || defined(__amd64__)
 #define GPUMON_DLL "gpumon64.dll"

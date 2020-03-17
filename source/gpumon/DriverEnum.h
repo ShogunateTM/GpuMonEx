@@ -3,12 +3,25 @@
 
 #include "..\drvdefs.h"
 
-
-#ifdef DLL_EXPORT
-#define GPUMON_API __declspec(dllexport)
-#else
-#define GPUMON_API __declspec(dllimport)
+/* Windows DLL exports */
+#ifdef _WIN32
+ #ifdef DLL_EXPORT
+  #define GPUMON_API __declspec(dllexport)
+ #else
+  #define GPUMON_API __declspec(dllimport)
+ #endif
 #endif
+
+
+/* MacOS dylib exports */
+#ifdef __APPLE__
+ #ifdef DYLIB_EXPORT
+  #define GPUMON_API __attribute__((visibility("default"))
+ #else
+  #define GPUMON_API
+ #endif
+#endif
+
 
 /*
  * Driver types
@@ -16,9 +29,13 @@
 enum
 {
     Drv_Default = -1,   /* Returns the default driver for the primary display adapter */
-    Drv_D3DKMT = 0,     /* Works for all GPUs under windows (in theory), including Intel HD */
+    
+    Drv_D3DKMT = 0,     /* Windows, works for all GPUs under windows (in theory), including Intel HD */
     Drv_NVAPI,          /* NVIDIA only */
     Drv_AMDGS,          /* AMD only */
+    
+    Drv_IOKIT,          /* MacOS, all GPUs */
+    
     Drv_MAX
 };
 

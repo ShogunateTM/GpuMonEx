@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:gpumonproc/gpumonproc.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:GpuMonEx/GpuMonEx.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:gpumon/gpumon.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:gpucmd/gpucmd.xcodeproj">
+   </FileRef>
+</Workspace>

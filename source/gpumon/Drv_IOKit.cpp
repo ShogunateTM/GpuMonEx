@@ -1,3 +1,58 @@
+//
+//  Drv_IOKit.cpp
+//  gpumon
+//
+//  Created by Aeroshogun on 3/17/20.
+//  Copyright © 2020 Shogunate Technologies. All rights reserved.
+//
+
+
+#include "..\platform.h"
+#include "..\debug.h"
+#include "Drv_IOKIT.h"
+
+#include <IOKit/IOKitLib.h>
+
+
+/* Logging file */
+//std::ofstream logfi;
+
+
+int IOKIT_Initialize()
+{
+    //_LOG( __FUNCTION__ << "(): " << "AMD driver initialization started...\n" );
+    return 0;
+}
+
+void IOKIT_Uninitialize()
+{
+    //_LOG( __FUNCTION__ << "AMD driver uninitialization completed.\n" );
+}
+
+int IOKIT_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails )
+{
+    //_LOG( __FUNCTION__ << "TODO: Implement...\n" );
+    
+    return 0;
+}
+
+int IOKIT_GetOverallGpuLoad()
+{
+    return 0;
+}
+
+int IOKIT_GetProcessGpuLoad( void* pProcess )
+{
+    return 0;
+}
+
+int IOKIT_GetGpuTemperature()
+{
+    return 0;
+}
+
+
+
 #if 0
 
 // TODO: work on the MacOS version, basing the code off of this:

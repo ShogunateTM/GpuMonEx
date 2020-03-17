@@ -13,16 +13,14 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
-#include <conio.h>
-#include <memory>
-#include <io.h>
-#include <stdint.h>
 
 /* C++ only */
 #ifdef __cplusplus
 #include <iostream>
 #include <string>
+#include <memory>
 #endif
+
 
 /*
  * Windows Desktop
@@ -39,6 +37,10 @@
 #include <TlHelp32.h>
 #include <shellapi.h>
 
+#include <conio.h>
+#include <io.h>
+#include <stdint.h>
+
 #endif
 
 
@@ -46,6 +48,16 @@
  * MacOS
  */
 #ifdef __APPLE__
+
+#include <CoreFoundation/CoreFoundation.h>
+#include <Cocoa/Cocoa.h>
+
+#define DWORD   unsigned long
+#define WORD    unsigned short
+#define BYTE    unsigned char
+
+#define HANDLE  void*
+#define HMODULE void*
 
 #endif
 
