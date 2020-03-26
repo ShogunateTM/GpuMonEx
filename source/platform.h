@@ -50,14 +50,17 @@
 #ifdef __APPLE__
 
 #include <CoreFoundation/CoreFoundation.h>
-#include <Cocoa/Cocoa.h>
+#include <dlfcn.h>
 
 #define DWORD   unsigned long
 #define WORD    unsigned short
 #define BYTE    unsigned char
+#define CHAR    char
 
 #define HANDLE  void*
 #define HMODULE void*
+
+#define Sleep(x) usleep((x)*1000)
 
 #endif
 

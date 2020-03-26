@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "..\drvdefs.h"
+#include "../drvdefs.h"
 
 
 

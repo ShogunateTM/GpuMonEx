@@ -1,10 +1,10 @@
 // gpucmd.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include "..\platform.h"
-#include "..\gmdebug.h"
-#include "..\gpumon\DriverEnum.h"
-#include "..\common\ProcessEnumeration.h"
+#include "../platform.h"
+#include "../gmdebug.h"
+#include "../gpumon/DriverEnum.h"
+#include "../common/ProcessEnumeration.h"
 
 #include <memory>
 #include <cstdlib>
@@ -13,11 +13,6 @@
 #pragma warning (disable:4996)
 #endif
 
-#if defined(_M_X64) || defined(__amd64__)
-#define GPUMON_DLL "gpumon64.dll"
-#else
-#define GPUMON_DLL "gpumon32.dll"
-#endif
 
 #define ARGUMENT(x) (!_stricmp( x, argv[i] ))
 
@@ -34,7 +29,33 @@ HMODULE hGpuMonDll = nullptr;
 
 /* Driver handle instance*/
 GPUDRIVER driver[Drv_MAX];
+//std::unordered_map<GPUDRIVER> driver;
 
+
+#ifndef _WIN32
+int _stricmp(const char* str1, const char* str2)
+{
+    if (str1 == str2)
+        return 0;
+    else if (str1 == NULL)
+        return -1;
+    else if (str2 == NULL)
+        return 1;
+    else {
+        while (tolower(*str1) == tolower(*str2) && *str1 != 0 && *str2 != 0)
+        {
+            ++str1;
+            ++str2;
+        }
+        if (*str1 < *str2)
+            return -1;
+        else if (*str1 > *str2)
+            return 1;
+        else
+            return 0;
+    }
+}
+#endif
 
 
 /*
@@ -64,7 +85,7 @@ void ShowHelpMenu()
 		<< "--existing-process-name (-epn) [pname]:" << std::endl
 		<< "--process-id (-pid) [processID]:" << std::endl; */
 
-		/*<< "\tHelp:        -h or -?" << std::endl
+		/* << "\tHelp:        -h or -?" << std::endl
 		<< "\tDuration:    -d [seconds] (optional; default = 100)" << std::endl
 		<< "\tIntel Only:  -intel" << std::endl
 		<< "\tNVIDIA Only: -nvidia" << std::endl
@@ -88,13 +109,19 @@ void ShowHelpMenu()
  * Name: InitializeGpuMon
  * Desc: Initializes the GpuMon DLL for the appropriate architecture.
  */
-bool InitializeGpuMon( int DriverType, int Adapter,  GPUDRIVER* driver )
+bool InitializeGpuMon( int DriverType, int Adapter, GPUDRIVER* driver )
 {
 	/* Start by loading the appropriate DLL*/
     hGpuMonDll = LoadLibraryA( GPUMON_DLL );
 	if( !hGpuMonDll )
 	{
-		GLOG( GPUMON_ERROR, "ERROR: Could not open " << GPUMON_DLL << "!\nGetLastError(): " << GetLastError() << "\n\n" );
+		GLOG( GPUMON_ERROR, "ERROR: Could not open " << GPUMON_DLL <<
+#ifdef _WIN32
+             "!\nGetLastError(): " << GetLastError()
+#else
+             "!\ndlerr(): " << dlerror()
+#endif
+             << "\n\n" );
 		return false;
 	}
 	
@@ -102,7 +129,13 @@ bool InitializeGpuMon( int DriverType, int Adapter,  GPUDRIVER* driver )
 	pfnDrv_GetGpuDriver = (void (*)(int, GPUDRIVER*)) GetProcAddress( hGpuMonDll, "Drv_GetGpuDriver" );
 	if( !pfnDrv_GetGpuDriver )
 	{
-		GLOG( GPUMON_ERROR, "ERROR: Could not locate Drv_GetGpuDriver() within module " << GPUMON_DLL << "!\nGetLastError(): " << GetLastError() << "\n\n" );
+		GLOG( GPUMON_ERROR, "ERROR: Could not locate Drv_GetGpuDriver() within module " << GPUMON_DLL
+#ifdef _WIN32
+             "!\nGetLastError(): " << GetLastError()
+#else
+             "!\ndlerr(): " << dlerror()
+#endif
+             << "\n\n" );
 		return false;
 	}
 
@@ -155,6 +188,7 @@ int main( int argc, char** argv )
 	/* 
 	 * Attempt to setup a few fail-safe methods to fall back on in case of a premature exit 
 	 */
+#ifdef _WIN32
 	auto HandlerRoutine = []( _In_ DWORD dwCtrlType ) {
 		switch( dwCtrlType )
 		{
@@ -167,15 +201,19 @@ int main( int argc, char** argv )
 			return FALSE;
 		}
 	};
+#endif
 
-	std::atexit( []() 
-		{ 
+	std::atexit( []()
+		{
 			if( driver[Drv_D3DKMT].Uninitialize ) driver[Drv_D3DKMT].Uninitialize(); 
 			if( driver[Drv_NVAPI].Uninitialize ) driver[Drv_NVAPI].Uninitialize();
-			if( driver[Drv_AMDGS].Uninitialize ) driver[Drv_AMDGS].Uninitialize(); 
+			if( driver[Drv_AMDGS].Uninitialize ) driver[Drv_AMDGS].Uninitialize();
+            if( driver[Drv_IOKIT].Uninitialize ) driver[Drv_IOKIT].Uninitialize();
 		} );
 
+#ifdef _WIN32
 	SetConsoleCtrlHandler( HandlerRoutine, TRUE );
+#endif
 
 	/*
 	 * Copyright notice
@@ -356,6 +394,7 @@ int main( int argc, char** argv )
 //		return 0;
 	}
 
+#ifdef _WIN32   /* TODO: Laziness... */
 	/* Show Start time */
 	SYSTEMTIME Time;
 
@@ -368,6 +407,7 @@ int main( int argc, char** argv )
 			" (" << Time.wHour << ":" << Time.wMinute << ":" <<
 			Time.wSecond << ")" << std::endl );
 	}
+#endif
 
 	/* Print GPU usage every second */
 
@@ -392,12 +432,14 @@ int main( int argc, char** argv )
 
 	if( Timestamp )
 	{
+#ifdef _WIN32
 		GetSystemTime( &Time );
 
 		GLOG( 3, "Stop time: " << Time.wMonth << "/" <<
 			Time.wDay << "/" << Time.wYear << 
 			" (" << Time.wHour << ":" << Time.wMinute << ":" <<
 			Time.wSecond << ")" << std::endl );
+#endif
 	}
 
 	/*if( logfi.is_open() )

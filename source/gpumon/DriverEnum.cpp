@@ -1,7 +1,12 @@
 #include "DriverEnum.h"
+
+#if defined(_WIN32)
 #include "Drv_D3DKMT.h"
 #include "Drv_NVAPI.h"
 #include "Drv_AMDGS.h"
+#elif defined(__APPLE__)
+#include "Drv_IOKit.h"
+#endif
 
 
 
@@ -22,6 +27,7 @@ void Drv_GetGpuDriver( int DriverType, GPUDRIVER* pDriver )
     /* Is this an autodetect scenario? */
     if( DriverType == Drv_Default )
     {
+#if defined(_WIN32)
         /* Let's make our best guess based on this.. */
        /* DISPLAY_DEVICEA device;
         ZeroMemory( &device, sizeof( DISPLAY_DEVICEA ) );
@@ -39,9 +45,18 @@ void Drv_GetGpuDriver( int DriverType, GPUDRIVER* pDriver )
         pDriver->GetOverallGpuLoad = D3DKMT_GetOverallGpuLoad;
         pDriver->GetProcessGpuLoad = D3DKMT_GetProcessGpuLoad;
         pDriver->GetGpuTemperature = D3DKMT_GetGpuTemperature;
+#elif defined(__APPLE__)
+        pDriver->Initialize = IOKIT_Initialize;
+        pDriver->Uninitialize = IOKIT_Uninitialize;
+        pDriver->GetGpuDetails = IOKIT_GetGpuDetails;
+        pDriver->GetOverallGpuLoad = IOKIT_GetOverallGpuLoad;
+        pDriver->GetProcessGpuLoad = IOKIT_GetProcessGpuLoad;
+        pDriver->GetGpuTemperature = IOKIT_GetGpuTemperature;
+#endif
     }
     else
     {
+#if defined(_WIN32)
         /* NVIDIA driver */
         if( DriverType == Drv_NVAPI )
         {
@@ -72,5 +87,16 @@ void Drv_GetGpuDriver( int DriverType, GPUDRIVER* pDriver )
             pDriver->GetProcessGpuLoad = D3DKMT_GetProcessGpuLoad;
             pDriver->GetGpuTemperature = D3DKMT_GetGpuTemperature;
         }
+#elif defined(__APPLE__)
+        if( DriverType == Drv_IOKIT )
+        {
+            pDriver->Initialize = IOKIT_Initialize;
+            pDriver->Uninitialize = IOKIT_Uninitialize;
+            pDriver->GetGpuDetails = IOKIT_GetGpuDetails;
+            pDriver->GetOverallGpuLoad = IOKIT_GetOverallGpuLoad;
+            pDriver->GetProcessGpuLoad = IOKIT_GetProcessGpuLoad;
+            pDriver->GetGpuTemperature = IOKIT_GetGpuTemperature;
+        }
+#endif
     }
 }

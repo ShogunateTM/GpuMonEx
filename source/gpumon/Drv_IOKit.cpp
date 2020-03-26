@@ -7,8 +7,8 @@
 //
 
 
-#include "..\platform.h"
-#include "..\debug.h"
+#include "../platform.h"
+#include "../debug.h"
 #include "Drv_IOKIT.h"
 
 #include <IOKit/IOKitLib.h>

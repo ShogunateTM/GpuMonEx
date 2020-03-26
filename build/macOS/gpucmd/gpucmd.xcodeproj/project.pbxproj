@@ -214,6 +214,8 @@
 		EA5C5DEB2420CDD400E65DE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				HEADER_SEARCH_PATHS = ../../../3rdParty/common/nvidia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -221,6 +223,8 @@
 		EA5C5DEC2420CDD400E65DE3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				HEADER_SEARCH_PATHS = ../../../3rdParty/common/nvidia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
