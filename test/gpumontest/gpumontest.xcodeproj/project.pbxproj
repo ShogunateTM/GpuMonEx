@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EA5C5E532420D2F700E65DE3 /* ProcessEnumeration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E512420D2F700E65DE3 /* ProcessEnumeration.cpp */; };
-		EA5C5E552420DBB400E65DE3 /* gpucmd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E542420DBB400E65DE3 /* gpucmd.cpp */; };
+		EA5C5E752430AE5200E65DE3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E742430AE5200E65DE3 /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		EA5C5DE12420CDD400E65DE3 /* CopyFiles */ = {
+		EA5C5E682430ADE100E65DE3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -24,14 +23,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		EA5C5DE32420CDD400E65DE3 /* gpucmd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gpucmd; sourceTree = BUILT_PRODUCTS_DIR; };
-		EA5C5E512420D2F700E65DE3 /* ProcessEnumeration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProcessEnumeration.cpp; path = ../../../source/common/ProcessEnumeration.cpp; sourceTree = "<group>"; };
-		EA5C5E522420D2F700E65DE3 /* ProcessEnumeration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProcessEnumeration.h; path = ../../../source/common/ProcessEnumeration.h; sourceTree = "<group>"; };
-		EA5C5E542420DBB400E65DE3 /* gpucmd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gpucmd.cpp; path = ../../../source/gpucmd/gpucmd.cpp; sourceTree = "<group>"; };
+		EA5C5E6A2430ADE100E65DE3 /* gpumontest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gpumontest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5C5E742430AE5200E65DE3 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		EA5C5DE02420CDD400E65DE3 /* Frameworks */ = {
+		EA5C5E672430ADE100E65DE3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,90 +38,95 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EA5C5DDA2420CDD400E65DE3 = {
+		EA5C5E612430ADE000E65DE3 = {
 			isa = PBXGroup;
 			children = (
-				EA5C5E542420DBB400E65DE3 /* gpucmd.cpp */,
-				EA5C5E512420D2F700E65DE3 /* ProcessEnumeration.cpp */,
-				EA5C5E522420D2F700E65DE3 /* ProcessEnumeration.h */,
-				EA5C5DE42420CDD400E65DE3 /* Products */,
+				EA5C5E6C2430ADE100E65DE3 /* gpumontest */,
+				EA5C5E6B2430ADE100E65DE3 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		EA5C5DE42420CDD400E65DE3 /* Products */ = {
+		EA5C5E6B2430ADE100E65DE3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EA5C5DE32420CDD400E65DE3 /* gpucmd */,
+				EA5C5E6A2430ADE100E65DE3 /* gpumontest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		EA5C5E6C2430ADE100E65DE3 /* gpumontest */ = {
+			isa = PBXGroup;
+			children = (
+				EA5C5E742430AE5200E65DE3 /* main.m */,
+			);
+			path = gpumontest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EA5C5DE22420CDD400E65DE3 /* gpucmd */ = {
+		EA5C5E692430ADE100E65DE3 /* gpumontest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EA5C5DEA2420CDD400E65DE3 /* Build configuration list for PBXNativeTarget "gpucmd" */;
+			buildConfigurationList = EA5C5E712430ADE100E65DE3 /* Build configuration list for PBXNativeTarget "gpumontest" */;
 			buildPhases = (
-				EA5C5DDF2420CDD400E65DE3 /* Sources */,
-				EA5C5DE02420CDD400E65DE3 /* Frameworks */,
-				EA5C5DE12420CDD400E65DE3 /* CopyFiles */,
+				EA5C5E662430ADE100E65DE3 /* Sources */,
+				EA5C5E672430ADE100E65DE3 /* Frameworks */,
+				EA5C5E682430ADE100E65DE3 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = gpucmd;
-			productName = gpucmd;
-			productReference = EA5C5DE32420CDD400E65DE3 /* gpucmd */;
+			name = gpumontest;
+			productName = gpumontest;
+			productReference = EA5C5E6A2430ADE100E65DE3 /* gpumontest */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		EA5C5DDB2420CDD400E65DE3 /* Project object */ = {
+		EA5C5E622430ADE000E65DE3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Shogunate Technologies";
 				TargetAttributes = {
-					EA5C5DE22420CDD400E65DE3 = {
+					EA5C5E692430ADE100E65DE3 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = EA5C5DDE2420CDD400E65DE3 /* Build configuration list for PBXProject "gpucmd" */;
+			buildConfigurationList = EA5C5E652430ADE000E65DE3 /* Build configuration list for PBXProject "gpumontest" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = EA5C5DDA2420CDD400E65DE3;
-			productRefGroup = EA5C5DE42420CDD400E65DE3 /* Products */;
+			mainGroup = EA5C5E612430ADE000E65DE3;
+			productRefGroup = EA5C5E6B2430ADE100E65DE3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EA5C5DE22420CDD400E65DE3 /* gpucmd */,
+				EA5C5E692430ADE100E65DE3 /* gpumontest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		EA5C5DDF2420CDD400E65DE3 /* Sources */ = {
+		EA5C5E662430ADE100E65DE3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA5C5E532420D2F700E65DE3 /* ProcessEnumeration.cpp in Sources */,
-				EA5C5E552420DBB400E65DE3 /* gpucmd.cpp in Sources */,
+				EA5C5E752430AE5200E65DE3 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		EA5C5DE82420CDD400E65DE3 /* Debug */ = {
+		EA5C5E6F2430ADE100E65DE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -168,11 +170,10 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = i386;
 			};
 			name = Debug;
 		};
-		EA5C5DE92420CDD400E65DE3 /* Release */ = {
+		EA5C5E702430ADE100E65DE3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -209,54 +210,44 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				VALID_ARCHS = i386;
 			};
 			name = Release;
 		};
-		EA5C5DEB2420CDD400E65DE3 /* Debug */ = {
+		EA5C5E722430ADE100E65DE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				HEADER_SEARCH_PATHS = ../../../3rdParty/common/nvidia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = i386;
 			};
 			name = Debug;
 		};
-		EA5C5DEC2420CDD400E65DE3 /* Release */ = {
+		EA5C5E732430ADE100E65DE3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				HEADER_SEARCH_PATHS = ../../../3rdParty/common/nvidia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = i386;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EA5C5DDE2420CDD400E65DE3 /* Build configuration list for PBXProject "gpucmd" */ = {
+		EA5C5E652430ADE000E65DE3 /* Build configuration list for PBXProject "gpumontest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA5C5DE82420CDD400E65DE3 /* Debug */,
-				EA5C5DE92420CDD400E65DE3 /* Release */,
+				EA5C5E6F2430ADE100E65DE3 /* Debug */,
+				EA5C5E702430ADE100E65DE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EA5C5DEA2420CDD400E65DE3 /* Build configuration list for PBXNativeTarget "gpucmd" */ = {
+		EA5C5E712430ADE100E65DE3 /* Build configuration list for PBXNativeTarget "gpumontest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EA5C5DEB2420CDD400E65DE3 /* Debug */,
-				EA5C5DEC2420CDD400E65DE3 /* Release */,
+				EA5C5E722430ADE100E65DE3 /* Debug */,
+				EA5C5E732430ADE100E65DE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = EA5C5DDB2420CDD400E65DE3 /* Project object */;
+	rootObject = EA5C5E622430ADE000E65DE3 /* Project object */;
 }

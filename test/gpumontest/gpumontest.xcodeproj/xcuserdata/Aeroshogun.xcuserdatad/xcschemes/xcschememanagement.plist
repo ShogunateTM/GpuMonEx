@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>gpucmd.xcscheme</key>
+		<key>gpumontest.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,12 +12,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>EA5C5DE22420CDD400E65DE3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EA5C5E59242CCA5500E65DE3</key>
+		<key>EA5C5E692430ADE100E65DE3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

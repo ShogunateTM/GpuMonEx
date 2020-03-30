@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EA5C5DE22420CDD400E65DE3"
-               BuildableName = "gpucmd"
-               BlueprintName = "gpucmd"
-               ReferencedContainer = "container:gpucmd.xcodeproj">
+               BlueprintIdentifier = "EA5C5E692430ADE100E65DE3"
+               BuildableName = "gpumontest"
+               BlueprintName = "gpumontest"
+               ReferencedContainer = "container:gpumontest.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EA5C5E59242CCA5500E65DE3"
-            BuildableName = "gpucmd64"
-            BlueprintName = "gpucmd64"
-            ReferencedContainer = "container:gpucmd.xcodeproj">
+            BlueprintIdentifier = "EA5C5E692430ADE100E65DE3"
+            BuildableName = "gpumontest"
+            BlueprintName = "gpumontest"
+            ReferencedContainer = "container:gpumontest.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -55,26 +55,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EA5C5E59242CCA5500E65DE3"
-            BuildableName = "gpucmd64"
-            BlueprintName = "gpucmd64"
-            ReferencedContainer = "container:gpucmd.xcodeproj">
+            BlueprintIdentifier = "EA5C5E692430ADE100E65DE3"
+            BuildableName = "gpumontest"
+            BlueprintName = "gpumontest"
+            ReferencedContainer = "container:gpumontest.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "--debug-level 3"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--logging out.txt"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--adapter-usage"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -88,10 +74,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EA5C5DE22420CDD400E65DE3"
-            BuildableName = "gpucmd"
-            BlueprintName = "gpucmd"
-            ReferencedContainer = "container:gpucmd.xcodeproj">
+            BlueprintIdentifier = "EA5C5E692430ADE100E65DE3"
+            BuildableName = "gpumontest"
+            BlueprintName = "gpumontest"
+            ReferencedContainer = "container:gpumontest.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
