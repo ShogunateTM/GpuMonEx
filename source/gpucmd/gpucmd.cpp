@@ -57,6 +57,52 @@ int _stricmp(const char* str1, const char* str2)
 }
 #endif
 
+/*
+ * Name: GetLastErrorAsString
+ * Desc: Returns the last error, in string format. Returns an empty string if there is no error.
+ */
+std::string GetLastErrorAsString()
+{
+#if defined(_WIN32)
+    //Get the error message, if any.
+    DWORD errorMessageID = ::GetLastError();
+    if(errorMessageID == 0)
+        return std::string(); //No error message has been recorded
+
+    LPSTR messageBuffer = nullptr;
+    size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                                 NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+
+    std::string msg(messageBuffer, size);
+	std::stringstream ss;
+
+	ss << "\nGetLastError(0x" << errorMessageID << "): " << msg << std::endl;
+
+	std::string message = ss.str();
+
+    //Free the buffer.
+    LocalFree(messageBuffer);
+#else	// macOS and Linux
+	//std::string message( strerror( errno ) );
+	std::stringstream ss;
+	int e = errno;
+
+	ss << "\nerrno(" << e << "): " << strerror( e ) << std::endl;
+
+	std::string message;
+
+	char* dlerr = dlerror();
+	if( dlerr )
+	{
+		message.append( "dlerror(): " );
+		message.append( dlerr );
+		message.append( std::endl );
+	}
+#endif
+
+    return message;
+}
+
 
 /*
  * Name: ShowHelpMenu
@@ -115,13 +161,8 @@ bool InitializeGpuMon( int DriverType, int Adapter, GPUDRIVER* driver )
     hGpuMonDll = LoadLibraryA( GPUMON_DLL );
 	if( !hGpuMonDll )
 	{
-		GLOG( GPUMON_ERROR, "ERROR: Could not open " << GPUMON_DLL <<
-#ifdef _WIN32
-             "!\nGetLastError(): " << GetLastError()
-#else
-             "!\ndlerr(): " << dlerror()
-#endif
-             << "\n\n" );
+		GLOG( GPUMON_ERROR, "ERROR: Could not open " << GPUMON_DLL << GetLastErrorAsString() );
+             
 		return false;
 	}
 	
@@ -129,13 +170,8 @@ bool InitializeGpuMon( int DriverType, int Adapter, GPUDRIVER* driver )
 	pfnDrv_GetGpuDriver = (void (*)(int, GPUDRIVER*)) GetProcAddress( hGpuMonDll, "Drv_GetGpuDriver" );
 	if( !pfnDrv_GetGpuDriver )
 	{
-		GLOG( GPUMON_ERROR, "ERROR: Could not locate Drv_GetGpuDriver() within module " << GPUMON_DLL
-#ifdef _WIN32
-             "!\nGetLastError(): " << GetLastError()
-#else
-             "!\ndlerr(): " << dlerror()
-#endif
-             << "\n\n" );
+		GLOG( GPUMON_ERROR, "ERROR: Could not locate Drv_GetGpuDriver() within module " << GPUMON_DLL << GetLastErrorAsString() );
+
 		return false;
 	}
 
