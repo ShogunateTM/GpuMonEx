@@ -159,7 +159,7 @@
       <AdditionalDependencies>dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Configuration)\$(ProjectName)32.dl binl</Command>
+      <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Configuration)\$(ProjectName)32.dll bin</Command>
       <Message>Copying Release build to bin folder...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>

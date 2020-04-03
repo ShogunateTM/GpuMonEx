@@ -210,8 +210,13 @@ int NVAPI_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails )
 	return 1;
 }
 
-int NVAPI_GetOverallGpuLoad()
+int NVAPI_GetOverallGpuLoad( int AdapterNumber, GPUSTATISTICS* pGpuStatistics )
 {
+	/* TODO */
+	memset( pGpuStatistics, -1, sizeof( GPUSTATISTICS ) );
+
+	pGpuStatistics->gpu_usage = NvGetGpuLoad();
+
 	return NvGetGpuLoad();
 }
 

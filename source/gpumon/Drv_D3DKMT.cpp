@@ -401,9 +401,13 @@ int D3DKMT_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails )
 	return 1;
 }
 
-int D3DKMT_GetOverallGpuLoad()
+int D3DKMT_GetOverallGpuLoad( int AdapterNumber, GPUSTATISTICS* pGpuStatistics )
 {
-	return KmtGetGpuUsage();
+	memset( pGpuStatistics, -1, sizeof( GPUSTATISTICS ) );
+
+	pGpuStatistics->gpu_usage = KmtGetGpuUsage();
+
+	return 1;
 }
 
 int D3DKMT_GetProcessGpuLoad( void* pProcess )
