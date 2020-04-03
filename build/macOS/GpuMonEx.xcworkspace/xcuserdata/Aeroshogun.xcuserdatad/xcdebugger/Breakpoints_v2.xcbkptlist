@@ -6,32 +6,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../source/gpucmd/gpucmd.cpp"
-            timestampString = "606913964.522657"
+            filePath = "../../source/gpumon/Drv_IOKit.cpp"
+            timestampString = "607597232.025018"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
-            landmarkName = "main( int argc, char** argv )"
+            startingLineNumber = "365"
+            endingLineNumber = "365"
+            landmarkName = "IOKIT_GetOverallGpuLoad( int AdapterNumber, GPUSTATISTICS* pGpuStatistics )"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../source/gpucmd/gpucmd.cpp"
-            timestampString = "606914192.389756"
+            timestampString = "607597226.501487"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "InitializeGpuMon( int DriverType, int Adapter, GPUDRIVER* driver )"
+            startingLineNumber = "522"
+            endingLineNumber = "522"
+            landmarkName = "main( int argc, char** argv )"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

@@ -48,8 +48,8 @@
 
 /* Non-Windows platforms */
 #ifndef _WIN32
-#define OutputDebugString printf //std::cout << s
-#define OutputDebugStringA OutputDebugString
+#define OutputDebugString(x) printf("%s",x) //std::cout << s
+#define OutputDebugStringA(x) OutputDebugString(x)
 #define TEXT(s) s
 #define DWORD unsigned long
 #endif
@@ -106,6 +106,9 @@ public:
 			FlushLog();
 		}
 
+#ifdef _WIN32
+        printf( "%s", m_strStream.str().c_str() );
+#endif
 		OutputDebugStringA(m_strStream.str().c_str());
 
 		//m_strStream.freeze(false);

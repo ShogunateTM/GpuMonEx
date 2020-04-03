@@ -20,7 +20,7 @@ extern "C" {
     int IOKIT_Initialize();
     void IOKIT_Uninitialize();
     int IOKIT_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails );
-    int IOKIT_GetOverallGpuLoad();
+    int IOKIT_GetOverallGpuLoad( int AdapterNumber, GPUSTATISTICS* pGpuStatistics );
     int IOKIT_GetProcessGpuLoad( void* pProcess );
     int IOKIT_GetGpuTemperature();
     

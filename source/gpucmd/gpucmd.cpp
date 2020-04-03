@@ -89,14 +89,14 @@ std::string GetLastErrorAsString()
 
 	ss << "\nerrno(" << e << "): " << strerror( e ) << std::endl;
 
-	std::string message;
+	std::string message = ss.str();
 
 	char* dlerr = dlerror();
 	if( dlerr )
 	{
-		message.append( "dlerror(): " );
+		message.append( "\ndlerror(): " );
 		message.append( dlerr );
-		message.append( std::endl );
+		message.append( "\n" );
 	}
 #endif
 
@@ -155,8 +155,11 @@ void ShowHelpMenu()
  * Name: InitializeGpuMon
  * Desc: Initializes the GpuMon DLL for the appropriate architecture.
  */
-bool InitializeGpuMon( int DriverType, int Adapter, GPUDRIVER* driver )
+bool InitializeGpuMon()
 {
+    GLOG( 3, "Begin..." );
+    GLOG( 4, "Loading dynamic library \"" << GPUMON_DLL << "\"..." );
+    
 	/* Start by loading the appropriate DLL*/
     hGpuMonDll = LoadLibraryA( GPUMON_DLL );
 	if( !hGpuMonDll )
@@ -166,6 +169,8 @@ bool InitializeGpuMon( int DriverType, int Adapter, GPUDRIVER* driver )
 		return false;
 	}
 	
+    GLOG( 4, "Querying procedure address: Drv_GetGpuDriver..." );
+    
 	/* Get the primary function that returns our driver retreival function */
 	pfnDrv_GetGpuDriver = (void (*)(int, GPUDRIVER*)) GetProcAddress( hGpuMonDll, "Drv_GetGpuDriver" );
 	if( !pfnDrv_GetGpuDriver )
@@ -174,16 +179,8 @@ bool InitializeGpuMon( int DriverType, int Adapter, GPUDRIVER* driver )
 
 		return false;
 	}
-
-	/* TODO: Laziness: Actually enumerate the GPUs when Drv_Default is passed in */
-
-	/* Get the driver and attempt to initialize it */
-	pfnDrv_GetGpuDriver( DriverType, driver );
-            
-	if( !driver->Initialize() )
-	{
-		return false;
-	}
+    
+    GLOG( 3, "Success" );
 
 	return true;
 }
@@ -196,16 +193,59 @@ bool InitializeGpuMon( int DriverType, int Adapter, GPUDRIVER* driver )
  */
 void UninitializeGpuMon()
 {
+    GLOG( 3, "Begin..." );
+    
 	if( hGpuMonDll )
+    {
+        GLOG( 4, "Freeing dynamic library handle..." );
 		FreeLibrary( hGpuMonDll );
+        hGpuMonDll = NULL;
+    }
+    else
+        GLOG( 4, "GpuMon dynamic library not loaded!" );
+    
+    GLOG( 3, "Done" );
+}
+
+
+/*
+ * Name: IntializeDriverHook
+ * Desc: Initalizes driver hook for a specific driver vendor.
+ */
+bool InitializeDriverHook( int DriverType, int Adapter, GPUDRIVER* driver )
+{
+    GLOG( 3, "Begin..." );
+    
+    /* Sanity check */
+    if( !driver )
+    {
+        GERROR( "Invalid driver structure pointer!" );
+        return false;
+    }
+    
+    GLOG( 4, "Initializing driver structure..." );
+    
+    /* Get the driver and attempt to initialize it */
+    pfnDrv_GetGpuDriver( DriverType, driver );
+    
+    GLOG( 4, "Initializing driver hooks (driver type: " << DriverType << ", adapter #: " << Adapter << ")" );
+    
+    if( !driver->Initialize() )
+    {
+        GLOG( 4, "Could not initialize driver hooks, hardware not present or internal API failure." );
+        return false;
+    }
+    
+    GLOG( 3, "Success" );
+    
+    return true;
 }
 
 
 int main( int argc, char** argv )
 {
     int Seconds = 100;
-	bool AutoDetect = true;
-	int GpuType = Drv_Default;
+    int DriverType;
 	bool Timestamp = false;
 	bool ShowAdapterInfo = false;
 	int Adapter = 0;
@@ -255,8 +295,8 @@ int main( int argc, char** argv )
 	 * Copyright notice
 	 */
     std::cout << "gpucmd (C) 2018-20 by Shogunate (TM), all rights reserved.\n\n";
-
-	/* 
+    
+	/*
 	 * Parse command line arguments 
 	 */
 
@@ -392,6 +432,12 @@ int main( int argc, char** argv )
 			}
 		}
 	}
+    
+#ifdef __i386__
+    std::cout << "32-bit mode...\n\n";
+#else
+    std::cout << "64-bit mode...\n\n";
+#endif
 
 	if( DebugEnabled )
 		dbg = std::make_unique<NVDebug>( DebugLevel, DebugFile );
@@ -400,25 +446,45 @@ int main( int argc, char** argv )
 	 * Start by loading the appropriate DLL
 	 */
 	
-	if( !InitializeGpuMon( Drv_D3DKMT, Adapter, &driver[Drv_D3DKMT] ) )
+	if( !InitializeGpuMon() )
 		return ERR_DRVFAIL;
 
+#if defined(_WIN32)
+    /* The D3DKMT driver hook is manditory */
+    if( !InitializeDriverHook( Drv_D3DKMT, Adapter, &driver[Drv_D3DKMT] ) )
+    {
+        GERROR( "Unable to initialize D3DKMT driver hooks!" );
+        return ERR_DRVFAIL;
+    }
+    
+    DriverType = Drv_D3DKMT;
+    
 	/* These two are purely optional */
-	if( !InitializeGpuMon( Drv_NVAPI, Adapter, &driver[Drv_NVAPI] ) )
+	if( !InitializeDriverHook( Drv_NVAPI, Adapter, &driver[Drv_NVAPI] ) )
 	{
 		GLOG( 3, "NVAPI driver not available..." );
 	}
-	if( !InitializeGpuMon( Drv_AMDGS, Adapter, &driver[Drv_AMDGS] ) )
+	if( !InitializeDriverHook( Drv_AMDGS, Adapter, &driver[Drv_AMDGS] ) )
 	{
 		GLOG( 3, "AMDGS driver not available..." );
 	}
+#elif defined(__APPLE__)
+    /* Initialize IOKit hooks */
+    if( !InitializeDriverHook( Drv_IOKIT, Adapter, &driver[Drv_IOKIT] ) )
+    {
+        GERROR( "Unable to initialize IOKit APIs!" );
+        return ERR_DRVFAIL;
+    }
+    
+    DriverType = Drv_IOKIT;
+#endif
 
 	/* If desired, print out the adapter info of the detected GPU */
 	if( ShowAdapterInfo )
 	{
 		GPUDETAILS details;
 
-		if( !driver[Drv_D3DKMT].GetGpuDetails( 0, &details ) )
+		if( !driver[DriverType].GetGpuDetails( 0, &details ) )
 			return ERR_DRVFAIL;
 
 		GLOG( 3, details.DeviceDesc );
@@ -453,12 +519,13 @@ int main( int argc, char** argv )
 		{
 			if( ShowAdapterUsage )
 			{
-				int GpuUsage = driver[Drv_D3DKMT].GetOverallGpuLoad();
-				GLOG( 3, "Adapter GPU Usage: " << GpuUsage << "%" );
+                GPUSTATISTICS stats;
+				int ret = driver[DriverType].GetOverallGpuLoad( Adapter, &stats );
+				GLOG( 3, "Adapter GPU Usage: " << stats.gpu_usage << "%" );
 			}
 			if( ShowProcessUsage )
 			{
-				int GpuUsage = driver[Drv_D3DKMT].GetProcessGpuLoad( Process.hProcess );
+				int GpuUsage = driver[DriverType].GetProcessGpuLoad( Process.hProcess );
 				GLOG( 3, "Process GPU Usage: " << GpuUsage << "%" );
 			}
 

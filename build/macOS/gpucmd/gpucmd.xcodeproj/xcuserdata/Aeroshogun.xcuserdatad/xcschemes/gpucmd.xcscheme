@@ -55,9 +55,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EA5C5E59242CCA5500E65DE3"
-            BuildableName = "gpucmd64"
-            BlueprintName = "gpucmd64"
+            BlueprintIdentifier = "EA5C5DE22420CDD400E65DE3"
+            BuildableName = "gpucmd"
+            BlueprintName = "gpucmd"
             ReferencedContainer = "container:gpucmd.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -79,7 +79,7 @@ typedef struct _GPUDRIVER
     int (*Initialize)();
     void (*Uninitialize)();
     int (*GetGpuDetails)( int, GPUDETAILS* );
-    int (*GetOverallGpuLoad)();
+    int (*GetOverallGpuLoad)( int, GPUSTATISTICS* );
     int (*GetProcessGpuLoad)( void* );
     int (*GetGpuTemperature)();
 } GPUDRIVER;

@@ -11,6 +11,8 @@
 		EA5C5E4E2420D28700E65DE3 /* DriverEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5E4A2420D28700E65DE3 /* DriverEnum.h */; };
 		EA5C5E4F2420D28700E65DE3 /* Drv_IOKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E4B2420D28700E65DE3 /* Drv_IOKit.cpp */; };
 		EA5C5E502420D28700E65DE3 /* Drv_IOKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5E4C2420D28700E65DE3 /* Drv_IOKit.h */; };
+		EA5C5E78243364E300E65DE3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5E77243364E300E65DE3 /* IOKit.framework */; };
+		EA5C5E7A243364F000E65DE3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5E79243364F000E65DE3 /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,8 @@
 		EA5C5E4A2420D28700E65DE3 /* DriverEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DriverEnum.h; path = ../../../source/gpumon/DriverEnum.h; sourceTree = "<group>"; };
 		EA5C5E4B2420D28700E65DE3 /* Drv_IOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Drv_IOKit.cpp; path = ../../../source/gpumon/Drv_IOKit.cpp; sourceTree = "<group>"; };
 		EA5C5E4C2420D28700E65DE3 /* Drv_IOKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Drv_IOKit.h; path = ../../../source/gpumon/Drv_IOKit.h; sourceTree = "<group>"; };
+		EA5C5E77243364E300E65DE3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		EA5C5E79243364F000E65DE3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +30,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5E7A243364F000E65DE3 /* CoreFoundation.framework in Frameworks */,
+				EA5C5E78243364E300E65DE3 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +46,7 @@
 				EA5C5E4B2420D28700E65DE3 /* Drv_IOKit.cpp */,
 				EA5C5E4C2420D28700E65DE3 /* Drv_IOKit.h */,
 				EA5C5E072420CE4700E65DE3 /* Products */,
+				EA5C5E76243364E300E65DE3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -49,6 +56,15 @@
 				EA5C5E062420CE4700E65DE3 /* libgpumon.dylib */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		EA5C5E76243364E300E65DE3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA5C5E79243364F000E65DE3 /* CoreFoundation.framework */,
+				EA5C5E77243364E300E65DE3 /* IOKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

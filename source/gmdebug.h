@@ -17,17 +17,11 @@
 #define GPUMON_WARNING	2
 #define GPUMON_DEBUG(l)	(l+3)
 
-#define GLOG( a, b ) \
-	std::cout << b << std::endl; \
-	DISPDBG( a, b )
+#define GLOG( a, b ) DISPDBG( a, b )
 
-#define GWARN( b ) \
-	std::cout << "GWARN: " << b << std::endl; \
-	DISPDBG( GPUMON_WARNING, "GWARN: " << b )
+#define GWARN( b ) DISPDBG( GPUMON_WARNING, "GWARN: " << b )
 
-#define GERROR( b ) \
-	std::cerr << "GERROR: " << b << std::endl; \
-	DISPDBG( GPUMON_ERROR, "GERROR: " << b )
+#define GERROR( b ) DISPDBG( GPUMON_ERROR, "GERROR: " << b )
 
 /*
  * gpucmd error codes
