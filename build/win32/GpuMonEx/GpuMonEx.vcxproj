@@ -200,11 +200,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\source\GpuMonEx\framework.h" />
     <ClInclude Include="..\..\..\source\GpuMonEx\GpuMonEx.h" />
+    <ClInclude Include="..\..\..\source\GpuMonEx\mainframe.hpp" />
     <ClInclude Include="..\..\..\source\GpuMonEx\Resource.h" />
     <ClInclude Include="..\..\..\source\GpuMonEx\targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\GpuMonEx\GpuMonEx.cpp" />
+    <ClCompile Include="..\..\..\source\GpuMonEx\mainframe.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -17,7 +17,7 @@ class GpuMonEx : public wxApp
 public:
 	virtual bool OnInit()
 	{
-        auto mainframe = new gpumonex::wx::main_frame( wxT( "GpuMonEx (Pre-Alpha)" ) );
+        auto mainframe = new gpumonex::wx::main_frame( wxT( "GpuMonEx (Pre-Alpha) 0.1" ) );
 		mainframe->Show();
 
 		return true;

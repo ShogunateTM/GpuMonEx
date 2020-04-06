@@ -40,9 +40,15 @@
     <ClInclude Include="..\..\..\source\GpuMonEx\framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\GpuMonEx\mainframe.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\GpuMonEx\GpuMonEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\GpuMonEx\mainframe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
