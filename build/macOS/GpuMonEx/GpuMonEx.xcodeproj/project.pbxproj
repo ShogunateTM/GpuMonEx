@@ -21,6 +21,7 @@
 		EA5C5E7E2438A61400E65DE3 /* libwx_osx_cocoau_core-3.1.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_core-3.1.3.0.0.dylib"; path = "../../../3rdParty/macOS/wxWidgets/lib/libwx_osx_cocoau_core-3.1.3.0.0.dylib"; sourceTree = "<group>"; };
 		EA5C5E802438AF2400E65DE3 /* mainframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mainframe.cpp; path = ../../../source/GpuMonEx/mainframe.cpp; sourceTree = "<group>"; };
 		EA5C5E812438AF2400E65DE3 /* mainframe.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = mainframe.hpp; path = ../../../source/GpuMonEx/mainframe.hpp; sourceTree = "<group>"; };
+		EA5C5E83243B3F3900E65DE3 /* GpuMonEx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GpuMonEx.h; path = ../../../source/GpuMonEx/GpuMonEx.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +41,7 @@
 			children = (
 				EA5C5E802438AF2400E65DE3 /* mainframe.cpp */,
 				EA5C5E812438AF2400E65DE3 /* mainframe.hpp */,
+				EA5C5E83243B3F3900E65DE3 /* GpuMonEx.h */,
 				EA5C5E7B2438A57700E65DE3 /* GpuMonEx.cpp */,
 				EA5C5E182420CF0900E65DE3 /* GpuMonEx */,
 				EA5C5E172420CF0900E65DE3 /* Products */,
@@ -252,6 +254,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../../3rdParty/macOS/wxWidgets/include,
 					"../../../3rdParty/macOS/wxWidgets/lib/wx/include/osx_cocoa-unicode-3.1",
+					../../../3rdParty/common/nvidia,
 				);
 				INFOPLIST_FILE = GpuMonEx/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -307,6 +310,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../../3rdParty/macOS/wxWidgets/include,
 					"../../../3rdParty/macOS/wxWidgets/lib/wx/include/osx_cocoa-unicode-3.1",
+					../../../3rdParty/common/nvidia,
 				);
 				INFOPLIST_FILE = GpuMonEx/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
