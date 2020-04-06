@@ -8,22 +8,16 @@
 #include <wx/string.h>
 #include <wx/utils.h>
 
+#include "mainframe.hpp"
 
-class GpuMonEx_MainFrame : public wxFrame
-{
-public:
-	GpuMonEx_MainFrame( const wxString& title ) : wxFrame( NULL, wxID_ANY, title, wxDefaultPosition, wxSize( 960, 540 ) )
-	{
-		Centre();
-	}
-};
+
 
 class GpuMonEx : public wxApp
 {
 public:
 	virtual bool OnInit()
 	{
-		auto mainframe = new GpuMonEx_MainFrame( wxT( "GpuMonEx (Pre-Alpha)" ) );
+        auto mainframe = new gpumonex::wx::main_frame( wxT( "GpuMonEx (Pre-Alpha)" ) );
 		mainframe->Show();
 
 		return true;

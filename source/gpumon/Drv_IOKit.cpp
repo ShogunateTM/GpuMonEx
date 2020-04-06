@@ -7,6 +7,22 @@
 //
 
 
+/*
+ * References
+ *
+ * All of the code below is largely based off of information that I have found on the following links:
+ *
+ * https://stackoverflow.com/questions/10110658/programmatically-get-gpu-percent-usage-in-os-x
+ * https://gist.github.com/chockenberry/2afe4d0f1f9caddc81de
+ * https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/OpenGLDriverMonitorUserGuide/Glossary/Glossary.html
+ * https://www.tonymacx86.com/threads/smbios-19-x-imacs-2019.274686/page-49
+ *
+ * Much of this information is a bit dated, but it was the best I could find at the time being.  As macOS continues to evolve,
+ * many of the methods by which we access such data either changes or ceases to exist, so keeping this up to date with every
+ * update of the OS is quite important.
+ */
+
+
 #include "../platform.h"
 #include "../debug.h"
 #include "Drv_IOKIT.h"
@@ -16,6 +32,10 @@
 
 #include <vector>
 #include <strstream>
+
+
+/* Basic description of the GPUs enumerated on this machine */
+std::vector<GPUDETAILS> gpudesc;
 
 
 
@@ -138,6 +158,67 @@ bool IOKIT_GetAcceleratorDictionaryStringValue( int adapter, const char* diction
     return return_val;
 }
 
+bool IOKIT_GetPCIDeviceDictionaryStringValue( int adapter, const char* dictionary_class, const char* dictionary_subclass, void* value )
+{
+    bool return_val = false;
+    int current_adapter = 0;
+    
+    CFMutableDictionaryRef match_dictionary = IOServiceMatching( "IOPCIDevice" );
+    if( !match_dictionary )
+        return 0;
+    
+    /* Begin device enumeration */
+    io_iterator_t iterator;
+    
+    if( IOServiceGetMatchingServices( kIOMasterPortDefault, match_dictionary, &iterator ) == kIOReturnSuccess )
+    {
+        io_registry_entry_t registry_entry;
+        
+        /* Enumerate every available device */
+        while( ( registry_entry = IOIteratorNext( iterator ) ) )
+        {
+            /* Put this services object into a dictionary object */
+            CFMutableDictionaryRef service_dictionary;
+            
+            if( IORegistryEntryCreateCFProperties( registry_entry, &service_dictionary, kCFAllocatorDefault, kNilOptions ) != kIOReturnSuccess || current_adapter++ != adapter )
+            {
+                /* Service dictionary creation failed, move on to the next device */
+                IOObjectRelease( registry_entry );
+                continue;
+            }
+            
+            CFMutableDictionaryRef perf_properties = (CFMutableDictionaryRef) CFDictionaryGetValue( service_dictionary, __CFStringMakeConstantString( dictionary_class ) );
+            if( perf_properties )
+            {
+                char str[2048];
+                
+                if( dictionary_subclass )
+                {
+                    auto subclass = CFDictionaryGetValue( perf_properties, __CFStringMakeConstantString( dictionary_subclass ) );
+                    
+                    if( subclass != nullptr )
+                        return_val = CFStringGetCString( (CFStringRef) subclass, str, 2048, kCFStringEncodingASCII ); //CFNumberGetValue( (CFNumberRef) subclass, kCFNumberSInt64Type, value );
+                }
+                else
+                {
+                    return_val = CFStringGetCString( (CFStringRef) perf_properties, str, 2048, kCFStringEncodingASCII );
+                }
+                
+                strcpy( (char*) value, str );
+            }
+            
+            /* If we get this far, then this device is not a GPU, most likely (i.e. Kairo software renderer). */
+            CFRelease( service_dictionary );
+            IOObjectRelease( registry_entry );
+        }
+        
+        /* We're finished enumerating devices */
+        IOObjectRelease( iterator );
+    }
+    
+    return return_val;
+}
+
 
 /* Logging file */
 std::ofstream logfi;
@@ -145,17 +226,20 @@ std::ofstream logfi;
 
 int IOKIT_Initialize()
 {
+    int adapter = -1;
+    
     _LOG( __FUNCTION__ << "(): " << "IOKIT driver initialization started...\n" );
     
-#if 0
-    /* We're going to start by enumerating the available devices hooked up to the
-       PCI address space.  We're going to be searching for devices that expose the 
-       "PerformanceStatistics" property and we can get the GPU statistics from this.
-     
-       TODO: Get all GPUs and sort by adapter number, get GPU name, device/vendor ID,
-       etc. */
+    /*char str[2048];
+    GPUDETAILS gd;
     
-    CFMutableDictionaryRef match_dictionary = IOServiceMatching( kIOAcceleratorClassName );
+    if( IOKIT_GetPCIDeviceDictionaryStringValue( 0, "name", NULL, str ) )
+        strcpy( gd.DeviceDesc, str );
+    if( IOKIT_GetAcceleratorDictionaryStringValue( 0, "CFBundleIdentifier", NULL, str ) )
+        strcpy( gd.DriverDesc, str );*/
+    
+#if 1
+    CFMutableDictionaryRef match_dictionary = IOServiceMatching( "IOPCIDevice" );
     if( !match_dictionary )
         return 0;
     
@@ -179,57 +263,43 @@ int IOKIT_Initialize()
                 continue;
             }
             
-            /* Either one of these will contain the information necessary to get the overall system GPU usage and in some
-               cases, GPU video engine usage also. If we get at least one, then we have a valid GPU of some sort.  Occasionally,
-               you will get a display adapter that does not expose this but if it doesn't, chances are it's not a hardware
-               accelerated implementation anyway (such as that or it must be really old). */
+            GPUDETAILS gpudetails;
             
-            iokit_gpudevice_t gpudevice;
-            
-            CFMutableDictionaryRef perf_properties = (CFMutableDictionaryRef) CFDictionaryGetValue( service_dictionary, CFSTR( "PerformanceStatistics" ) );
-            CFMutableDictionaryRef perf_properties_accum = (CFMutableDictionaryRef) CFDictionaryGetValue( service_dictionary, CFSTR( "PerformanceStatisticsAccum" ) );
-            
-            if( perf_properties || perf_properties_accum )
+            /* Get the name/model of this GPU */
+            const void* gpu_model = CFDictionaryGetValue( service_dictionary, __CFStringMakeConstantString( "model" ) );
+            if( gpu_model )
             {
-                /* Save these details */
-                gpudevice.registry_entry = registry_entry;
-                gpudevice.service_dictionary = service_dictionary;
-                gpudevice.performance_statistics = perf_properties;
-                gpudevice.performance_statistics_accum = perf_properties_accum;
-                
-                /* Save the accelerator name */
-                const void* ioclass = CFDictionaryGetValue( service_dictionary, CFSTR( "IOClass" ) );
-                if( ioclass )
-                {
-                    char ioclass_str[2048];
-                    
-                    if( CFStringGetCString( (CFStringRef) ioclass, ioclass_str, 2048, kCFStringEncodingASCII ) )
-                        gpudevice.io_class.append( ioclass_str );
-                    else
-                        gpudevice.io_class = "N/A";
-                }
-                
-                
-                /* Get bundle identifier */
-                const void* bundle_id = CFDictionaryGetValue( service_dictionary, CFSTR( "CFBundleIdentifier" ) );
-                if( bundle_id )
-                {
-                    char bundle_id_str[2048];
-                    
-                    if( CFStringGetCString( (CFStringRef) bundle_id, bundle_id_str, 2048, kCFStringEncodingASCII ) )
-                        gpudevice.bundle_identifier.append( bundle_id_str );
-                    else
-                        gpudevice.bundle_identifier = "N/A";
-                }
+                char str[128];
             
-                /* Save this device description */
-                gpudevices.push_back( gpudevice );
+                adapter++;
                 
-                /* Continue with hardware enumeration */
-                continue;
+                if( CFGetTypeID( gpu_model ) == CFStringGetTypeID() )
+                {
+                    if( CFStringGetCString( (CFStringRef) gpu_model, str, 128, kCFStringEncodingASCII ) )
+                    {
+                        strcpy( gpudetails.DeviceDesc, str );
+                        
+                        /* TODO: Device and Vendor IDs */
+                    }
+                }
+                else if( CFGetTypeID( gpu_model ) == CFDataGetTypeID() )
+                {
+                    size_t length = CFDataGetLength( (CFDataRef) gpu_model );
+                    
+                    CFDataGetBytes( (CFDataRef) gpu_model, CFRangeMake( 0, length ), (UInt8*) str );
+                    strcpy( gpudetails.DeviceDesc, str );
+                }
+                
+                /* Now attempt to get the driver name of associated with this GPU */
+                if( IOKIT_GetAcceleratorDictionaryStringValue( 0, "CFBundleIdentifier", NULL, str ) )
+                {
+                    strcpy( gpudetails.DriverDesc, str );
+                }
+                
+                /* Save it... */
+                gpudesc.push_back( gpudetails );
             }
             
-            /* If we get this far, then this device is not a GPU, most likely (i.e. Kairo software renderer). */
             CFRelease( service_dictionary );
             IOObjectRelease( registry_entry );
         }
@@ -249,12 +319,15 @@ int IOKIT_Initialize()
 
 void IOKIT_Uninitialize()
 {
+    gpudesc.clear();
+    
     _LOG( __FUNCTION__ << "IOKIT driver uninitialization completed.\n" );
 }
 
 int IOKIT_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails )
 {
-    //_LOG( __FUNCTION__ << "TODO: Implement...\n" );
+    auto gd = gpudesc[AdapterNumber];
+    memmove( pGpuDetails, &gd, sizeof( GPUDETAILS ) );
     
     return 0;
 }
@@ -426,6 +499,8 @@ int IOKIT_GetOverallGpuLoad( int AdapterNumber, GPUSTATISTICS* pGpuStatistics )
 
 int IOKIT_GetProcessGpuLoad( void* pProcess )
 {
+    /* TODO: No idea how this is done for macOS, but there has to be a way */
+    
     return 0;
 }
 
@@ -433,81 +508,3 @@ int IOKIT_GetGpuTemperature()
 {
     return 0;
 }
-
-
-
-#if 0
-
-// TODO: work on the MacOS version, basing the code off of this:
-// https://stackoverflow.com/questions/10110658/programmatically-get-gpu-percent-usage-in-os-x
-// https://gist.github.com/chockenberry/2afe4d0f1f9caddc81de
-// https://developer.apple.com/library/archive/documentation/GraphicsImaging/Conceptual/OpenGLDriverMonitorUserGuide/Glossary/Glossary.html
-// https://www.tonymacx86.com/threads/smbios-19-x-imacs-2019.274686/page-49
-
-#include <CoreFoundation/CoreFoundation.h>
-#include <Cocoa/Cocoa.h>
-#include <IOKit/IOKitLib.h>
-
-int main(int argc, const char * argv[])
-{
-
-while (1) {
-
-    // Get dictionary of all the PCI Devicces
-    CFMutableDictionaryRef matchDict = IOServiceMatching(kIOAcceleratorClassName);
-
-    // Create an iterator
-    io_iterator_t iterator;
-
-    if (IOServiceGetMatchingServices(kIOMasterPortDefault,matchDict,
-                                     &iterator) == kIOReturnSuccess)
-    {
-        // Iterator for devices found
-        io_registry_entry_t regEntry;
-
-        while ((regEntry = IOIteratorNext(iterator))) {
-            // Put this services object into a dictionary object.
-            CFMutableDictionaryRef serviceDictionary;
-            if (IORegistryEntryCreateCFProperties(regEntry,
-                                                  &serviceDictionary,
-                                                  kCFAllocatorDefault,
-                                                  kNilOptions) != kIOReturnSuccess)
-            {
-                // Service dictionary creation failed.
-                IOObjectRelease(regEntry);
-                continue;
-            }
-
-            CFMutableDictionaryRef perf_properties = (CFMutableDictionaryRef) CFDictionaryGetValue( serviceDictionary, CFSTR("PerformanceStatistics") );
-            if (perf_properties) {
-
-                static ssize_t gpuCoreUse=0;
-                static ssize_t freeVramCount=0;
-                static ssize_t usedVramCount=0;
-
-                const void* gpuCoreUtilization = CFDictionaryGetValue(perf_properties, CFSTR("GPU Core Utilization"));
-                const void* freeVram = CFDictionaryGetValue(perf_properties, CFSTR("vramFreeBytes"));
-                const void* usedVram = CFDictionaryGetValue(perf_properties, CFSTR("vramUsedBytes"));
-                if (gpuCoreUtilization && freeVram && usedVram)
-                {
-                    CFNumberGetValue( (CFNumberRef) gpuCoreUtilization, kCFNumberSInt64Type, &gpuCoreUse);
-                    CFNumberGetValue( (CFNumberRef) freeVram, kCFNumberSInt64Type, &freeVramCount);
-                    CFNumberGetValue( (CFNumberRef) usedVram, kCFNumberSInt64Type, &usedVramCount);
-                    NSLog(@"GPU: %.3f%% VRAM: %.3f%%",gpuCoreUse/(double)10000000,usedVramCount/(double)(freeVramCount+usedVramCount)*100.0);
-
-                }
-
-            }
-
-            CFRelease(serviceDictionary);
-            IOObjectRelease(regEntry);
-        }
-        IOObjectRelease(iterator);
-    }
-
-   sleep(1);
-}
-return 0;
-}
-
-#endif

@@ -285,6 +285,7 @@ int main( int argc, char** argv )
 			if( driver[Drv_NVAPI].Uninitialize ) driver[Drv_NVAPI].Uninitialize();
 			if( driver[Drv_AMDGS].Uninitialize ) driver[Drv_AMDGS].Uninitialize();
             if( driver[Drv_IOKIT].Uninitialize ) driver[Drv_IOKIT].Uninitialize();
+            UninitializeGpuMon();
 		} );
 
 #ifdef _WIN32
@@ -549,6 +550,8 @@ int main( int argc, char** argv )
 		logfi.close();*/
 
 	TerminateProcess( &Process );
+    
+    UninitializeGpuMon();
     
     return 0;
 }

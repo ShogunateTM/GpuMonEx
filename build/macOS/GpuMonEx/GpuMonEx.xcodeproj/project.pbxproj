@@ -10,6 +10,7 @@
 		EA5C5E202420CF0900E65DE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA5C5E1F2420CF0900E65DE3 /* Assets.xcassets */; };
 		EA5C5E7C2438A57700E65DE3 /* GpuMonEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E7B2438A57700E65DE3 /* GpuMonEx.cpp */; };
 		EA5C5E7F2438A61400E65DE3 /* libwx_osx_cocoau_core-3.1.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5E7E2438A61400E65DE3 /* libwx_osx_cocoau_core-3.1.3.0.0.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
+		EA5C5E822438AF2400E65DE3 /* mainframe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E802438AF2400E65DE3 /* mainframe.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,8 @@
 		EA5C5E242420CF0900E65DE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA5C5E7B2438A57700E65DE3 /* GpuMonEx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GpuMonEx.cpp; path = ../../../source/GpuMonEx/GpuMonEx.cpp; sourceTree = "<group>"; };
 		EA5C5E7E2438A61400E65DE3 /* libwx_osx_cocoau_core-3.1.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libwx_osx_cocoau_core-3.1.3.0.0.dylib"; path = "../../../3rdParty/macOS/wxWidgets/lib/libwx_osx_cocoau_core-3.1.3.0.0.dylib"; sourceTree = "<group>"; };
+		EA5C5E802438AF2400E65DE3 /* mainframe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mainframe.cpp; path = ../../../source/GpuMonEx/mainframe.cpp; sourceTree = "<group>"; };
+		EA5C5E812438AF2400E65DE3 /* mainframe.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = mainframe.hpp; path = ../../../source/GpuMonEx/mainframe.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +38,8 @@
 		EA5C5E0D2420CF0900E65DE3 = {
 			isa = PBXGroup;
 			children = (
+				EA5C5E802438AF2400E65DE3 /* mainframe.cpp */,
+				EA5C5E812438AF2400E65DE3 /* mainframe.hpp */,
 				EA5C5E7B2438A57700E65DE3 /* GpuMonEx.cpp */,
 				EA5C5E182420CF0900E65DE3 /* GpuMonEx */,
 				EA5C5E172420CF0900E65DE3 /* Products */,
@@ -144,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5E822438AF2400E65DE3 /* mainframe.cpp in Sources */,
 				EA5C5E7C2438A57700E65DE3 /* GpuMonEx.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

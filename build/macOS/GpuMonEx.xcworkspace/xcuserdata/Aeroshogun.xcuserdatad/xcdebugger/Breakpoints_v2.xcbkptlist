@@ -10,12 +10,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../source/gpumon/Drv_IOKit.cpp"
-            timestampString = "607597232.025018"
+            timestampString = "607829322.317222"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
             landmarkName = "IOKIT_GetOverallGpuLoad( int AdapterNumber, GPUSTATISTICS* pGpuStatistics )"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../source/gpumon/Drv_IOKit.cpp"
+            timestampString = "607747101.535845"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "IOKIT_GetPCIDeviceDictionaryStringValue( int adapter, const char* dictionary_class, const char* dictionary_subclass, void* value )"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
