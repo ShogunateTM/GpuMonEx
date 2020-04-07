@@ -200,8 +200,6 @@ private:
             return ERR_DRVFAIL;
         }
         
-        DriverType = Drv_D3DKMT;
-        
         /* These two are purely optional */
         if( !InitializeDriverHook( Drv_NVAPI, 0, &driver[Drv_NVAPI] ) )
         {

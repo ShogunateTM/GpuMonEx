@@ -15,129 +15,154 @@
 #include <wx/notebook.h>
 
 
-/*
- import wx
- 
- # Define the tab content as classes:
- class TabOne(wx.Panel):
- def __init__(self, parent):
- wx.Panel.__init__(self, parent)
- t = wx.StaticText(self, -1, "This is the first tab", (20,20))
- 
- class TabTwo(wx.Panel):
- def __init__(self, parent):
- wx.Panel.__init__(self, parent)
- t = wx.StaticText(self, -1, "This is the second tab", (20,20))
- 
- class TabThree(wx.Panel):
- def __init__(self, parent):
- wx.Panel.__init__(self, parent)
- t = wx.StaticText(self, -1, "This is the third tab", (20,20))
- 
- class TabFour(wx.Panel):
- def __init__(self, parent):
- wx.Panel.__init__(self, parent)
- t = wx.StaticText(self, -1, "This is the last tab", (20,20))
- 
- 
- class MainFrame(wx.Frame):
- def __init__(self):
- wx.Frame.__init__(self, None, title="wxPython tabs example @pythonspot.com")
- 
- # Create a panel and notebook (tabs holder)
- p = wx.Panel(self)
- nb = wx.Notebook(p)
- 
- # Create the tab windows
- tab1 = TabOne(nb)
- tab2 = TabTwo(nb)
- tab3 = TabThree(nb)
- tab4 = TabFour(nb)
- 
- # Add the windows to tabs and name them.
- nb.AddPage(tab1, "Tab 1")
- nb.AddPage(tab2, "Tab 2")
- nb.AddPage(tab3, "Tab 3")
- nb.AddPage(tab4, "Tab 4")
- 
- # Set noteboook in a sizer to create the layout
- sizer = wx.BoxSizer()
- sizer.Add(nb, 1, wx.EXPAND)
- p.SetSizer(sizer)
- 
- 
- if __name__ == "__main__":
- app = wx.App()
- MainFrame().Show()
- app.MainLoop()*/
-
-
-/*
- #include "wx/notebook.h" 
- #include "copy.xpm" 
- #include "cut.xpm" 
- #include "paste.xpm" // Create the notebook
- wxNotebook* notebook = new wxNotebook(parent, wxID_ANY,   wxDefaultPosition, wxSize(300, 200)); 
- // Create the image list 
- wxImageList* imageList = new wxImageList(16, 16, true, 3); 
- imageList->Add(wxIcon(copy_xpm)); 
- imageList->Add(wxIcon(paste_xpm)); 
- imageList->Add(wxIcon(cut_xpm)); 
- // Create and add the pages 
- wxPanel1* window1 = new wxPanel(notebook, wxID_ANY); 
- wxPanel2* window2 = new wxPanel(notebook, wxID_ANY); 
- wxPanel3* window3 = new wxPanel(notebook, wxID_ANY); 
- notebook->AddPage(window1, wxT("Tab one"), true, 0); 
- notebook->AddPage(window2, wxT("Tab two"), false, 1); 
- notebook->AddPage(window3, wxT("Tab three"), false 2);
- */
 
 namespace gpumonex
 {
     namespace wx
     {
-        class wxGeneralPanel : public wxPanel
+        class wxGpuMonThread;
+
+        /*
+         * wxGpuMonPanel
+         * Base panel class, making life a little easier...
+         */
+        class wxGpuMonPanel : public wxPanel
         {
         public:
-            wxGeneralPanel( wxNotebook* parent, wxString title ) : wxPanel( parent, wxID_ANY ), m_title( title )
+            wxGpuMonPanel( wxNotebook* parent, wxString title ) : wxPanel( parent, wxID_ANY ), m_title( title ) {}
+
+            /* Return the title of the tab */
+            virtual wxString GetPanelTitle() { return m_title; }
+            /* Called within thread class below */
+            virtual void Update() = 0;
+
+        protected:
+            wxString        m_title;
+            wxGpuMonThread* m_thread;
+        };
+
+        
+        class wxGpuMonThread : public wxThread
+        {
+        public:
+            wxGpuMonThread( wxGpuMonPanel* panel ) : wxThread(), m_panel( panel ) {}
+
+            wxThread::ExitCode Entry();
+
+        protected:
+            wxGpuMonPanel* m_panel;
+        };
+
+
+        class wxGeneralPanel : public wxGpuMonPanel
+        {
+        public:
+            wxGeneralPanel( wxNotebook* parent, wxString title ) : wxGpuMonPanel( parent, title )
             {
-                
+                m_thread = new wxGpuMonThread( this );
+                if( !m_thread )
+                    return;
+
+                auto error = m_thread->Create();
+                if( error != wxTHREAD_NO_ERROR )
+                {
+                    wxMessageBox( "Error creating wxGeneralPanel thread!" );
+                    return;
+                }
+
+                error = m_thread->Run();
+                if( error != wxTHREAD_NO_ERROR )
+                    wxMessageBox( "Error running wxGeneralPanel thread!" );
             }
             
-            wxString GetPanelTitle() { return m_title; }
-            
+            virtual ~wxGeneralPanel()
+            {
+                if( m_thread )
+                {
+                    m_thread->Kill();
+                }
+            }
+
+
+            virtual void Update();
+
         protected:
-            wxString m_title;
             wxStaticText* m_text;
         };
         
-        class wxGpuStatisticsPanel : public wxPanel
+        class wxGpuStatisticsPanel : public wxGpuMonPanel
         {
         public:
-            wxGpuStatisticsPanel( wxNotebook* parent, wxString title ) : wxPanel( parent, wxID_ANY ), m_title( title )
+            wxGpuStatisticsPanel( wxNotebook* parent, wxString title ) : wxGpuMonPanel( parent, title )
             {
                 m_text = new wxStaticText( this, -1, "GPU Usage: 0%", wxDefaultPosition );
+
+                m_thread = new wxGpuMonThread( this );
+                if( !m_thread )
+                    return;
+
+                auto error = m_thread->Create();
+                if( error != wxTHREAD_NO_ERROR )
+                {
+                    wxMessageBox( "Error creating wxGpuStatisticsPanel thread!" );
+                    return;
+                }
+
+                error = m_thread->Run();
+                if( error != wxTHREAD_NO_ERROR )
+                    wxMessageBox( "Error running wxGpuStatisticsPanel thread!" );
             }
             
-            wxString GetPanelTitle() { return m_title; }
+            virtual ~wxGpuStatisticsPanel()
+            {
+                if( m_thread )
+                {
+                    m_thread->Kill();
+                }
+            }
+
+
+            virtual void Update();
             
         protected:
-            wxString m_title;
             wxStaticText* m_text;
         };
         
-        class wxProcessMonitorPanel : public wxPanel
+        class wxProcessMonitorPanel : public wxGpuMonPanel
         {
         public:
-            wxProcessMonitorPanel( wxNotebook* parent, wxString title ) : wxPanel( parent, wxID_ANY ), m_title( title )
+            wxProcessMonitorPanel( wxNotebook* parent, wxString title ) : wxGpuMonPanel( parent, title )
             {
                 m_text = new wxStaticText( this, -1, "TODO", wxDefaultPosition );
+
+                m_thread = new wxGpuMonThread( this );
+                if( !m_thread )
+                    return;
+
+                auto error = m_thread->Create();
+                if( error != wxTHREAD_NO_ERROR )
+                {
+                    wxMessageBox( "Error creating wxProcessMonitorPanel thread!" );
+                    return;
+                }
+
+                error = m_thread->Run();
+                if( error != wxTHREAD_NO_ERROR )
+                    wxMessageBox( "Error running wxProcessMonitorPanel thread!" );
             }
+
+            virtual ~wxProcessMonitorPanel()
+            {
+                if( m_thread )
+                {
+                    m_thread->Kill();
+                }
+            }
+
             
-            wxString GetPanelTitle() { return m_title; }
-            
+            virtual void Update();
+
         protected:
-            wxString m_title;
             wxStaticText* m_text;
         };
         
@@ -152,16 +177,22 @@ namespace gpumonex
             {
                 Centre();
                 
-                wxNotebook* notebook = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxSize( 640, 480 ) );
+                m_notebook = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxSize( 640, 480 ) );
                 
-                wxGeneralPanel* window1 = new wxGeneralPanel( notebook, "General" );
-                wxGpuStatisticsPanel* window2 = new wxGpuStatisticsPanel( notebook, "GPU Statistics" );
-                wxProcessMonitorPanel* window3 = new wxProcessMonitorPanel( notebook, "Process Monitor" );
+                m_window1 = new wxGeneralPanel( m_notebook, "General" );
+                m_window2 = new wxGpuStatisticsPanel( m_notebook, "GPU Statistics" );
+                m_window3 = new wxProcessMonitorPanel( m_notebook, "Process Monitor" );
                 
-                notebook->AddPage( window1, window1->GetPanelTitle(), true, 0 );
-                notebook->AddPage( window2, window2->GetPanelTitle(), false, 1 );
-                notebook->AddPage( window3, window3->GetPanelTitle(), false, 2 );
+                m_notebook->AddPage( m_window1, m_window1->GetPanelTitle(), true, 0 );
+                m_notebook->AddPage( m_window2, m_window2->GetPanelTitle(), false, 1 );
+                m_notebook->AddPage( m_window3, m_window3->GetPanelTitle(), false, 2 );
             }
+
+        protected:
+            wxNotebook*             m_notebook;
+            wxGeneralPanel*         m_window1;
+            wxGpuStatisticsPanel*   m_window2;
+            wxProcessMonitorPanel*  m_window3;
         };
     }
 }

@@ -274,7 +274,7 @@ int KmtGetProcessGpuUsage( void* pProcess )
 		}
 		else
 		{
-			__asm int 3;
+			//__asm int 3;
 		}
 	}
 

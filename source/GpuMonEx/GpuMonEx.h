@@ -13,38 +13,4 @@
 #include <wx/msgdlg.h>
 
 
-namespace gpumonex
-{
-    namespace wx
-    {
-        /*
-         * wxGpuMonThread base class
-         */
-        class wxGpuMonThread : public wxThread
-        {
-        public:
-            wxGpuMonThread() : wxThread( wxTHREAD_JOINABLE ) {}
-            
-        protected:
-            wxMutex m_mutex;
-        };
-        
-        /*
-         * wxGpuMonHardwareMonitoringThread
-         * Periodically checks for changes in GPU hardware
-         */
-        class wxHardwareMonitoringThread : public wxGpuMonThread
-        {
-        private:
-            wxHardwareMonitoringThread( const wxHardwareMonitoringThread& copy );
-            
-        public:
-            wxHardwareMonitoringThread();
-            
-        };
-    }
-}
-
-
-
 
