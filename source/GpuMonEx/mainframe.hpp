@@ -95,8 +95,17 @@ namespace gpumonex
         public:
             wxGpuStatisticsPanel( wxNotebook* parent, wxString title ) : wxGpuMonPanel( parent, title )
             {
-                m_text = new wxStaticText( this, -1, "GPU Usage: 0%", wxDefaultPosition );
-
+                int i = 0;
+                m_text_gpu_usage = new wxStaticText( this, -1, "Overall GPU Usage: 0%", wxPoint( 0, 20*i ) ); i++;
+                m_text_video_engine_usage = new wxStaticText( this, -1, "Video Engine Usage: 0%", wxPoint( 0, 20*i ) ); i++;
+                m_text_vmem_free = new wxStaticText( this, -1, "Video Memory Free: 0", wxPoint( 0, 20*i ) ); i++;
+                m_text_vmem_used = new wxStaticText( this, -1, "Video Memory Used: 0", wxPoint( 0, 20*i ) ); i++;
+                m_text_hw_wait_time = new wxStaticText( this, -1, "Hardware Wait Time (ns): 0", wxPoint( 0, 20*i ) ); i++;
+                m_text_fan_speed_percent = new wxStaticText( this, -1, "Fan Speed (%): 0%", wxPoint( 0, 20*i ) ); i++;
+                m_text_fan_speed_rpms = new wxStaticText( this, -1, "Fan Speed (RPM): 0", wxPoint( 0, 20*i ) ); i++;
+                m_text_temperature = new wxStaticText( this, -1, "Temperature: 0c", wxPoint( 0, 20*i ) ); i++;
+                m_text_power_usage = new wxStaticText( this, -1, "Power Usage: 0W", wxPoint( 0, 20*i ) ); i++;
+                
                 m_thread = new wxGpuMonThread( this );
                 if( !m_thread )
                     return;
@@ -125,7 +134,16 @@ namespace gpumonex
             virtual void Update();
             
         protected:
-            wxStaticText* m_text;
+            wxStaticText* m_text_gpu_usage;
+            wxStaticText* m_text_video_engine_usage;
+            wxStaticText* m_text_device_unit_usage[8];
+            wxStaticText* m_text_vmem_free;
+            wxStaticText* m_text_vmem_used;
+            wxStaticText* m_text_hw_wait_time;
+            wxStaticText* m_text_fan_speed_percent;
+            wxStaticText* m_text_fan_speed_rpms;
+            wxStaticText* m_text_temperature;
+            wxStaticText* m_text_power_usage;
         };
         
         class wxProcessMonitorPanel : public wxGpuMonPanel

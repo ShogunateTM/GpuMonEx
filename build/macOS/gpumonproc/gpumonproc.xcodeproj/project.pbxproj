@@ -8,15 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		EA5C5E482420D03B00E65DE3 /* gpumonproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E472420D03B00E65DE3 /* gpumonproc.cpp */; };
+		EA5C5E862441E1B700E65DE3 /* gpumonproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E472420D03B00E65DE3 /* gpumonproc.cpp */; };
+		EA5C5EA52441EFD800E65DE3 /* gpumonproc32.app in Resources */ = {isa = PBXBuildFile; fileRef = EA5C5E8C2441E1B700E65DE3 /* gpumonproc32.app */; };
+		EA5C5EA82441F08900E65DE3 /* info32.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA5C5EA62441F08100E65DE3 /* info32.plist */; };
+		EA5C5EA92441F0A000E65DE3 /* info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA5C5EA12441EF8800E65DE3 /* info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		EA5C5E332420CF5B00E65DE3 /* gpumonproc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gpumonproc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5C5E472420D03B00E65DE3 /* gpumonproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gpumonproc.cpp; path = ../../../source/gpumonproc/gpumonproc.cpp; sourceTree = "<group>"; };
+		EA5C5E8C2441E1B700E65DE3 /* gpumonproc32.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gpumonproc32.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5C5EA12441EF8800E65DE3 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = info.plist; path = gpumonproc/info.plist; sourceTree = "<group>"; };
+		EA5C5EA62441F08100E65DE3 /* info32.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = info32.plist; path = gpumonproc/info32.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		EA5C5E302420CF5B00E65DE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA5C5E872441E1B700E65DE3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -29,6 +43,8 @@
 		EA5C5E2A2420CF5B00E65DE3 = {
 			isa = PBXGroup;
 			children = (
+				EA5C5EA62441F08100E65DE3 /* info32.plist */,
+				EA5C5EA12441EF8800E65DE3 /* info.plist */,
 				EA5C5E472420D03B00E65DE3 /* gpumonproc.cpp */,
 				EA5C5E342420CF5B00E65DE3 /* Products */,
 			);
@@ -38,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				EA5C5E332420CF5B00E65DE3 /* gpumonproc.app */,
+				EA5C5E8C2441E1B700E65DE3 /* gpumonproc32.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,6 +77,23 @@
 			name = gpumonproc;
 			productName = gpumonproc;
 			productReference = EA5C5E332420CF5B00E65DE3 /* gpumonproc.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EA5C5E842441E1B700E65DE3 /* gpumonproc32 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA5C5E892441E1B700E65DE3 /* Build configuration list for PBXNativeTarget "gpumonproc32" */;
+			buildPhases = (
+				EA5C5E852441E1B700E65DE3 /* Sources */,
+				EA5C5E872441E1B700E65DE3 /* Frameworks */,
+				EA5C5E882441E1B700E65DE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gpumonproc32;
+			productName = gpumonproc;
+			productReference = EA5C5E8C2441E1B700E65DE3 /* gpumonproc32.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -91,6 +125,7 @@
 			projectRoot = "";
 			targets = (
 				EA5C5E322420CF5B00E65DE3 /* gpumonproc */,
+				EA5C5E842441E1B700E65DE3 /* gpumonproc32 */,
 			);
 		};
 /* End PBXProject section */
@@ -100,6 +135,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5EA92441F0A000E65DE3 /* info.plist in Resources */,
+				EA5C5EA52441EFD800E65DE3 /* gpumonproc32.app in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA5C5E882441E1B700E65DE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5C5EA82441F08900E65DE3 /* info32.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +156,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA5C5E482420D03B00E65DE3 /* gpumonproc.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA5C5E852441E1B700E65DE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5C5E862441E1B700E65DE3 /* gpumonproc.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +266,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -225,6 +279,35 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+		EA5C5E8A2441E1B700E65DE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = gpumonproc32/info32.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		EA5C5E8B2441E1B700E65DE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = gpumonproc32/info32.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = i386;
 			};
 			name = Release;
 		};
@@ -245,6 +328,15 @@
 			buildConfigurations = (
 				EA5C5E452420CF5B00E65DE3 /* Debug */,
 				EA5C5E462420CF5B00E65DE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA5C5E892441E1B700E65DE3 /* Build configuration list for PBXNativeTarget "gpumonproc32" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA5C5E8A2441E1B700E65DE3 /* Debug */,
+				EA5C5E8B2441E1B700E65DE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
