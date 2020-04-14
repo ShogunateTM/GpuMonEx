@@ -80,8 +80,8 @@ typedef struct _GPUDRIVER
     void (*Uninitialize)();
     int (*GetGpuDetails)( int, GPUDETAILS* );
     int (*GetOverallGpuLoad)( int, GPUSTATISTICS* );
-    int (*GetProcessGpuLoad)( void* );
-    int (*GetGpuTemperature)();
+    int (*GetProcessGpuLoad)( int, void* );
+    int (*GetGpuTemperature)( int );
 } GPUDRIVER;
 
 

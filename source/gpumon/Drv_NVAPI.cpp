@@ -90,7 +90,7 @@ BOOL NvGpuDetected()
  * Name: NvGetGpuLoad
  * Desc: Returns the NVIDIA Gpu's current load percentage.
  */
-int  NvGetGpuLoad()
+int  NvGetGpuLoad( int adapter )
 {
 	int          gpuCount = 0;
     int         *gpuHandles[NVAPI_MAX_PHYSICAL_GPUS] = { NULL };
@@ -101,7 +101,7 @@ int  NvGetGpuLoad()
      
     (*_NvAPI_EnumPhysicalGPUs)( gpuHandles, &gpuCount );
      
-    (*_NvAPI_GPU_GetUsages)( gpuHandles[0], gpuUsages );
+    (*_NvAPI_GPU_GetUsages)( gpuHandles[adapter], gpuUsages );
     int usage = gpuUsages[3];
 
 	return usage;
@@ -111,7 +111,7 @@ int  NvGetGpuLoad()
  * Name: NvGetGpuTemperature
  * Desc: Returns the current temperature of an NVIDIA Gpu.
  */
-int  NvGetGpuTemperature()
+int  NvGetGpuTemperature( int AdapterNumber )
 {
 #if 0
 	// Array of physical GPU handle
@@ -215,17 +215,17 @@ int NVAPI_GetOverallGpuLoad( int AdapterNumber, GPUSTATISTICS* pGpuStatistics )
 	/* TODO */
 	memset( pGpuStatistics, -1, sizeof( GPUSTATISTICS ) );
 
-	pGpuStatistics->gpu_usage = NvGetGpuLoad();
+	pGpuStatistics->gpu_usage = NvGetGpuLoad( AdapterNumber );
 
-	return NvGetGpuLoad();
+	return 1;
 }
 
-int NVAPI_GetProcessGpuLoad( void* pProcess )
+int NVAPI_GetProcessGpuLoad( int AdapterNumber, void* pProcess )
 {
 	return 0;
 }
 
-int NVAPI_GetGpuTemperature()
+int NVAPI_GetGpuTemperature( int AdapterNumber )
 {
-	return NvGetGpuTemperature();
+	return NvGetGpuTemperature( AdapterNumber );
 }

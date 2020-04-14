@@ -526,7 +526,7 @@ int main( int argc, char** argv )
 			}
 			if( ShowProcessUsage )
 			{
-				int GpuUsage = driver[DriverType].GetProcessGpuLoad( Process.hProcess );
+				int GpuUsage = driver[DriverType].GetProcessGpuLoad( Adapter, Process.hProcess );
 				GLOG( 3, "Process GPU Usage: " << GpuUsage << "%" );
 			}
 

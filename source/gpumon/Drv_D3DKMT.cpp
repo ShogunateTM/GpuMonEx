@@ -50,7 +50,7 @@ typedef _com_ptr_t<_com_IIID<IDXGIFactory2, &IID_IDXGIFactory2>> CDXGIFactory2;
 PFND3DKMT_QUERYSTATISTICS	pfnD3DKMTQueryStatistics = nullptr;
 PFND3DKMT_OPENADAPTERFROMLUID pfnD3DKMTOpenAdapterFromLuid = nullptr;
 HMODULE						hGdi = nullptr;
-DXGI_ADAPTER_DESC2			DxgiDesc;
+//DXGI_ADAPTER_DESC2			DxgiDesc;
 UINT						AdapterNumber = 0;
 std::vector<float>			GpuUsage;
 UINT64_DELTA				ClockTotalRunningTimeDelta = {0};
@@ -89,12 +89,17 @@ HRESULT KmtGetAdapter( UINT Index, DXGI_ADAPTER_DESC2* Desc )
  * Name: KmtGetNodeCount
  * Desc: Returns the number of GPU nodes associated with this GPU.
  */
-UINT KmtGetNodeCount()
+UINT KmtGetNodeCount( int adapter )
 {
+	DXGI_ADAPTER_DESC2 desc;
+
+	if( FAILED( KmtGetAdapter( adapter, &desc ) ) )
+		return 0;
+
 	D3DKMT_QUERYSTATISTICS QueryStatistics;
 	memset( &QueryStatistics, 0, sizeof( D3DKMT_QUERYSTATISTICS ) );
 	QueryStatistics.Type = D3DKMT_QUERYSTATISTICS_ADAPTER;
-	QueryStatistics.AdapterLuid = DxgiDesc.AdapterLuid;
+	QueryStatistics.AdapterLuid = desc.AdapterLuid;
 
 	NTSTATUS status = pfnD3DKMTQueryStatistics( &QueryStatistics );
 	if( !NT_SUCCESS( status ) )
@@ -178,7 +183,7 @@ BOOL KmtDetectGpu()
 		return FALSE;
 	}
 
-	KmtGetAdapter( 0, &DxgiDesc );
+	//KmtGetAdapter( 0, &DxgiDesc );
 
 	return TRUE;
 }
@@ -187,14 +192,18 @@ BOOL KmtDetectGpu()
  * Name: KmtGetGpuUsage
  * Desc: Returns the GPU usage in the form of a percentage.  
  */
-int  KmtGetGpuUsage()
+int  KmtGetGpuUsage( int adapter )
 {
 	UINT64 SharedBytesUsed = 0, DedicatedBytesUsed = 0, CommittedBytesUsed = 0;
 	D3DKMT_QUERYSTATISTICS QueryStatistics;
 	ULONG i;
 	ULONG64 TotalRunningTime = 0, SystemRunningTime = 0;
-	UINT NodeCount = KmtGetNodeCount();
+	UINT NodeCount = KmtGetNodeCount( adapter );
 	DOUBLE ElapsedTime;
+	DXGI_ADAPTER_DESC2 desc;
+
+	if( FAILED( KmtGetAdapter( adapter, &desc ) ) )
+		return -1;
 
 	/* Query the statistics of each node and determine the level of running time for each one. */
 
@@ -202,7 +211,7 @@ int  KmtGetGpuUsage()
 	{
 		memset( &QueryStatistics, 0, sizeof( D3DKMT_QUERYSTATISTICS ) );
 		QueryStatistics.Type = D3DKMT_QUERYSTATISTICS_NODE;
-		QueryStatistics.AdapterLuid = DxgiDesc.AdapterLuid;
+		QueryStatistics.AdapterLuid = desc.AdapterLuid;
 		QueryStatistics.QueryNode.NodeId = i;
 
 		NTSTATUS status = pfnD3DKMTQueryStatistics( &QueryStatistics );
@@ -259,12 +268,13 @@ int  KmtGetGpuUsage()
  *
  *		  Windows: *Should* work as long as the process handle was created with PROCESS_QUERY_INFORMATION.
  */
-int KmtGetProcessGpuUsage( void* pProcess )
+int KmtGetProcessGpuUsage( int adapter, void* pProcess )
 {
 	LUID luid = { 20 };
 	TOKEN_PRIVILEGES privs = { 1, { luid, SE_PRIVILEGE_ENABLED } };
 	HANDLE hToken;
-	int Usage = 0;
+	int Usage = -1;
+	DXGI_ADAPTER_DESC2 desc;
 
 	/* TODO: Find out exactly what this does, and why it is necessary... */
 	if( OpenProcessToken( pProcess, TOKEN_ADJUST_PRIVILEGES, &hToken ) )
@@ -284,7 +294,9 @@ int KmtGetProcessGpuUsage( void* pProcess )
 	OpenAdapterFromLUID.AdapterLuid = DxgiDesc.AdapterLuid;
 	ULONG ret = pfnD3DKMTOpenAdapterFromLuid( &OpenAdapterFromLUID );*/
 
-	D3DKMT_QUERYSTATISTICS stats = { D3DKMT_QUERYSTATISTICS_PROCESS, DxgiDesc.AdapterLuid, pProcess };
+	KmtGetAdapter( adapter, &desc );
+
+	D3DKMT_QUERYSTATISTICS stats = { D3DKMT_QUERYSTATISTICS_PROCESS, desc.AdapterLuid, pProcess };
 	ULONG status = pfnD3DKMTQueryStatistics( &stats );
 	if( status == 0 )
 		Usage = stats.QueryResult.ProcessInformation.SystemMemory.BytesAllocated;
@@ -405,17 +417,17 @@ int D3DKMT_GetOverallGpuLoad( int AdapterNumber, GPUSTATISTICS* pGpuStatistics )
 {
 	memset( pGpuStatistics, -1, sizeof( GPUSTATISTICS ) );
 
-	pGpuStatistics->gpu_usage = KmtGetGpuUsage();
+	pGpuStatistics->gpu_usage = KmtGetGpuUsage( AdapterNumber );
 
 	return 1;
 }
 
-int D3DKMT_GetProcessGpuLoad( void* pProcess )
+int D3DKMT_GetProcessGpuLoad( int AdapterNumber, void* pProcess )
 {
-	return KmtGetProcessGpuUsage( pProcess );
+	return KmtGetProcessGpuUsage( AdapterNumber, pProcess );
 }
 
-int D3DKMT_GetGpuTemperature()
+int D3DKMT_GetGpuTemperature( int AdapterNumber )
 {
 	return KmtGetGpuTemperature();
 }
