@@ -13,16 +13,23 @@
 		EA5C5E502420D28700E65DE3 /* Drv_IOKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5E4C2420D28700E65DE3 /* Drv_IOKit.h */; };
 		EA5C5E78243364E300E65DE3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5E77243364E300E65DE3 /* IOKit.framework */; };
 		EA5C5E7A243364F000E65DE3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5E79243364F000E65DE3 /* CoreFoundation.framework */; };
+		EA5C5ED42445F0D700E65DE3 /* DriverEnum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E492420D28700E65DE3 /* DriverEnum.cpp */; };
+		EA5C5ED52445F0D700E65DE3 /* Drv_IOKit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E4B2420D28700E65DE3 /* Drv_IOKit.cpp */; };
+		EA5C5ED72445F0D700E65DE3 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5E79243364F000E65DE3 /* CoreFoundation.framework */; };
+		EA5C5ED82445F0D700E65DE3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5E77243364E300E65DE3 /* IOKit.framework */; };
+		EA5C5EDA2445F0D700E65DE3 /* Drv_IOKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5E4C2420D28700E65DE3 /* Drv_IOKit.h */; };
+		EA5C5EDB2445F0D700E65DE3 /* DriverEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5E4A2420D28700E65DE3 /* DriverEnum.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EA5C5E062420CE4700E65DE3 /* libgpumon.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libgpumon.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5C5E062420CE4700E65DE3 /* libgpumon32.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libgpumon32.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5C5E492420D28700E65DE3 /* DriverEnum.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DriverEnum.cpp; path = ../../../source/gpumon/DriverEnum.cpp; sourceTree = "<group>"; };
 		EA5C5E4A2420D28700E65DE3 /* DriverEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DriverEnum.h; path = ../../../source/gpumon/DriverEnum.h; sourceTree = "<group>"; };
 		EA5C5E4B2420D28700E65DE3 /* Drv_IOKit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Drv_IOKit.cpp; path = ../../../source/gpumon/Drv_IOKit.cpp; sourceTree = "<group>"; };
 		EA5C5E4C2420D28700E65DE3 /* Drv_IOKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Drv_IOKit.h; path = ../../../source/gpumon/Drv_IOKit.h; sourceTree = "<group>"; };
 		EA5C5E77243364E300E65DE3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		EA5C5E79243364F000E65DE3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		EA5C5EDF2445F0D700E65DE3 /* libgpumon64.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libgpumon64.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +39,15 @@
 			files = (
 				EA5C5E7A243364F000E65DE3 /* CoreFoundation.framework in Frameworks */,
 				EA5C5E78243364E300E65DE3 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA5C5ED62445F0D700E65DE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5C5ED72445F0D700E65DE3 /* CoreFoundation.framework in Frameworks */,
+				EA5C5ED82445F0D700E65DE3 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +69,8 @@
 		EA5C5E072420CE4700E65DE3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EA5C5E062420CE4700E65DE3 /* libgpumon.dylib */,
+				EA5C5E062420CE4700E65DE3 /* libgpumon32.dylib */,
+				EA5C5EDF2445F0D700E65DE3 /* libgpumon64.dylib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,12 +96,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EA5C5ED92445F0D700E65DE3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5C5EDA2445F0D700E65DE3 /* Drv_IOKit.h in Headers */,
+				EA5C5EDB2445F0D700E65DE3 /* DriverEnum.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		EA5C5E052420CE4700E65DE3 /* gpumon */ = {
+		EA5C5E052420CE4700E65DE3 /* gpumon32 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EA5C5E0A2420CE4700E65DE3 /* Build configuration list for PBXNativeTarget "gpumon" */;
+			buildConfigurationList = EA5C5E0A2420CE4700E65DE3 /* Build configuration list for PBXNativeTarget "gpumon32" */;
 			buildPhases = (
 				EA5C5E022420CE4700E65DE3 /* Sources */,
 				EA5C5E032420CE4700E65DE3 /* Frameworks */,
@@ -94,9 +120,26 @@
 			);
 			dependencies = (
 			);
-			name = gpumon;
+			name = gpumon32;
 			productName = gpumon;
-			productReference = EA5C5E062420CE4700E65DE3 /* libgpumon.dylib */;
+			productReference = EA5C5E062420CE4700E65DE3 /* libgpumon32.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		EA5C5ED22445F0D700E65DE3 /* gpumon64 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA5C5EDC2445F0D700E65DE3 /* Build configuration list for PBXNativeTarget "gpumon64" */;
+			buildPhases = (
+				EA5C5ED32445F0D700E65DE3 /* Sources */,
+				EA5C5ED62445F0D700E65DE3 /* Frameworks */,
+				EA5C5ED92445F0D700E65DE3 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gpumon64;
+			productName = gpumon;
+			productReference = EA5C5EDF2445F0D700E65DE3 /* libgpumon64.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -126,7 +169,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EA5C5E052420CE4700E65DE3 /* gpumon */,
+				EA5C5E052420CE4700E65DE3 /* gpumon32 */,
+				EA5C5ED22445F0D700E65DE3 /* gpumon64 */,
 			);
 		};
 /* End PBXProject section */
@@ -138,6 +182,15 @@
 			files = (
 				EA5C5E4D2420D28700E65DE3 /* DriverEnum.cpp in Sources */,
 				EA5C5E4F2420D28700E65DE3 /* Drv_IOKit.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA5C5ED32445F0D700E65DE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5C5ED42445F0D700E65DE3 /* DriverEnum.cpp in Sources */,
+				EA5C5ED52445F0D700E65DE3 /* Drv_IOKit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,6 +287,42 @@
 		EA5C5E0B2420CE4700E65DE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					DYLIB_EXPORT,
+				);
+				HEADER_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = i386;
+			};
+			name = Debug;
+		};
+		EA5C5E0C2420CE4700E65DE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREPROCESSOR_DEFINITIONS = DYLIB_EXPORT;
+				HEADER_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
+		EA5C5EDD2445F0D700E65DE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -247,11 +336,11 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
-		EA5C5E0C2420CE4700E65DE3 /* Release */ = {
+		EA5C5EDE2445F0D700E65DE3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
@@ -263,7 +352,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -279,11 +368,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EA5C5E0A2420CE4700E65DE3 /* Build configuration list for PBXNativeTarget "gpumon" */ = {
+		EA5C5E0A2420CE4700E65DE3 /* Build configuration list for PBXNativeTarget "gpumon32" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EA5C5E0B2420CE4700E65DE3 /* Debug */,
 				EA5C5E0C2420CE4700E65DE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA5C5EDC2445F0D700E65DE3 /* Build configuration list for PBXNativeTarget "gpumon64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA5C5EDD2445F0D700E65DE3 /* Debug */,
+				EA5C5EDE2445F0D700E65DE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

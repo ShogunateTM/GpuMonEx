@@ -497,14 +497,14 @@ int IOKIT_GetOverallGpuLoad( int AdapterNumber, GPUSTATISTICS* pGpuStatistics )
     return 0;
 }
 
-int IOKIT_GetProcessGpuLoad( void* pProcess )
+int IOKIT_GetProcessGpuLoad( int AdapterNumber, void* pProcess )
 {
     /* TODO: No idea how this is done for macOS, but there has to be a way */
     
     return 0;
 }
 
-int IOKIT_GetGpuTemperature()
+int IOKIT_GetGpuTemperature( int AdapterNumber )
 {
     return 0;
 }

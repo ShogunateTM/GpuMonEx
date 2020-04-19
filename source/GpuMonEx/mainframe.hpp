@@ -13,6 +13,7 @@
 #include <wx/wx.h>
 #include <wx/panel.h>
 #include <wx/notebook.h>
+#include "statschart.hpp"
 
 
 
@@ -106,6 +107,31 @@ namespace gpumonex
                 m_text_temperature = new wxStaticText( this, -1, "Temperature: 0c", wxPoint( 0, 20*i ) ); i++;
                 m_text_power_usage = new wxStaticText( this, -1, "Power Usage: 0W", wxPoint( 0, 20*i ) ); i++;
                 
+                /* m_plot = new mpWindow( this, -1, wxPoint(0,0), wxSize(100,100), wxSUNKEN_BORDER );
+                 m_plot->AddLayer(     new mpScaleX( wxT("Ganzzahl N")));
+                 m_plot->AddLayer(     new mpScaleY( wxT("Kosten K(N) in Bits")));
+                 m_plot->AddLayer(     new FixedBitwidth(32) );
+                 m_plot->AddLayer(     new Optimum() );
+                 m_plot->AddLayer( e = new Elias() );
+                 m_plot->AddLayer( f = new Fibonacci() );
+                 
+                 e->SetPen( wxPen(*wxRED, 1, wxSOLID));
+                 f->SetPen( wxPen(*wxGREEN, 1, wxSOLID));
+                 
+                 wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
+                 topsizer->Add( m_plot, 1, wxEXPAND );
+                 SetAutoLayout( TRUE );
+                 SetSizer( topsizer );*/
+                
+                m_plot = new mpWindow( this, -1, wxPoint( 0, (20*i)+20 ), wxSize( 620, 100 ), wxSUNKEN_BORDER );
+                m_plot->AddLayer( /*new wxGpuUsage(0)*/ new MySIN( 10.0, 220.0 ) );
+                
+                /*wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
+                topsizer->Add( m_plot, 1, wxEXPAND );
+                SetAutoLayout( TRUE );
+                SetSizer( topsizer );*/
+                
+                
                 m_thread = new wxGpuMonThread( this );
                 if( !m_thread )
                     return;
@@ -144,6 +170,8 @@ namespace gpumonex
             wxStaticText* m_text_fan_speed_rpms;
             wxStaticText* m_text_temperature;
             wxStaticText* m_text_power_usage;
+            
+            mpWindow* m_plot;
         };
         
         class wxProcessMonitorPanel : public wxGpuMonPanel

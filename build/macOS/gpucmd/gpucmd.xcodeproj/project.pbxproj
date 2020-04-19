@@ -9,10 +9,21 @@
 /* Begin PBXBuildFile section */
 		EA5C5E532420D2F700E65DE3 /* ProcessEnumeration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E512420D2F700E65DE3 /* ProcessEnumeration.cpp */; };
 		EA5C5E552420DBB400E65DE3 /* gpucmd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E542420DBB400E65DE3 /* gpucmd.cpp */; };
+		EA5C5EE224498CC600E65DE3 /* ProcessEnumeration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E512420D2F700E65DE3 /* ProcessEnumeration.cpp */; };
+		EA5C5EE324498CC600E65DE3 /* gpucmd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5E542420DBB400E65DE3 /* gpucmd.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		EA5C5DE12420CDD400E65DE3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		EA5C5EE524498CC600E65DE3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -28,10 +39,18 @@
 		EA5C5E512420D2F700E65DE3 /* ProcessEnumeration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProcessEnumeration.cpp; path = ../../../source/common/ProcessEnumeration.cpp; sourceTree = "<group>"; };
 		EA5C5E522420D2F700E65DE3 /* ProcessEnumeration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProcessEnumeration.h; path = ../../../source/common/ProcessEnumeration.h; sourceTree = "<group>"; };
 		EA5C5E542420DBB400E65DE3 /* gpucmd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gpucmd.cpp; path = ../../../source/gpucmd/gpucmd.cpp; sourceTree = "<group>"; };
+		EA5C5EE924498CC600E65DE3 /* gpucmd64 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = gpucmd64; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		EA5C5DE02420CDD400E65DE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA5C5EE424498CC600E65DE3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -55,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				EA5C5DE32420CDD400E65DE3 /* gpucmd */,
+				EA5C5EE924498CC600E65DE3 /* gpucmd64 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -77,6 +97,23 @@
 			name = gpucmd;
 			productName = gpucmd;
 			productReference = EA5C5DE32420CDD400E65DE3 /* gpucmd */;
+			productType = "com.apple.product-type.tool";
+		};
+		EA5C5EE024498CC600E65DE3 /* gpucmd64 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA5C5EE624498CC600E65DE3 /* Build configuration list for PBXNativeTarget "gpucmd64" */;
+			buildPhases = (
+				EA5C5EE124498CC600E65DE3 /* Sources */,
+				EA5C5EE424498CC600E65DE3 /* Frameworks */,
+				EA5C5EE524498CC600E65DE3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = gpucmd64;
+			productName = gpucmd;
+			productReference = EA5C5EE924498CC600E65DE3 /* gpucmd64 */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -107,6 +144,7 @@
 			projectRoot = "";
 			targets = (
 				EA5C5DE22420CDD400E65DE3 /* gpucmd */,
+				EA5C5EE024498CC600E65DE3 /* gpucmd64 */,
 			);
 		};
 /* End PBXProject section */
@@ -118,6 +156,15 @@
 			files = (
 				EA5C5E532420D2F700E65DE3 /* ProcessEnumeration.cpp in Sources */,
 				EA5C5E552420DBB400E65DE3 /* gpucmd.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA5C5EE124498CC600E65DE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5C5EE224498CC600E65DE3 /* ProcessEnumeration.cpp in Sources */,
+				EA5C5EE324498CC600E65DE3 /* gpucmd.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,17 +265,30 @@
 		EA5C5DEB2420CDD400E65DE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				HEADER_SEARCH_PATHS = ../../../3rdParty/common/nvidia;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = i386;
 			};
 			name = Debug;
 		};
 		EA5C5DEC2420CDD400E65DE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				HEADER_SEARCH_PATHS = ../../../3rdParty/common/nvidia;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = i386;
+			};
+			name = Release;
+		};
+		EA5C5EE724498CC600E65DE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
@@ -237,7 +297,20 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		EA5C5EE824498CC600E65DE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				HEADER_SEARCH_PATHS = ../../../3rdParty/common/nvidia;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -258,6 +331,15 @@
 			buildConfigurations = (
 				EA5C5DEB2420CDD400E65DE3 /* Debug */,
 				EA5C5DEC2420CDD400E65DE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA5C5EE624498CC600E65DE3 /* Build configuration list for PBXNativeTarget "gpucmd64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA5C5EE724498CC600E65DE3 /* Debug */,
+				EA5C5EE824498CC600E65DE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

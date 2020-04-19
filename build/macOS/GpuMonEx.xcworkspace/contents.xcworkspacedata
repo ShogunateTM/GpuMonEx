@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:gpumonproc/gpumonproc.xcodeproj">
+      location = "group:/Users/Aeroshogun/Shogunate/GpuMonEx/build/macOS/gpumonproc/gpumonproc.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:GpuMonEx/GpuMonEx.xcodeproj">

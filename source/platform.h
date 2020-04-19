@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <assert.h>
 
 /* C++ only */
 #ifdef __cplusplus
@@ -51,6 +52,12 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <dlfcn.h>
+
+#include <errno.h>
+#include <stdbool.h>
+#include <sys/sysctl.h>
+
+typedef struct kinfo_proc kinfo_proc;
 
 #define DWORD   unsigned long
 #define WORD    unsigned short

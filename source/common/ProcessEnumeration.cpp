@@ -81,6 +81,74 @@ BOOL EnableDebugPrivileges()
 
 
 /*
+ * macOS only
+ */
+#ifdef __APPLE__
+int GetBSDProcessList( kinfo_proc** proc_list, size_t* proc_count )
+{
+    int err = 0;
+    kinfo_proc* result = NULL;
+    bool done = false;
+    static const int name[] = { CTL_KERN, KERN_PROC, KERN_PROC_ALL, 0 };
+    size_t length = 0;
+    
+    assert( proc_list != NULL );
+    assert( *proc_list == NULL );
+    assert( proc_count != NULL );
+    
+    *proc_count = 0;
+    
+    do
+    {
+        assert( result == NULL );
+        
+        err = sysctl( (int*) name, ( sizeof( name ) / sizeof( *name ) ) - 1, NULL, &length, NULL, 0 );
+        if( err == -1 )
+            err = errno;
+        
+        if( !err )
+        {
+            result = malloc( length );
+            if( result == NULL )
+                err = E_NOMEM:
+        }
+        
+        if( !err )
+        {
+            err = sysctl( (int*) name, ( sizeof( name ) / sizeof( *name ) ) - 1, result, &length, NULL, 0 );
+            if( err == -1 )
+                err = errno;
+            if( err == 0 )
+                done = true;
+            else if( err == ENOMEM )
+            {
+                assert( result != NULL );
+                free( result );
+                result = NULL;
+                err = 0;
+            }
+        }
+    } while( err == 0 && !done );
+    
+    if( err != 0 && result != NULL )
+    {
+        free( result );
+        result = NULL;
+    }
+    
+    *proc_list = result;
+    
+    if( err == 0 )
+        *proc_count = length / sizeof( kinfo_proc );
+    
+    assert( (err == 0) == (*proc_list != NULL) );
+    
+    return err;
+}
+#endif
+
+
+/*
  * Name: CreateNewProcess
  * Desc: Launches a new process from an executable file on disk.
  */

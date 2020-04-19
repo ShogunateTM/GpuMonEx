@@ -6,13 +6,30 @@
 	<dict>
 		<key>gpumon.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<true/>
 			<key>orderHint</key>
 			<integer>1</integer>
+		</dict>
+		<key>gpumon64.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>EA5C5E052420CE4700E65DE3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EA5C5EC42445EF9100E65DE3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EA5C5ED22445F0D700E65DE3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

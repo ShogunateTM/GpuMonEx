@@ -34,9 +34,9 @@
     #endif
 #elif defined(__APPLE__)
     #if defined(__386__) /* Mojave and earlier */
-        #define GPUMON_DLL "libgpumon.dylib"
+        #define GPUMON_DLL "libgpumon32.dylib"
     #else
-        #define GPUMON_DLL "libgpumon.dylib"
+        #define GPUMON_DLL "libgpumon64.dylib"
     #endif
 #endif
 

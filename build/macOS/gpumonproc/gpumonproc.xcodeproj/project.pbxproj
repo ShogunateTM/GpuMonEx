@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EA5C5E332420CF5B00E65DE3 /* gpumonproc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gpumonproc.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5C5E332420CF5B00E65DE3 /* gpumonproc64.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gpumonproc64.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5C5E472420D03B00E65DE3 /* gpumonproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gpumonproc.cpp; path = ../../../source/gpumonproc/gpumonproc.cpp; sourceTree = "<group>"; };
 		EA5C5E8C2441E1B700E65DE3 /* gpumonproc32.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gpumonproc32.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5C5EA12441EF8800E65DE3 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = info.plist; path = gpumonproc/info.plist; sourceTree = "<group>"; };
@@ -53,7 +53,7 @@
 		EA5C5E342420CF5B00E65DE3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EA5C5E332420CF5B00E65DE3 /* gpumonproc.app */,
+				EA5C5E332420CF5B00E65DE3 /* gpumonproc64.app */,
 				EA5C5E8C2441E1B700E65DE3 /* gpumonproc32.app */,
 			);
 			name = Products;
@@ -76,7 +76,7 @@
 			);
 			name = gpumonproc;
 			productName = gpumonproc;
-			productReference = EA5C5E332420CF5B00E65DE3 /* gpumonproc.app */;
+			productReference = EA5C5E332420CF5B00E65DE3 /* gpumonproc64.app */;
 			productType = "com.apple.product-type.application";
 		};
 		EA5C5E842441E1B700E65DE3 /* gpumonproc32 */ = {
@@ -265,7 +265,7 @@
 				INFOPLIST_FILE = gpumonproc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)64";
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -278,7 +278,7 @@
 				INFOPLIST_FILE = gpumonproc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "$(TARGET_NAME)64";
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EA5C5E052420CE4700E65DE3"
-               BuildableName = "libgpumon32.dylib"
-               BlueprintName = "gpumon32"
-               ReferencedContainer = "container:gpumon.xcodeproj">
+               BlueprintIdentifier = "EA5C5EB22442D62800E65DE3"
+               BuildableName = "Rezanator"
+               BlueprintName = "Rezanator"
+               ReferencedContainer = "container:Rezanator.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EA5C5DE22420CDD400E65DE3"
-            BuildableName = "gpucmd"
-            BlueprintName = "gpucmd"
-            ReferencedContainer = "container:../gpucmd/gpucmd.xcodeproj">
+            BlueprintIdentifier = "EA5C5EB22442D62800E65DE3"
+            BuildableName = "Rezanator"
+            BlueprintName = "Rezanator"
+            ReferencedContainer = "container:Rezanator.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -51,6 +51,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "EA5C5EB22442D62800E65DE3"
+            BuildableName = "Rezanator"
+            BlueprintName = "Rezanator"
+            ReferencedContainer = "container:Rezanator.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -60,15 +70,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EA5C5E052420CE4700E65DE3"
-            BuildableName = "libgpumon32.dylib"
-            BlueprintName = "gpumon32"
-            ReferencedContainer = "container:gpumon.xcodeproj">
+            BlueprintIdentifier = "EA5C5EB22442D62800E65DE3"
+            BuildableName = "Rezanator"
+            BlueprintName = "Rezanator"
+            ReferencedContainer = "container:Rezanator.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
