@@ -19,5 +19,6 @@ void CloseProcess( GMPROCESS* pProcess );
 void TerminateProcess( GMPROCESS* pProcess );
 bool Is32BitProcess( DWORD dwProcessID );
 bool ProcessIsActive( GMPROCESS* pProcess );
+bool EnumerateProcesses( GMPROCESS** ppProcesses, int* ProcessCount );
 
 #endif // __PROCESS_ENUMERATION_H__

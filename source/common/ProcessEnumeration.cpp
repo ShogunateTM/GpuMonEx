@@ -84,6 +84,13 @@ BOOL EnableDebugPrivileges()
  * macOS only
  */
 #ifdef __APPLE__
+/*
+ * Name: GetBSDProcessList
+ * Desc: Gets a list of all actively running process, including Carbon, Cocoa, and Classic.  Even includes
+ *       non-application (daemon) processes.
+ *
+ * SOURCE: https://developer.apple.com/library/archive/qa/qa2001/qa1123.html
+ */
 int GetBSDProcessList( kinfo_proc** proc_list, size_t* proc_count )
 {
     int err = 0;
@@ -108,9 +115,9 @@ int GetBSDProcessList( kinfo_proc** proc_list, size_t* proc_count )
         
         if( !err )
         {
-            result = malloc( length );
+            result = (kinfo_proc*) malloc( length );
             if( result == NULL )
-                err = E_NOMEM:
+                err = ENOMEM;
         }
         
         if( !err )
@@ -144,6 +151,41 @@ int GetBSDProcessList( kinfo_proc** proc_list, size_t* proc_count )
     assert( (err == 0) == (*proc_list != NULL) );
     
     return err;
+}
+
+/*
+ * This was a lazy copy-pasta from below...
+ * SOURCES: http://osxbook.com/book/bonus/chapter8/core/download/gcore.c
+ *          https://stackoverflow.com/questions/7983962/is-there-a-way-to-check-if-process-is-64-bit-or-32-bit/27929872#27929872
+ */
+static int
+B_get_process_info(pid_t pid, struct kinfo_proc *kp)
+{
+    size_t bufsize      = 0;
+    size_t orig_bufsize = 0;
+    int    retry_count  = 0;
+    int    local_error  = 0;
+    int    mib[4]       = { CTL_KERN, KERN_PROC, KERN_PROC_PID, 0 };
+    
+    mib[3] = pid;
+    orig_bufsize = bufsize = sizeof(struct kinfo_proc);
+    
+    for (retry_count = 0; ; retry_count++) {
+        local_error = 0;
+        bufsize = orig_bufsize;
+        if ((local_error = sysctl(mib, 4, kp, &bufsize, NULL, 0)) < 0) {
+            if (retry_count < 1000) {
+                sleep(1);
+                continue;
+            }
+            return local_error;
+        } else if (local_error == 0) {
+            break;
+        }
+        sleep(1);
+    }
+    
+    return local_error;
 }
 #endif
 
@@ -307,6 +349,19 @@ bool OpenProcessByID( DWORD dwProcessID, GMPROCESS* pProcess )
     pProcess->dwID = GetProcessId( pProcess->hProcess );
     pProcess->hThread = NULL;
 #endif
+    
+#ifdef __APPLE__
+    struct kinfo_proc kp;
+    
+    if( !B_get_process_info( dwProcessID, &kp ) )
+    {
+        pProcess->dwID = dwProcessID;
+        pProcess->hThread = nullptr;
+        pProcess->hProcess = nullptr; /* TODO: Stop being lazy... */
+    }
+    else
+        return false;
+#endif
 
     return true;
 }
@@ -347,6 +402,7 @@ void TerminateProcess( GMPROCESS* pProcess )
 #endif
 }
 
+
 /*
  * Name: Is32BitProcess
  * Desc: Returns true if this process is running in 32-bit mode.
@@ -369,6 +425,18 @@ bool Is32BitProcess( DWORD dwProcessID )
 
     return bIsWow == TRUE;
 #endif
+    
+#ifdef __APPLE__
+    /* TODO: This is not very efficient just to query one little flag.  Use the GMPROCESS structure instead. */
+    struct kinfo_proc kp;
+    
+    if( !B_get_process_info( dwProcessID, &kp ) )
+    {
+        /* If this flag is set, then this process is 64-bit */
+        if( kp.kp_proc.p_flag & P_LP64 )
+            return false;
+    }
+#endif
 
     return true;
 }
@@ -386,6 +454,48 @@ bool ProcessIsActive( GMPROCESS* pProcess )
     if( dwResult == WAIT_OBJECT_0 )
         return true;
 #endif
+    
+#ifdef __APPLE__
+    /* Call kill() with 0 as the signal so we can do error checking without actually killing the process */
+    if( !kill( pProcess->dwID, 0 ) )
+        return true;    /* Check errno for actual error */
+#endif
 
+    return false;
+}
+
+
+/*
+ * Name: EnumerateProcesses
+ * Desc: Returns a list of processes actively running on this machine.
+ */
+bool EnumerateProcesses( GMPROCESS** ppProcesses, int* ProcessCount )
+{
+    /* 
+     * macOS 
+     */
+#ifdef __APPLE__
+    struct kinfo_proc* plist = nullptr;
+    size_t count = 0;
+    
+    /* Remember to deallocate the list that was returned if this function succeeds */
+    if( !GetBSDProcessList( &plist, &count ) )
+    {
+        (*ppProcesses) = new GMPROCESS[count];
+        *ProcessCount = (int) count;
+        
+        for( int i = 0; i < count; i++ )
+        {
+            (*ppProcesses)[i].dwID = plist[i].kp_proc.p_pid;
+            (*ppProcesses)[i].hThread = nullptr;
+            (*ppProcesses)[i].hProcess = nullptr; /* I'll probably fill that in later... */
+        }
+        
+        free( plist );
+        return true;
+    }
+    
+#endif
+    
     return false;
 }

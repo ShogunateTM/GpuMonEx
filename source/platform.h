@@ -1,6 +1,23 @@
 #ifndef __PLATFORM_H__
 #define __PLATFORM_H__
 
+/* 
+ * CPU arch defines (only Intel x86/x64 are supported) 
+ */
+#ifdef _WIN32
+    #if defined(_M_X64) || defined(__amd64__)
+        #define X86_64
+    #else
+        #define X86_32
+    #endif
+#elif defined(__APPLE__)
+    #if defined(__i386__) /* Mojave and earlier */
+        #define X86_32
+    #else
+        #define X86_64
+    #endif
+#endif
+
 
 /*
  * Platform specific includes and definitions
