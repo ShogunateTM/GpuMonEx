@@ -14,6 +14,28 @@
 		EA5C5EA92441F0A000E65DE3 /* info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA5C5EA12441EF8800E65DE3 /* info.plist */; };
 		EA5C5EF4244C53A400E65DE3 /* ProcessEnumeration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5EF2244C53A300E65DE3 /* ProcessEnumeration.cpp */; };
 		EA5C5EF5244C924800E65DE3 /* ProcessEnumeration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5EF2244C53A300E65DE3 /* ProcessEnumeration.cpp */; };
+		EA5C5EFA244DDEC700E65DE3 /* mach_inject.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5EF8244DDEC600E65DE3 /* mach_inject.c */; };
+		EA5C5EFB244DDEC700E65DE3 /* mach_inject.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5EF8244DDEC600E65DE3 /* mach_inject.c */; };
+		EA5C5EFE244DDED800E65DE3 /* xnumem.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5EFC244DDED800E65DE3 /* xnumem.c */; };
+		EA5C5EFF244DDED800E65DE3 /* xnumem.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5EFC244DDED800E65DE3 /* xnumem.c */; };
+		EA5C5F32244E9A0200E65DE3 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5F31244E9A0200E65DE3 /* AGL.framework */; };
+		EA5C5F34244E9A0D00E65DE3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5F33244E9A0D00E65DE3 /* OpenGL.framework */; };
+		EA5C5F4524576DBF00E65DE3 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3724576DBF00E65DE3 /* decode.c */; };
+		EA5C5F4624576DC000E65DE3 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3724576DBF00E65DE3 /* decode.c */; };
+		EA5C5F4724576DC100E65DE3 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3A24576DBF00E65DE3 /* input.c */; };
+		EA5C5F4824576DC100E65DE3 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3A24576DBF00E65DE3 /* input.c */; };
+		EA5C5F4924576DC100E65DE3 /* itab.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3C24576DBF00E65DE3 /* itab.c */; };
+		EA5C5F4A24576DC100E65DE3 /* itab.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3C24576DBF00E65DE3 /* itab.c */; };
+		EA5C5F4B24576DC100E65DE3 /* syn-att.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3E24576DBF00E65DE3 /* syn-att.c */; };
+		EA5C5F4C24576DC100E65DE3 /* syn-att.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3E24576DBF00E65DE3 /* syn-att.c */; };
+		EA5C5F4D24576DC100E65DE3 /* syn-intel.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3F24576DBF00E65DE3 /* syn-intel.c */; };
+		EA5C5F4E24576DC100E65DE3 /* syn-intel.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F3F24576DBF00E65DE3 /* syn-intel.c */; };
+		EA5C5F4F24576DC100E65DE3 /* syn.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F4024576DBF00E65DE3 /* syn.c */; };
+		EA5C5F5024576DC100E65DE3 /* syn.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F4024576DBF00E65DE3 /* syn.c */; };
+		EA5C5F5124576DC100E65DE3 /* udis86.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F4424576DBF00E65DE3 /* udis86.c */; };
+		EA5C5F5224576DC100E65DE3 /* udis86.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F4424576DBF00E65DE3 /* udis86.c */; };
+		EA5C5F5624576DD600E65DE3 /* mach_override.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F5324576DD600E65DE3 /* mach_override.c */; };
+		EA5C5F5724576DD600E65DE3 /* mach_override.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F5324576DD600E65DE3 /* mach_override.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +46,30 @@
 		EA5C5EA62441F08100E65DE3 /* info32.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = info32.plist; path = gpumonproc/info32.plist; sourceTree = "<group>"; };
 		EA5C5EF2244C53A300E65DE3 /* ProcessEnumeration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ProcessEnumeration.cpp; path = ../../../source/common/ProcessEnumeration.cpp; sourceTree = "<group>"; };
 		EA5C5EF3244C53A300E65DE3 /* ProcessEnumeration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProcessEnumeration.h; path = ../../../source/common/ProcessEnumeration.h; sourceTree = "<group>"; };
+		EA5C5EF8244DDEC600E65DE3 /* mach_inject.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mach_inject.c; path = ../../../3rdParty/macOS/mach_inject/mach_inject.c; sourceTree = "<group>"; };
+		EA5C5EF9244DDEC600E65DE3 /* mach_inject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mach_inject.h; path = ../../../3rdParty/macOS/mach_inject/mach_inject.h; sourceTree = "<group>"; };
+		EA5C5EFC244DDED800E65DE3 /* xnumem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = xnumem.c; path = ../../../3rdParty/macOS/xnumem/xnumem.c; sourceTree = "<group>"; };
+		EA5C5EFD244DDED800E65DE3 /* xnumem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xnumem.h; path = ../../../3rdParty/macOS/xnumem/xnumem.h; sourceTree = "<group>"; };
+		EA5C5F31244E9A0200E65DE3 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = System/Library/Frameworks/AGL.framework; sourceTree = SDKROOT; };
+		EA5C5F33244E9A0D00E65DE3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		EA5C5F3724576DBF00E65DE3 /* decode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = decode.c; path = ../../../3rdParty/macOS/mach_override/libudis86/decode.c; sourceTree = "<group>"; };
+		EA5C5F3824576DBF00E65DE3 /* decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = decode.h; path = ../../../3rdParty/macOS/mach_override/libudis86/decode.h; sourceTree = "<group>"; };
+		EA5C5F3924576DBF00E65DE3 /* extern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = extern.h; path = ../../../3rdParty/macOS/mach_override/libudis86/extern.h; sourceTree = "<group>"; };
+		EA5C5F3A24576DBF00E65DE3 /* input.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = input.c; path = ../../../3rdParty/macOS/mach_override/libudis86/input.c; sourceTree = "<group>"; };
+		EA5C5F3B24576DBF00E65DE3 /* input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = input.h; path = ../../../3rdParty/macOS/mach_override/libudis86/input.h; sourceTree = "<group>"; };
+		EA5C5F3C24576DBF00E65DE3 /* itab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = itab.c; path = ../../../3rdParty/macOS/mach_override/libudis86/itab.c; sourceTree = "<group>"; };
+		EA5C5F3D24576DBF00E65DE3 /* itab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = itab.h; path = ../../../3rdParty/macOS/mach_override/libudis86/itab.h; sourceTree = "<group>"; };
+		EA5C5F3E24576DBF00E65DE3 /* syn-att.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "syn-att.c"; path = "../../../3rdParty/macOS/mach_override/libudis86/syn-att.c"; sourceTree = "<group>"; };
+		EA5C5F3F24576DBF00E65DE3 /* syn-intel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "syn-intel.c"; path = "../../../3rdParty/macOS/mach_override/libudis86/syn-intel.c"; sourceTree = "<group>"; };
+		EA5C5F4024576DBF00E65DE3 /* syn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = syn.c; path = ../../../3rdParty/macOS/mach_override/libudis86/syn.c; sourceTree = "<group>"; };
+		EA5C5F4124576DBF00E65DE3 /* syn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = syn.h; path = ../../../3rdParty/macOS/mach_override/libudis86/syn.h; sourceTree = "<group>"; };
+		EA5C5F4224576DBF00E65DE3 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = types.h; path = ../../../3rdParty/macOS/mach_override/libudis86/types.h; sourceTree = "<group>"; };
+		EA5C5F4324576DBF00E65DE3 /* udint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = udint.h; path = ../../../3rdParty/macOS/mach_override/libudis86/udint.h; sourceTree = "<group>"; };
+		EA5C5F4424576DBF00E65DE3 /* udis86.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = udis86.c; path = ../../../3rdParty/macOS/mach_override/libudis86/udis86.c; sourceTree = "<group>"; };
+		EA5C5F5324576DD600E65DE3 /* mach_override.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mach_override.c; path = ../../../3rdParty/macOS/mach_override/mach_override.c; sourceTree = "<group>"; };
+		EA5C5F5424576DD600E65DE3 /* mach_override.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mach_override.h; path = ../../../3rdParty/macOS/mach_override/mach_override.h; sourceTree = "<group>"; };
+		EA5C5F5524576DD600E65DE3 /* udis86.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = udis86.h; path = ../../../3rdParty/macOS/mach_override/udis86.h; sourceTree = "<group>"; };
+		EA5C5F582459117000E65DE3 /* timer_t.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = timer_t.h; path = ../../../source/common/timer_t.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5F34244E9A0D00E65DE3 /* OpenGL.framework in Frameworks */,
+				EA5C5F32244E9A0200E65DE3 /* AGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,12 +95,17 @@
 		EA5C5E2A2420CF5B00E65DE3 = {
 			isa = PBXGroup;
 			children = (
+				EA5C5F582459117000E65DE3 /* timer_t.h */,
+				EA5C5F3524576D6700E65DE3 /* mach_override */,
+				EA5C5EF7244DDD4800E65DE3 /* mach_inject */,
+				EA5C5EF6244DDD3D00E65DE3 /* xnumem */,
 				EA5C5EF2244C53A300E65DE3 /* ProcessEnumeration.cpp */,
 				EA5C5EF3244C53A300E65DE3 /* ProcessEnumeration.h */,
 				EA5C5EA62441F08100E65DE3 /* info32.plist */,
 				EA5C5EA12441EF8800E65DE3 /* info.plist */,
 				EA5C5E472420D03B00E65DE3 /* gpumonproc.cpp */,
 				EA5C5E342420CF5B00E65DE3 /* Products */,
+				EA5C5F30244E9A0100E65DE3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,6 +116,65 @@
 				EA5C5E8C2441E1B700E65DE3 /* gpumonproc32.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		EA5C5EF6244DDD3D00E65DE3 /* xnumem */ = {
+			isa = PBXGroup;
+			children = (
+				EA5C5EFC244DDED800E65DE3 /* xnumem.c */,
+				EA5C5EFD244DDED800E65DE3 /* xnumem.h */,
+			);
+			name = xnumem;
+			sourceTree = "<group>";
+		};
+		EA5C5EF7244DDD4800E65DE3 /* mach_inject */ = {
+			isa = PBXGroup;
+			children = (
+				EA5C5EF8244DDEC600E65DE3 /* mach_inject.c */,
+				EA5C5EF9244DDEC600E65DE3 /* mach_inject.h */,
+			);
+			name = mach_inject;
+			sourceTree = "<group>";
+		};
+		EA5C5F30244E9A0100E65DE3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA5C5F33244E9A0D00E65DE3 /* OpenGL.framework */,
+				EA5C5F31244E9A0200E65DE3 /* AGL.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA5C5F3524576D6700E65DE3 /* mach_override */ = {
+			isa = PBXGroup;
+			children = (
+				EA5C5F5324576DD600E65DE3 /* mach_override.c */,
+				EA5C5F5424576DD600E65DE3 /* mach_override.h */,
+				EA5C5F5524576DD600E65DE3 /* udis86.h */,
+				EA5C5F3624576D9000E65DE3 /* libudist86 */,
+			);
+			name = mach_override;
+			sourceTree = "<group>";
+		};
+		EA5C5F3624576D9000E65DE3 /* libudist86 */ = {
+			isa = PBXGroup;
+			children = (
+				EA5C5F3724576DBF00E65DE3 /* decode.c */,
+				EA5C5F3824576DBF00E65DE3 /* decode.h */,
+				EA5C5F3924576DBF00E65DE3 /* extern.h */,
+				EA5C5F3A24576DBF00E65DE3 /* input.c */,
+				EA5C5F3B24576DBF00E65DE3 /* input.h */,
+				EA5C5F3C24576DBF00E65DE3 /* itab.c */,
+				EA5C5F3D24576DBF00E65DE3 /* itab.h */,
+				EA5C5F3E24576DBF00E65DE3 /* syn-att.c */,
+				EA5C5F3F24576DBF00E65DE3 /* syn-intel.c */,
+				EA5C5F4024576DBF00E65DE3 /* syn.c */,
+				EA5C5F4124576DBF00E65DE3 /* syn.h */,
+				EA5C5F4224576DBF00E65DE3 /* types.h */,
+				EA5C5F4324576DBF00E65DE3 /* udint.h */,
+				EA5C5F4424576DBF00E65DE3 /* udis86.c */,
+			);
+			name = libudist86;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,8 +273,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5F5624576DD600E65DE3 /* mach_override.c in Sources */,
+				EA5C5F4724576DC100E65DE3 /* input.c in Sources */,
+				EA5C5F5124576DC100E65DE3 /* udis86.c in Sources */,
+				EA5C5F4D24576DC100E65DE3 /* syn-intel.c in Sources */,
+				EA5C5F4F24576DC100E65DE3 /* syn.c in Sources */,
+				EA5C5EFA244DDEC700E65DE3 /* mach_inject.c in Sources */,
+				EA5C5F4B24576DC100E65DE3 /* syn-att.c in Sources */,
 				EA5C5E482420D03B00E65DE3 /* gpumonproc.cpp in Sources */,
 				EA5C5EF4244C53A400E65DE3 /* ProcessEnumeration.cpp in Sources */,
+				EA5C5F4524576DBF00E65DE3 /* decode.c in Sources */,
+				EA5C5EFE244DDED800E65DE3 /* xnumem.c in Sources */,
+				EA5C5F4924576DC100E65DE3 /* itab.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,8 +292,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5F5724576DD600E65DE3 /* mach_override.c in Sources */,
+				EA5C5F4824576DC100E65DE3 /* input.c in Sources */,
+				EA5C5F5224576DC100E65DE3 /* udis86.c in Sources */,
+				EA5C5F4E24576DC100E65DE3 /* syn-intel.c in Sources */,
+				EA5C5F5024576DC100E65DE3 /* syn.c in Sources */,
+				EA5C5EFB244DDEC700E65DE3 /* mach_inject.c in Sources */,
+				EA5C5F4C24576DC100E65DE3 /* syn-att.c in Sources */,
 				EA5C5EF5244C924800E65DE3 /* ProcessEnumeration.cpp in Sources */,
 				EA5C5E862441E1B700E65DE3 /* gpumonproc.cpp in Sources */,
+				EA5C5F4624576DC000E65DE3 /* decode.c in Sources */,
+				EA5C5EFF244DDED800E65DE3 /* xnumem.c in Sources */,
+				EA5C5F4A24576DC100E65DE3 /* itab.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +402,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../3rdParty/macOS/mach_inject,
+					../../../3rdParty/common/nvidia,
+					../../../3rdParty/macOS/xnumem,
+					../../../3rdParty/macOS/mach_override,
+				);
 				INFOPLIST_FILE = gpumonproc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;
@@ -283,6 +421,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../3rdParty/macOS/mach_inject,
+					../../../3rdParty/common/nvidia,
+					../../../3rdParty/macOS/xnumem,
+					../../../3rdParty/macOS/mach_override,
+				);
 				INFOPLIST_FILE = gpumonproc/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;
@@ -297,6 +441,12 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../3rdParty/macOS/mach_inject,
+					../../../3rdParty/common/nvidia,
+					../../../3rdParty/macOS/xnumem,
+					../../../3rdParty/macOS/mach_override,
+				);
 				INFOPLIST_FILE = gpumonproc/info32.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;
@@ -311,6 +461,12 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = (
+					../../../3rdParty/macOS/mach_inject,
+					../../../3rdParty/common/nvidia,
+					../../../3rdParty/macOS/xnumem,
+					../../../3rdParty/macOS/mach_override,
+				);
 				INFOPLIST_FILE = gpumonproc/info32.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.shogunate.macos.gpumonproc;

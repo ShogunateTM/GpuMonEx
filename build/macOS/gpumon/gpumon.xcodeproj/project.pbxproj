@@ -19,6 +19,22 @@
 		EA5C5ED82445F0D700E65DE3 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5E77243364E300E65DE3 /* IOKit.framework */; };
 		EA5C5EDA2445F0D700E65DE3 /* Drv_IOKit.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5E4C2420D28700E65DE3 /* Drv_IOKit.h */; };
 		EA5C5EDB2445F0D700E65DE3 /* DriverEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5E4A2420D28700E65DE3 /* DriverEnum.h */; };
+		EA5C5F01244E007300E65DE3 /* Hook_OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F00244E007200E65DE3 /* Hook_OpenGL.cpp */; };
+		EA5C5F02244E007300E65DE3 /* Hook_OpenGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F00244E007200E65DE3 /* Hook_OpenGL.cpp */; };
+		EA5C5F05244E014400E65DE3 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5F04244E014400E65DE3 /* AGL.framework */; };
+		EA5C5F07244E015100E65DE3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5F06244E015100E65DE3 /* OpenGL.framework */; };
+		EA5C5F08244E015900E65DE3 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5F04244E014400E65DE3 /* AGL.framework */; };
+		EA5C5F09244E016400E65DE3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5F06244E015100E65DE3 /* OpenGL.framework */; };
+		EA5C5F0F244E114500E65DE3 /* Hook_Metal.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F0E244E114500E65DE3 /* Hook_Metal.m */; };
+		EA5C5F10244E114500E65DE3 /* Hook_Metal.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F0E244E114500E65DE3 /* Hook_Metal.m */; };
+		EA5C5F5A245913E100E65DE3 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5F59245913E100E65DE3 /* Metal.framework */; };
+		EA5C5F5B245913F200E65DE3 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5C5F59245913E100E65DE3 /* Metal.framework */; };
+		EA5C5F5D2459786800E65DE3 /* APIHook.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5F5C2459786700E65DE3 /* APIHook.h */; };
+		EA5C5F5E2459786800E65DE3 /* APIHook.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5F5C2459786700E65DE3 /* APIHook.h */; };
+		EA5C5F6024597B1E00E65DE3 /* APIHook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F5F24597B1E00E65DE3 /* APIHook.cpp */; };
+		EA5C5F6124597B1E00E65DE3 /* APIHook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F5F24597B1E00E65DE3 /* APIHook.cpp */; };
+		EA5C5F622459FA1600E65DE3 /* Hook_OpenGL.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5F03244E00A200E65DE3 /* Hook_OpenGL.h */; };
+		EA5C5F632459FA1700E65DE3 /* Hook_OpenGL.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5F03244E00A200E65DE3 /* Hook_OpenGL.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +46,15 @@
 		EA5C5E77243364E300E65DE3 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		EA5C5E79243364F000E65DE3 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		EA5C5EDF2445F0D700E65DE3 /* libgpumon64.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libgpumon64.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5C5F00244E007200E65DE3 /* Hook_OpenGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Hook_OpenGL.cpp; path = ../../../source/gpumon/Hook_OpenGL.cpp; sourceTree = "<group>"; };
+		EA5C5F03244E00A200E65DE3 /* Hook_OpenGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Hook_OpenGL.h; path = ../../../source/gpumon/Hook_OpenGL.h; sourceTree = "<group>"; };
+		EA5C5F04244E014400E65DE3 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = System/Library/Frameworks/AGL.framework; sourceTree = SDKROOT; };
+		EA5C5F06244E015100E65DE3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		EA5C5F0A244E10E700E65DE3 /* Hook_Metal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Hook_Metal.h; path = ../../../source/gpumon/Hook_Metal.h; sourceTree = "<group>"; };
+		EA5C5F0E244E114500E65DE3 /* Hook_Metal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hook_Metal.m; path = ../../../source/gpumon/Hook_Metal.m; sourceTree = "<group>"; };
+		EA5C5F59245913E100E65DE3 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		EA5C5F5C2459786700E65DE3 /* APIHook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIHook.h; path = ../../../source/gpumon/APIHook.h; sourceTree = "<group>"; };
+		EA5C5F5F24597B1E00E65DE3 /* APIHook.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = APIHook.cpp; path = ../../../source/gpumon/APIHook.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +62,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5F5A245913E100E65DE3 /* Metal.framework in Frameworks */,
+				EA5C5F09244E016400E65DE3 /* OpenGL.framework in Frameworks */,
+				EA5C5F08244E015900E65DE3 /* AGL.framework in Frameworks */,
 				EA5C5E7A243364F000E65DE3 /* CoreFoundation.framework in Frameworks */,
 				EA5C5E78243364E300E65DE3 /* IOKit.framework in Frameworks */,
 			);
@@ -46,6 +74,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5F5B245913F200E65DE3 /* Metal.framework in Frameworks */,
+				EA5C5F07244E015100E65DE3 /* OpenGL.framework in Frameworks */,
+				EA5C5F05244E014400E65DE3 /* AGL.framework in Frameworks */,
 				EA5C5ED72445F0D700E65DE3 /* CoreFoundation.framework in Frameworks */,
 				EA5C5ED82445F0D700E65DE3 /* IOKit.framework in Frameworks */,
 			);
@@ -57,6 +88,12 @@
 		EA5C5DFD2420CE4700E65DE3 = {
 			isa = PBXGroup;
 			children = (
+				EA5C5F5F24597B1E00E65DE3 /* APIHook.cpp */,
+				EA5C5F5C2459786700E65DE3 /* APIHook.h */,
+				EA5C5F0E244E114500E65DE3 /* Hook_Metal.m */,
+				EA5C5F0A244E10E700E65DE3 /* Hook_Metal.h */,
+				EA5C5F03244E00A200E65DE3 /* Hook_OpenGL.h */,
+				EA5C5F00244E007200E65DE3 /* Hook_OpenGL.cpp */,
 				EA5C5E492420D28700E65DE3 /* DriverEnum.cpp */,
 				EA5C5E4A2420D28700E65DE3 /* DriverEnum.h */,
 				EA5C5E4B2420D28700E65DE3 /* Drv_IOKit.cpp */,
@@ -78,6 +115,9 @@
 		EA5C5E76243364E300E65DE3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EA5C5F59245913E100E65DE3 /* Metal.framework */,
+				EA5C5F06244E015100E65DE3 /* OpenGL.framework */,
+				EA5C5F04244E014400E65DE3 /* AGL.framework */,
 				EA5C5E79243364F000E65DE3 /* CoreFoundation.framework */,
 				EA5C5E77243364E300E65DE3 /* IOKit.framework */,
 			);
@@ -91,7 +131,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5F632459FA1700E65DE3 /* Hook_OpenGL.h in Headers */,
 				EA5C5E502420D28700E65DE3 /* Drv_IOKit.h in Headers */,
+				EA5C5F5D2459786800E65DE3 /* APIHook.h in Headers */,
 				EA5C5E4E2420D28700E65DE3 /* DriverEnum.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,7 +142,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5F622459FA1600E65DE3 /* Hook_OpenGL.h in Headers */,
 				EA5C5EDA2445F0D700E65DE3 /* Drv_IOKit.h in Headers */,
+				EA5C5F5E2459786800E65DE3 /* APIHook.h in Headers */,
 				EA5C5EDB2445F0D700E65DE3 /* DriverEnum.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,7 +224,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5F6024597B1E00E65DE3 /* APIHook.cpp in Sources */,
+				EA5C5F01244E007300E65DE3 /* Hook_OpenGL.cpp in Sources */,
 				EA5C5E4D2420D28700E65DE3 /* DriverEnum.cpp in Sources */,
+				EA5C5F0F244E114500E65DE3 /* Hook_Metal.m in Sources */,
 				EA5C5E4F2420D28700E65DE3 /* Drv_IOKit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -189,7 +236,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5F6124597B1E00E65DE3 /* APIHook.cpp in Sources */,
+				EA5C5F02244E007300E65DE3 /* Hook_OpenGL.cpp in Sources */,
 				EA5C5ED42445F0D700E65DE3 /* DriverEnum.cpp in Sources */,
+				EA5C5F10244E114500E65DE3 /* Hook_Metal.m in Sources */,
 				EA5C5ED52445F0D700E65DE3 /* Drv_IOKit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,7 +346,12 @@
 					"$(inherited)",
 					DYLIB_EXPORT,
 				);
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					../../../3rdParty/macOS/mach_inject,
+					../../../3rdParty/common/nvidia,
+					../../../3rdParty/macOS/xnumem,
+					../../../3rdParty/macOS/mach_override,
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -312,7 +367,12 @@
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = DYLIB_EXPORT;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					../../../3rdParty/macOS/mach_inject,
+					../../../3rdParty/common/nvidia,
+					../../../3rdParty/macOS/xnumem,
+					../../../3rdParty/macOS/mach_override,
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -332,7 +392,12 @@
 					"$(inherited)",
 					DYLIB_EXPORT,
 				);
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					../../../3rdParty/macOS/mach_inject,
+					../../../3rdParty/common/nvidia,
+					../../../3rdParty/macOS/xnumem,
+					../../../3rdParty/macOS/mach_override,
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -348,7 +413,12 @@
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = DYLIB_EXPORT;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					../../../3rdParty/macOS/mach_inject,
+					../../../3rdParty/common/nvidia,
+					../../../3rdParty/macOS/xnumem,
+					../../../3rdParty/macOS/mach_override,
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";

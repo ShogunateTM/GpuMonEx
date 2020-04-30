@@ -1,7 +1,17 @@
 #include "../platform.h"
+#include "../drvdefs.h"
+#include "../common/timer_t.h"
 #include "../common/ProcessEnumeration.h"
 #include <unordered_map>
+#include <sstream>
 
+#ifdef __APPLE__
+//extern "C" {
+#include <mach_override.h>
+#include <mach_inject.h>
+#include <xnumem.h>
+//}
+#endif
 
 /* Determine the right CPU arch before doing anything */
 #if defined(X86_64)
@@ -11,9 +21,90 @@
 #endif
 
 
+
+
+/* Process map (pid == key) */
 std::unordered_map<DWORD, GMPROCESS> process_map;
 
+/* Dynamic library handle */
+void* dlh = nullptr;
 
+/* Mach injection thread (macOS) */
+void* mac_hook_thread_entry = nullptr;
+
+
+
+/*
+ * Name: GetLastErrorAsString
+ * Desc: Returns the last error, in string format. Returns an empty string if there is no error.
+ */
+std::string GetLastErrorAsString()
+{
+#if defined(_WIN32)
+    //Get the error message, if any.
+    DWORD errorMessageID = ::GetLastError();
+    if(errorMessageID == 0)
+        return std::string(); //No error message has been recorded
+    
+    LPSTR messageBuffer = nullptr;
+    size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                                 NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
+    
+    std::string msg(messageBuffer, size);
+    std::stringstream ss;
+    
+    ss << "\nGetLastError(0x" << errorMessageID << "): " << msg << std::endl;
+    
+    std::string message = ss.str();
+    
+    //Free the buffer.
+    LocalFree(messageBuffer);
+#else	// macOS and Linux
+    //std::string message( strerror( errno ) );
+    std::stringstream ss;
+    int e = errno;
+    
+    ss << "\nerrno(" << e << "): " << strerror( e ) << std::endl;
+    
+    std::string message = ss.str();
+    
+    char* dlerr = dlerror();
+    if( dlerr )
+    {
+        message.append( "\ndlerror(): " );
+        message.append( dlerr );
+        message.append( "\n" );
+    }
+#endif
+    
+    return message;
+}
+
+
+/*
+ * Name: at_exit
+ * Desc: Called by atexit() when the program exits, do uninitialization here.
+ */
+void at_exit()
+{
+    if( dlh )
+        FreeLibrary( dlh );
+}
+
+
+bool perform_hooks( DWORD pid )
+{
+    if( pid == 0 )
+        return false;
+    
+#ifdef __APPLE__
+    mach_error_t err = mach_inject( (mach_inject_entry) mac_hook_thread_entry, NULL, 0, (pid_t) pid, 0 );
+    if( err != err_none )
+        return false;
+#endif
+    
+    return true;
+}
 
 
 /*
@@ -34,8 +125,31 @@ std::unordered_map<DWORD, GMPROCESS> process_map;
  */
 int main( int argc, char** argv )
 {
-    DWORD parent_pid = 0;
+    DWORD parent_pid = getppid();
+    DWORD this_pid = getpid();
     int error_code = 0;
+    timer_t timer;
+    
+    /* Functions called at exit */
+    atexit( at_exit );
+    
+    /* Load our dynamic link library */
+    dlh = LoadLibraryA( GPUMON_DLL );
+    if( !dlh )
+    {
+        std::cerr << "Error loading " << GPUMON_DLL << "!\nError: " << GetLastErrorAsString();
+        return -1;
+    }
+    
+#ifdef __APPLE__
+    /* Get mach_inject thread function pointer */
+    mac_hook_thread_entry = GetProcAddress( dlh, "mac_hook_thread_entry" );
+    if( !mac_hook_thread_entry )
+    {
+        std::cerr << "Could not locate mac_hook_thread_entry!\nError: " << GetLastErrorAsString();
+        return -1;
+    }
+#endif
     
     /* TODO: via program parameters, get the parent process ID (of the GpuMonEx GUI program) and remain
        open until this process is closed */
@@ -44,6 +158,8 @@ int main( int argc, char** argv )
     {
         GMPROCESS* processes = nullptr;
         int process_count = 0;
+        
+        timer.start();
         
         /* Attempt to get a list of currently active processes */
         if( EnumerateProcesses( &processes, &process_count ) )
@@ -58,15 +174,18 @@ int main( int argc, char** argv )
                     /* Do we already have this process in the list? */
                     auto p = process_map[pid];
                     
-                    if( p.dwID == 0 )
+                    if( p.dwID == 0 && pid != this_pid && pid != parent_pid )
                     {
                         /* TODO: Detect any APIs that may be utilizing the GPU.  If any of them are found in this process, then
                          add it to the list. */
                         
-                        p.dwID = processes[i].dwID;
-                        p.hThread = processes[i].hThread;
-                        p.hProcess = processes[i].hProcess;
-                        process_map[pid] = p;
+                        if( perform_hooks( pid ) )
+                        {
+                            p.dwID = processes[i].dwID;
+                            p.hThread = processes[i].hThread;
+                            p.hProcess = processes[i].hProcess;
+                            process_map[pid] = p;
+                        }
                     }
                 }
             }
@@ -85,6 +204,9 @@ int main( int argc, char** argv )
             }
         }
         
+        timer.stop();
+        
+        std::cout << "Elapsed time: " << timer.elapsed() << " ms\n";
         std::cout << "Process count: " << process_map.size() << std::endl;
         
         /* TODO: Deltas based on execution time? */

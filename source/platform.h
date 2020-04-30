@@ -74,6 +74,10 @@
 #include <stdbool.h>
 #include <sys/sysctl.h>
 
+#include <mach/mach.h>
+#include <mach/mach_time.h>
+#include <unistd.h>
+
 typedef struct kinfo_proc kinfo_proc;
 
 #define DWORD   unsigned long
