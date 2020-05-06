@@ -30,7 +30,8 @@ std::unordered_map<DWORD, GMPROCESS> process_map;
 void* dlh = nullptr;
 
 /* Mach injection thread (macOS) */
-void* mac_hook_thread_entry = nullptr;
+extern "C" void* mac_hook_thread_entry = nullptr;
+
 
 
 
@@ -107,6 +108,8 @@ bool perform_hooks( DWORD pid )
 }
 
 
+
+
 /*
  * Name: main
  * Desc: Program entry point.  Where it all begins.
@@ -173,6 +176,9 @@ int main( int argc, char** argv )
                 {
                     /* Do we already have this process in the list? */
                     auto p = process_map[pid];
+                    
+                    //if( pid != 94259 )
+                    //    continue;
                     
                     if( p.dwID == 0 && pid != this_pid && pid != parent_pid )
                     {

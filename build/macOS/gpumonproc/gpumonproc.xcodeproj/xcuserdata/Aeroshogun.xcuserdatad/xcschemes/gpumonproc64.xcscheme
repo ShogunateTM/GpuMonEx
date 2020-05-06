@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EA5C5E322420CF5B00E65DE3"
-               BuildableName = "gpumonproc.app"
-               BlueprintName = "gpumonproc"
+               BuildableName = "gpumonproc6464.app"
+               BlueprintName = "gpumonproc64"
                ReferencedContainer = "container:gpumonproc.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EA5C5E322420CF5B00E65DE3"
-            BuildableName = "gpumonproc.app"
-            BlueprintName = "gpumonproc"
+            BuildableName = "gpumonproc6464.app"
+            BlueprintName = "gpumonproc64"
             ReferencedContainer = "container:gpumonproc.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -45,6 +45,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      debugAsWhichUser = "root"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -56,8 +57,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EA5C5E322420CF5B00E65DE3"
-            BuildableName = "gpumonproc.app"
-            BlueprintName = "gpumonproc"
+            BuildableName = "gpumonproc6464.app"
+            BlueprintName = "gpumonproc64"
             ReferencedContainer = "container:gpumonproc.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,8 +76,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EA5C5E322420CF5B00E65DE3"
-            BuildableName = "gpumonproc.app"
-            BlueprintName = "gpumonproc"
+            BuildableName = "gpumonproc6464.app"
+            BlueprintName = "gpumonproc64"
             ReferencedContainer = "container:gpumonproc.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

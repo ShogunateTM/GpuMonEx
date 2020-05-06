@@ -35,6 +35,38 @@
 		EA5C5F6124597B1E00E65DE3 /* APIHook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5F5F24597B1E00E65DE3 /* APIHook.cpp */; };
 		EA5C5F622459FA1600E65DE3 /* Hook_OpenGL.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5F03244E00A200E65DE3 /* Hook_OpenGL.h */; };
 		EA5C5F632459FA1700E65DE3 /* Hook_OpenGL.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5F03244E00A200E65DE3 /* Hook_OpenGL.h */; };
+		EA5C5FAA24600DEE00E65DE3 /* mach_override.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FA824600DED00E65DE3 /* mach_override.c */; };
+		EA5C5FAB24600DF000E65DE3 /* mach_override.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FA824600DED00E65DE3 /* mach_override.c */; };
+		EA5C5FAC24600DF000E65DE3 /* mach_override.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FA924600DED00E65DE3 /* mach_override.h */; };
+		EA5C5FAD24600DF000E65DE3 /* mach_override.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FA924600DED00E65DE3 /* mach_override.h */; };
+		EA5C5FBD24600E3F00E65DE3 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FAF24600E3F00E65DE3 /* decode.c */; };
+		EA5C5FBE24600E3F00E65DE3 /* decode.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FAF24600E3F00E65DE3 /* decode.c */; };
+		EA5C5FBF24600E3F00E65DE3 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB024600E3F00E65DE3 /* decode.h */; };
+		EA5C5FC024600E3F00E65DE3 /* decode.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB024600E3F00E65DE3 /* decode.h */; };
+		EA5C5FC124600E3F00E65DE3 /* extern.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB124600E3F00E65DE3 /* extern.h */; };
+		EA5C5FC224600E3F00E65DE3 /* extern.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB124600E3F00E65DE3 /* extern.h */; };
+		EA5C5FC324600E3F00E65DE3 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB224600E3F00E65DE3 /* input.c */; };
+		EA5C5FC424600E3F00E65DE3 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB224600E3F00E65DE3 /* input.c */; };
+		EA5C5FC524600E3F00E65DE3 /* input.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB324600E3F00E65DE3 /* input.h */; };
+		EA5C5FC624600E3F00E65DE3 /* input.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB324600E3F00E65DE3 /* input.h */; };
+		EA5C5FC724600E3F00E65DE3 /* itab.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB424600E3F00E65DE3 /* itab.c */; };
+		EA5C5FC824600E3F00E65DE3 /* itab.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB424600E3F00E65DE3 /* itab.c */; };
+		EA5C5FC924600E3F00E65DE3 /* itab.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB524600E3F00E65DE3 /* itab.h */; };
+		EA5C5FCA24600E3F00E65DE3 /* itab.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB524600E3F00E65DE3 /* itab.h */; };
+		EA5C5FCB24600E3F00E65DE3 /* syn-att.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB624600E3F00E65DE3 /* syn-att.c */; };
+		EA5C5FCC24600E3F00E65DE3 /* syn-att.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB624600E3F00E65DE3 /* syn-att.c */; };
+		EA5C5FCD24600E3F00E65DE3 /* syn-intel.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB724600E3F00E65DE3 /* syn-intel.c */; };
+		EA5C5FCE24600E3F00E65DE3 /* syn-intel.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB724600E3F00E65DE3 /* syn-intel.c */; };
+		EA5C5FCF24600E3F00E65DE3 /* syn.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB824600E3F00E65DE3 /* syn.c */; };
+		EA5C5FD024600E3F00E65DE3 /* syn.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FB824600E3F00E65DE3 /* syn.c */; };
+		EA5C5FD124600E3F00E65DE3 /* syn.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB924600E3F00E65DE3 /* syn.h */; };
+		EA5C5FD224600E3F00E65DE3 /* syn.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FB924600E3F00E65DE3 /* syn.h */; };
+		EA5C5FD324600E3F00E65DE3 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FBA24600E3F00E65DE3 /* types.h */; };
+		EA5C5FD424600E3F00E65DE3 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FBA24600E3F00E65DE3 /* types.h */; };
+		EA5C5FD524600E3F00E65DE3 /* udint.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FBB24600E3F00E65DE3 /* udint.h */; };
+		EA5C5FD624600E3F00E65DE3 /* udint.h in Headers */ = {isa = PBXBuildFile; fileRef = EA5C5FBB24600E3F00E65DE3 /* udint.h */; };
+		EA5C5FD724600E3F00E65DE3 /* udis86.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FBC24600E3F00E65DE3 /* udis86.c */; };
+		EA5C5FD824600E3F00E65DE3 /* udis86.c in Sources */ = {isa = PBXBuildFile; fileRef = EA5C5FBC24600E3F00E65DE3 /* udis86.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +87,22 @@
 		EA5C5F59245913E100E65DE3 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		EA5C5F5C2459786700E65DE3 /* APIHook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = APIHook.h; path = ../../../source/gpumon/APIHook.h; sourceTree = "<group>"; };
 		EA5C5F5F24597B1E00E65DE3 /* APIHook.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = APIHook.cpp; path = ../../../source/gpumon/APIHook.cpp; sourceTree = "<group>"; };
+		EA5C5FA824600DED00E65DE3 /* mach_override.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mach_override.c; path = ../../../3rdParty/macOS/mach_override/mach_override.c; sourceTree = "<group>"; };
+		EA5C5FA924600DED00E65DE3 /* mach_override.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mach_override.h; path = ../../../3rdParty/macOS/mach_override/mach_override.h; sourceTree = "<group>"; };
+		EA5C5FAF24600E3F00E65DE3 /* decode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = decode.c; path = ../../../3rdParty/macOS/mach_override/libudis86/decode.c; sourceTree = "<group>"; };
+		EA5C5FB024600E3F00E65DE3 /* decode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = decode.h; path = ../../../3rdParty/macOS/mach_override/libudis86/decode.h; sourceTree = "<group>"; };
+		EA5C5FB124600E3F00E65DE3 /* extern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = extern.h; path = ../../../3rdParty/macOS/mach_override/libudis86/extern.h; sourceTree = "<group>"; };
+		EA5C5FB224600E3F00E65DE3 /* input.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = input.c; path = ../../../3rdParty/macOS/mach_override/libudis86/input.c; sourceTree = "<group>"; };
+		EA5C5FB324600E3F00E65DE3 /* input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = input.h; path = ../../../3rdParty/macOS/mach_override/libudis86/input.h; sourceTree = "<group>"; };
+		EA5C5FB424600E3F00E65DE3 /* itab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = itab.c; path = ../../../3rdParty/macOS/mach_override/libudis86/itab.c; sourceTree = "<group>"; };
+		EA5C5FB524600E3F00E65DE3 /* itab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = itab.h; path = ../../../3rdParty/macOS/mach_override/libudis86/itab.h; sourceTree = "<group>"; };
+		EA5C5FB624600E3F00E65DE3 /* syn-att.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "syn-att.c"; path = "../../../3rdParty/macOS/mach_override/libudis86/syn-att.c"; sourceTree = "<group>"; };
+		EA5C5FB724600E3F00E65DE3 /* syn-intel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "syn-intel.c"; path = "../../../3rdParty/macOS/mach_override/libudis86/syn-intel.c"; sourceTree = "<group>"; };
+		EA5C5FB824600E3F00E65DE3 /* syn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = syn.c; path = ../../../3rdParty/macOS/mach_override/libudis86/syn.c; sourceTree = "<group>"; };
+		EA5C5FB924600E3F00E65DE3 /* syn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = syn.h; path = ../../../3rdParty/macOS/mach_override/libudis86/syn.h; sourceTree = "<group>"; };
+		EA5C5FBA24600E3F00E65DE3 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = types.h; path = ../../../3rdParty/macOS/mach_override/libudis86/types.h; sourceTree = "<group>"; };
+		EA5C5FBB24600E3F00E65DE3 /* udint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = udint.h; path = ../../../3rdParty/macOS/mach_override/libudis86/udint.h; sourceTree = "<group>"; };
+		EA5C5FBC24600E3F00E65DE3 /* udis86.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = udis86.c; path = ../../../3rdParty/macOS/mach_override/libudis86/udis86.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +136,7 @@
 		EA5C5DFD2420CE4700E65DE3 = {
 			isa = PBXGroup;
 			children = (
+				EA5C5FA624600DB100E65DE3 /* mach_override */,
 				EA5C5F5F24597B1E00E65DE3 /* APIHook.cpp */,
 				EA5C5F5C2459786700E65DE3 /* APIHook.h */,
 				EA5C5F0E244E114500E65DE3 /* Hook_Metal.m */,
@@ -124,6 +173,37 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		EA5C5FA624600DB100E65DE3 /* mach_override */ = {
+			isa = PBXGroup;
+			children = (
+				EA5C5FAE24600E2400E65DE3 /* libudist86 */,
+				EA5C5FA824600DED00E65DE3 /* mach_override.c */,
+				EA5C5FA924600DED00E65DE3 /* mach_override.h */,
+			);
+			name = mach_override;
+			sourceTree = "<group>";
+		};
+		EA5C5FAE24600E2400E65DE3 /* libudist86 */ = {
+			isa = PBXGroup;
+			children = (
+				EA5C5FAF24600E3F00E65DE3 /* decode.c */,
+				EA5C5FB024600E3F00E65DE3 /* decode.h */,
+				EA5C5FB124600E3F00E65DE3 /* extern.h */,
+				EA5C5FB224600E3F00E65DE3 /* input.c */,
+				EA5C5FB324600E3F00E65DE3 /* input.h */,
+				EA5C5FB424600E3F00E65DE3 /* itab.c */,
+				EA5C5FB524600E3F00E65DE3 /* itab.h */,
+				EA5C5FB624600E3F00E65DE3 /* syn-att.c */,
+				EA5C5FB724600E3F00E65DE3 /* syn-intel.c */,
+				EA5C5FB824600E3F00E65DE3 /* syn.c */,
+				EA5C5FB924600E3F00E65DE3 /* syn.h */,
+				EA5C5FBA24600E3F00E65DE3 /* types.h */,
+				EA5C5FBB24600E3F00E65DE3 /* udint.h */,
+				EA5C5FBC24600E3F00E65DE3 /* udis86.c */,
+			);
+			name = libudist86;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -131,10 +211,18 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5FAC24600DF000E65DE3 /* mach_override.h in Headers */,
 				EA5C5F632459FA1700E65DE3 /* Hook_OpenGL.h in Headers */,
+				EA5C5FBF24600E3F00E65DE3 /* decode.h in Headers */,
+				EA5C5FC124600E3F00E65DE3 /* extern.h in Headers */,
 				EA5C5E502420D28700E65DE3 /* Drv_IOKit.h in Headers */,
+				EA5C5FC524600E3F00E65DE3 /* input.h in Headers */,
 				EA5C5F5D2459786800E65DE3 /* APIHook.h in Headers */,
+				EA5C5FD124600E3F00E65DE3 /* syn.h in Headers */,
+				EA5C5FD324600E3F00E65DE3 /* types.h in Headers */,
+				EA5C5FD524600E3F00E65DE3 /* udint.h in Headers */,
 				EA5C5E4E2420D28700E65DE3 /* DriverEnum.h in Headers */,
+				EA5C5FC924600E3F00E65DE3 /* itab.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,10 +230,18 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5FAD24600DF000E65DE3 /* mach_override.h in Headers */,
 				EA5C5F622459FA1600E65DE3 /* Hook_OpenGL.h in Headers */,
+				EA5C5FC024600E3F00E65DE3 /* decode.h in Headers */,
+				EA5C5FC224600E3F00E65DE3 /* extern.h in Headers */,
 				EA5C5EDA2445F0D700E65DE3 /* Drv_IOKit.h in Headers */,
+				EA5C5FC624600E3F00E65DE3 /* input.h in Headers */,
 				EA5C5F5E2459786800E65DE3 /* APIHook.h in Headers */,
+				EA5C5FD224600E3F00E65DE3 /* syn.h in Headers */,
+				EA5C5FD424600E3F00E65DE3 /* types.h in Headers */,
+				EA5C5FD624600E3F00E65DE3 /* udint.h in Headers */,
 				EA5C5EDB2445F0D700E65DE3 /* DriverEnum.h in Headers */,
+				EA5C5FCA24600E3F00E65DE3 /* itab.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,10 +320,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5FCF24600E3F00E65DE3 /* syn.c in Sources */,
+				EA5C5FD724600E3F00E65DE3 /* udis86.c in Sources */,
+				EA5C5FC324600E3F00E65DE3 /* input.c in Sources */,
+				EA5C5FAA24600DEE00E65DE3 /* mach_override.c in Sources */,
+				EA5C5FCB24600E3F00E65DE3 /* syn-att.c in Sources */,
 				EA5C5F6024597B1E00E65DE3 /* APIHook.cpp in Sources */,
 				EA5C5F01244E007300E65DE3 /* Hook_OpenGL.cpp in Sources */,
+				EA5C5FBD24600E3F00E65DE3 /* decode.c in Sources */,
 				EA5C5E4D2420D28700E65DE3 /* DriverEnum.cpp in Sources */,
 				EA5C5F0F244E114500E65DE3 /* Hook_Metal.m in Sources */,
+				EA5C5FC724600E3F00E65DE3 /* itab.c in Sources */,
+				EA5C5FCD24600E3F00E65DE3 /* syn-intel.c in Sources */,
 				EA5C5E4F2420D28700E65DE3 /* Drv_IOKit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,10 +340,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5C5FD024600E3F00E65DE3 /* syn.c in Sources */,
+				EA5C5FD824600E3F00E65DE3 /* udis86.c in Sources */,
+				EA5C5FC424600E3F00E65DE3 /* input.c in Sources */,
+				EA5C5FAB24600DF000E65DE3 /* mach_override.c in Sources */,
+				EA5C5FCC24600E3F00E65DE3 /* syn-att.c in Sources */,
 				EA5C5F6124597B1E00E65DE3 /* APIHook.cpp in Sources */,
 				EA5C5F02244E007300E65DE3 /* Hook_OpenGL.cpp in Sources */,
+				EA5C5FBE24600E3F00E65DE3 /* decode.c in Sources */,
 				EA5C5ED42445F0D700E65DE3 /* DriverEnum.cpp in Sources */,
 				EA5C5F10244E114500E65DE3 /* Hook_Metal.m in Sources */,
+				EA5C5FC824600E3F00E65DE3 /* itab.c in Sources */,
+				EA5C5FCE24600E3F00E65DE3 /* syn-intel.c in Sources */,
 				EA5C5ED52445F0D700E65DE3 /* Drv_IOKit.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

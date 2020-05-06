@@ -134,15 +134,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../source/gpumonproc/gpumonproc.cpp"
-            timestampString = "609920666.937975"
+            timestampString = "610188705.736655"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "perform_hooks( DWORD pid )"
             landmarkType = "9">
          </BreakpointContent>
@@ -154,27 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../source/gpumonproc/gpumonproc.cpp"
-            timestampString = "609920666.937975"
+            timestampString = "610188705.736655"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "main( int argc, char** argv )"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../source/gpumonproc/gpumonproc.cpp"
-            timestampString = "609920565.975649"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "main( int argc, char** argv )"
             landmarkType = "9">
          </BreakpointContent>
@@ -186,11 +170,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../source/gpumonproc/gpumonproc.cpp"
-            timestampString = "609920846.4998159"
+            timestampString = "610188705.736655"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "main( int argc, char** argv )"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../source/gpumonproc/gpumonproc.cpp"
+            timestampString = "610188705.736655"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "240"
+            endingLineNumber = "240"
+            landmarkName = "main( int argc, char** argv )"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../source/gpumonproc/gpumonproc.cpp"
+            timestampString = "610188705.736655"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "main( int argc, char** argv )"
             landmarkType = "9">
          </BreakpointContent>
