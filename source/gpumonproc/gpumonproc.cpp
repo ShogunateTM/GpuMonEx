@@ -27,13 +27,62 @@
 std::unordered_map<DWORD, GMPROCESS> process_map;
 
 /* Dynamic library handle */
-void* dlh = nullptr;
+HMODULE dlh = nullptr;
 
 /* Mach injection thread (macOS) */
 extern "C" void* mac_hook_thread_entry = nullptr;
 
 
 
+#ifdef _WIN32
+
+/* Win32 equivalent */
+#define getpid GetCurrentProcessId
+
+/*
+ * Name: getppid
+ * Desc: Gets the parent process ID (Windows version of the UNIX equivalent).
+ * SOURCE: https://gist.github.com/mattn/253013/d47b90159cf8ffa4d92448614b748aa1d235ebe4
+ */
+DWORD getppid()
+{
+    HANDLE hSnapshot;
+    PROCESSENTRY32 pe32;
+    DWORD ppid = 0, pid = GetCurrentProcessId();
+
+    hSnapshot = CreateToolhelp32Snapshot( TH32CS_SNAPPROCESS, 0 );
+
+    __try
+    {
+        if( hSnapshot == INVALID_HANDLE_VALUE ) 
+            __leave;
+
+        ZeroMemory( &pe32, sizeof( pe32 ) );
+        pe32.dwSize = sizeof( pe32 );
+        if( !Process32First( hSnapshot, &pe32 ) ) 
+            __leave;
+
+        do
+        {
+            if( pe32.th32ProcessID == pid )
+            {
+                ppid = pe32.th32ParentProcessID;
+                break;
+            }
+        } while( Process32Next( hSnapshot, &pe32 ) );
+
+    }
+
+    __finally
+    {
+        if( hSnapshot != INVALID_HANDLE_VALUE )
+            CloseHandle( hSnapshot );
+    }
+
+    return ppid;
+}
+
+#endif
 
 /*
  * Name: GetLastErrorAsString

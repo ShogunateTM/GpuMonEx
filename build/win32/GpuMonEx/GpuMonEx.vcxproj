@@ -100,7 +100,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WXUSINGDLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\win32\wxWidgets\include;..\..\..\3rdParty\win32\wxWidgets\include\msvc;%(AdditionalIncludeDirectories);..\..\..\3rdParty\common\nvidia</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\win32\wxWidgets\include;..\..\..\3rdParty\win32\wxWidgets\include\msvc;..\..\..\3rdParty\common\wxMathPlot;%(AdditionalIncludeDirectories);..\..\..\3rdParty\common\nvidia</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,7 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WXUSINGDLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\win32\wxWidgets\include;..\..\..\3rdParty\win32\wxWidgets\include\msvc;..\..\..\3rdParty\win32\wxWidgets\lib\vc_x64_lib\mswu;%(AdditionalIncludeDirectories);..\..\..\3rdParty\common\nvidia</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\win32\wxWidgets\include;..\..\..\3rdParty\win32\wxWidgets\include\msvc;..\..\..\3rdParty\common\wxMathPlot;..\..\..\3rdParty\win32\wxWidgets\lib\vc_x64_lib\mswu;%(AdditionalIncludeDirectories);..\..\..\3rdParty\common\nvidia</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,7 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WXUSINGDLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\win32\wxWidgets\include;..\..\..\3rdParty\win32\wxWidgets\include\msvc;%(AdditionalIncludeDirectories);..\..\..\3rdParty\common\nvidia</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\win32\wxWidgets\include;..\..\..\3rdParty\win32\wxWidgets\include\msvc;..\..\..\3rdParty\common\wxMathPlot;%(AdditionalIncludeDirectories);..\..\..\3rdParty\common\nvidia</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -173,7 +173,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WXUSINGDLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\win32\wxWidgets\include;..\..\..\3rdParty\win32\wxWidgets\include\msvc;..\..\..\3rdParty\win32\wxWidgets\lib\vc_x64_lib\mswu;%(AdditionalIncludeDirectories);..\..\..\3rdParty\common\nvidia</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\win32\wxWidgets\include;..\..\..\3rdParty\win32\wxWidgets\include\msvc;..\..\..\3rdParty\common\wxMathPlot;..\..\..\3rdParty\win32\wxWidgets\lib\vc_x64_lib\mswu;%(AdditionalIncludeDirectories);..\..\..\3rdParty\common\nvidia</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -198,6 +198,7 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\3rdParty\common\wxMathPlot\mathplot.h" />
     <ClInclude Include="..\..\..\source\GpuMonEx\framework.h" />
     <ClInclude Include="..\..\..\source\GpuMonEx\GpuMonEx.h" />
     <ClInclude Include="..\..\..\source\GpuMonEx\mainframe.hpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="..\..\..\source\GpuMonEx\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\3rdParty\common\wxMathPlot\mathplot.cpp" />
     <ClCompile Include="..\..\..\source\GpuMonEx\GpuMonEx.cpp" />
     <ClCompile Include="..\..\..\source\GpuMonEx\mainframe.cpp" />
   </ItemGroup>

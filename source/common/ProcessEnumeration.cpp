@@ -451,8 +451,7 @@ bool ProcessIsActive( GMPROCESS* pProcess )
 #ifdef _WIN32
     DWORD dwResult = WaitForSingleObject( pProcess->hProcess, 0 );
 
-    if( dwResult == WAIT_OBJECT_0 )
-        return true;
+    return ( dwResult == WAIT_TIMEOUT );
 #endif
     
 #ifdef __APPLE__
@@ -471,6 +470,29 @@ bool ProcessIsActive( GMPROCESS* pProcess )
  */
 bool EnumerateProcesses( GMPROCESS** ppProcesses, int* ProcessCount )
 {
+#ifdef _WIN32
+    DWORD aProcesses[1024], cbNeeded, cProcesses;
+    unsigned int i;
+
+    if( EnumProcesses( aProcesses, sizeof( aProcesses ), &cbNeeded ) )
+    {
+        cProcesses = cbNeeded / sizeof(DWORD);
+        *ProcessCount = (int) cProcesses;
+    
+        (*ppProcesses) = new GMPROCESS[cProcesses];
+
+        for( i = 0; i < cProcesses; i++ )
+        {
+            (*ppProcesses)[i].dwID = aProcesses[i];
+            (*ppProcesses)[i].hProcess = OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | SYNCHRONIZE, FALSE, aProcesses[i] );
+            (*ppProcesses)[i].hThread = nullptr;
+        }
+
+        return true;
+    }
+   
+#endif
+
     /* 
      * macOS 
      */

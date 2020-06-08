@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\wxMathPlot">
+      <UniqueIdentifier>{2e1627e1-783a-4f11-80c8-ff9480834af8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\wxMathPlot">
+      <UniqueIdentifier>{18fc987c-c6cf-4b25-a759-9ff61d63e570}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GpuMonEx.rc">
@@ -43,6 +49,9 @@
     <ClInclude Include="..\..\..\source\GpuMonEx\mainframe.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\3rdParty\common\wxMathPlot\mathplot.h">
+      <Filter>Header Files\wxMathPlot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\GpuMonEx\GpuMonEx.cpp">
@@ -50,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\GpuMonEx\mainframe.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\3rdParty\common\wxMathPlot\mathplot.cpp">
+      <Filter>Source Files\wxMathPlot</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

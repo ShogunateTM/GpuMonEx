@@ -10,6 +10,10 @@
 // Licence:         wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
+#ifdef _WIN32
+#pragma warning(disable : 4996)
+#endif
+
 #ifdef __GNUG__
 // #pragma implementation "plot.h"
 #pragma implementation "mathplot.h"
