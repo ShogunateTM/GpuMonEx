@@ -15,6 +15,8 @@
 /* Driver handle instance*/
 extern GPUDRIVER driver[Drv_MAX];
 
+std::vector<double> vX, vY;
+
 
 wxThread::ExitCode gpumonex::wx::wxGpuMonThread::Entry()
 {
@@ -49,7 +51,21 @@ void gpumonex::wx::wxGpuStatisticsPanel::Update()
     driver[drvtype].GetOverallGpuLoad( 0, &stats );
 
     if( stats.gpu_usage != -1 )
+    {
+        static float x = 0;
+
+        while( x < 480 )
+        {
+            m_gpu_usage_histogram->AddData( x++, 0, vX, vY );
+            m_plot->Fit();
+        }
+
         m_text_gpu_usage->SetLabel( wxString::Format( wxT( "GPU Usage: %d%%" ), stats.gpu_usage ) );
+        m_gpu_usage_histogram->AddData( x++, stats.gpu_usage, vX, vY );
+        
+        m_plot->Fit();
+        //m_plot->Fit( -1, 1, -1, 100 );
+    }
     else
         m_text_gpu_usage->SetLabel( wxString::Format( wxT( "GPU Usage: ?" ) ) );
     

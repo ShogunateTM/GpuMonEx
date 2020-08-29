@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -203,12 +203,14 @@
     <ClInclude Include="..\..\..\source\GpuMonEx\GpuMonEx.h" />
     <ClInclude Include="..\..\..\source\GpuMonEx\mainframe.hpp" />
     <ClInclude Include="..\..\..\source\GpuMonEx\Resource.h" />
+    <ClInclude Include="..\..\..\source\GpuMonEx\statschart.hpp" />
     <ClInclude Include="..\..\..\source\GpuMonEx\targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\3rdParty\common\wxMathPlot\mathplot.cpp" />
     <ClCompile Include="..\..\..\source\GpuMonEx\GpuMonEx.cpp" />
     <ClCompile Include="..\..\..\source\GpuMonEx\mainframe.cpp" />
+    <ClCompile Include="..\..\..\source\GpuMonEx\statschart.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

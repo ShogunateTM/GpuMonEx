@@ -130,7 +130,7 @@ private:
 };
 
 #if 1
-#define DISPDBG(a, b)											\
+#define DISPDBG_F(a, b)											\
 do																\
 {																\
 	if (NVDebug::GetSingletonPtr() != NULL)						\
@@ -138,6 +138,17 @@ do																\
 		NVDebug::GetSingleton().FlushLastMessage();	\
 		NVDebug::GetSingleton().GetLastMessage() << __KE_FUNCTION__ << ": " << b << "\n";	\
 		NVDebug::GetSingleton().GetStream() << __KE_FUNCTION__ << ": " << b << "\n";			\
+		NVDebug::GetSingleton().EndOutput(); }				\
+} while(0)
+
+#define DISPDBG(a, b)											\
+do																\
+{																\
+	if (NVDebug::GetSingletonPtr() != NULL)						\
+	if (a <= NVDebug::GetSingleton().GetLevel()) {	\
+		NVDebug::GetSingleton().FlushLastMessage();	\
+		NVDebug::GetSingleton().GetLastMessage()  << b << "\n";	\
+		NVDebug::GetSingleton().GetStream() << b << "\n";			\
 		NVDebug::GetSingleton().EndOutput(); }				\
 } while(0)
 

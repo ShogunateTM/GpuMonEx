@@ -123,8 +123,13 @@ namespace gpumonex
                  SetAutoLayout( TRUE );
                  SetSizer( topsizer );*/
                 
+                m_gpu_usage_histogram = new wxGpuUsage(0);
+                m_gpu_usage_histogram->SetContinuity( true );
+                m_gpu_usage_histogram->SetName( wxT( "GPU Usage" ) );
+                m_gpu_usage_histogram->ShowName( true );
+
                 m_plot = new mpWindow( this, -1, wxPoint( 0, (20*i)+20 ), wxSize( 620, 100 ), wxSUNKEN_BORDER );
-                m_plot->AddLayer( /*new wxGpuUsage(0)*/ new MySIN( 10.0, 220.0 ) );
+                m_plot->AddLayer( m_gpu_usage_histogram /* new MySIN( 10.0, 220.0 )*/ );
                 
                 /*wxBoxSizer *topsizer = new wxBoxSizer( wxVERTICAL );
                 topsizer->Add( m_plot, 1, wxEXPAND );
@@ -158,6 +163,19 @@ namespace gpumonex
 
 
             virtual void Update();
+
+            void ResetHistogram()
+            {
+                m_gpu_usage_histogram->Clear();
+
+                std::vector<double> vx, vy;
+
+                for( int i = 0; i < 300; i++ )
+                    vx.push_back(0), vy.push_back(0);
+
+                m_gpu_usage_histogram->SetData( vx, vy );
+                m_plot->Fit();
+            }
             
         protected:
             wxStaticText* m_text_gpu_usage;
@@ -171,6 +189,8 @@ namespace gpumonex
             wxStaticText* m_text_temperature;
             wxStaticText* m_text_power_usage;
             
+            wxGpuUsage* m_gpu_usage_histogram;
+
             mpWindow* m_plot;
         };
         
@@ -232,6 +252,8 @@ namespace gpumonex
                 m_notebook->AddPage( m_window1, m_window1->GetPanelTitle(), true, 0 );
                 m_notebook->AddPage( m_window2, m_window2->GetPanelTitle(), false, 1 );
                 m_notebook->AddPage( m_window3, m_window3->GetPanelTitle(), false, 2 );
+
+                m_window2->ResetHistogram();
             }
 
         protected:
