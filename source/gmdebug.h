@@ -18,13 +18,13 @@
 #define GPUMON_DEBUG(l)	(l+3)
 
 #define GLOG( a, b ) DISPDBG( a, b )
-#define GLOGP( a, b ) { std::cout << b << std::endl; DISPDBG( a, b ); }
+#define GLOGP( a, b ) { /*std::cout << b << std::endl;*/ DISPDBG_P( a, b ); }
 
 #define GWARN( b ) DISPDBG( GPUMON_WARNING, "GWARN: " << b )
-#define GWARNP( b ) { std::cout << b << std::endl; DISPDBG( GPUMON_WARNING, "GWARN: " << b ); }
+#define GWARNP( b ) { /*std::cout << b << std::endl;*/ DISPDBG_P( GPUMON_WARNING, "GWARN: " << b ); }
 
 #define GERROR( b ) DISPDBG( GPUMON_ERROR, "GERROR: " << b )
-#define GERRORP( b ) { std::cerr << b << std::endl; DISPDBG( GPUMON_ERROR, "GERROR: " << b ); }
+#define GERRORP( b ) { /*std::cerr << b << std::endl;*/ DISPDBG_P( GPUMON_ERROR, "GERROR: " << b ); }
 
 /*
  * gpucmd error codes

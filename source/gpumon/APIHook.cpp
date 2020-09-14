@@ -18,10 +18,15 @@
 #include <mach_inject.h>
 #include <xnumem.h>
 
-#endif
-
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreGraphics/CGDirectDisplay.h>
+
+#elif defined(_WIN32)
+
+#include "MinHook.h"
+
+#endif
+
 
 
 #ifdef __APPLE__
@@ -109,4 +114,24 @@ void mac_hook_thread_entry( ptrdiff_t code_offset, void* param_block, size_t par
 
 #endif
 
+#ifdef _WIN32
 
+bool EnableMinHookAPI()
+{
+    auto ret = MH_Initialize();
+    if( ret != MH_OK )
+        return false;
+
+    Drv_EnableOpenGLHooks();
+
+    return true;
+}
+
+void DisableMinHookAPI()
+{
+    Drv_DisableOpenGLHooks();
+
+    auto ret = MH_Uninitialize();
+}
+
+#endif

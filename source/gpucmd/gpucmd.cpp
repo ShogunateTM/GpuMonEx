@@ -405,7 +405,7 @@ int main( int argc, char** argv )
 				i++;
 				if( !CreateNewProcess( argv[i], &Process ) )				
 				{
-					GERROR( "Error creating new process!" );
+					GERRORP( "Error creating new process!" );
 					return ERR_PROCNOEXIST;
 				}
 			}
@@ -416,7 +416,7 @@ int main( int argc, char** argv )
 				i++;
 				if( !OpenProcessByName( argv[i], &Process ) )
 				{
-					GERROR( "Error opening process!" );
+					GERRORP( "Error opening process!" );
 					return ERR_PROCNOEXIST;
 				}
 			}
@@ -427,7 +427,7 @@ int main( int argc, char** argv )
 				i++;
 				if( !OpenProcessByID( atoi( argv[i] ), &Process ) )
 				{
-					GERROR( "Error opening process!" );
+					GERRORP( "Error opening process!" );
 					return ERR_PROCNOEXIST;
 				}
 			}
@@ -454,7 +454,7 @@ int main( int argc, char** argv )
     /* The D3DKMT driver hook is manditory */
     if( !InitializeDriverHook( Drv_D3DKMT, Adapter, &driver[Drv_D3DKMT] ) )
     {
-        GERROR( "Unable to initialize D3DKMT driver hooks!" );
+        GERRORP( "Unable to initialize D3DKMT driver hooks!" );
         return ERR_DRVFAIL;
     }
     
@@ -463,17 +463,17 @@ int main( int argc, char** argv )
 	/* These two are purely optional */
 	if( !InitializeDriverHook( Drv_NVAPI, Adapter, &driver[Drv_NVAPI] ) )
 	{
-		GLOG( 3, "NVAPI driver not available..." );
+		GLOGP( 3, "NVAPI driver not available..." );
 	}
 	if( !InitializeDriverHook( Drv_AMDGS, Adapter, &driver[Drv_AMDGS] ) )
 	{
-		GLOG( 3, "AMDGS driver not available..." );
+		GLOGP( 3, "AMDGS driver not available..." );
 	}
 #elif defined(__APPLE__)
     /* Initialize IOKit hooks */
     if( !InitializeDriverHook( Drv_IOKIT, Adapter, &driver[Drv_IOKIT] ) )
     {
-        GERROR( "Unable to initialize IOKit APIs!" );
+        GERRORP( "Unable to initialize IOKit APIs!" );
         return ERR_DRVFAIL;
     }
     
@@ -488,11 +488,11 @@ int main( int argc, char** argv )
 		if( !driver[DriverType].GetGpuDetails( 0, &details ) )
 			return ERR_DRVFAIL;
 
-		GLOG( 3, details.DeviceDesc );
-		GLOG( 3, std::showbase << std::internal << std::setfill('0') << std::hex );
-		GLOG( 3, "Device ID: " << details.DeviceID );
-		GLOG( 3, "Vendor ID: " << details.VendorID );
-		GLOG( 3, std::dec );
+		GLOGP( 3, details.DeviceDesc );
+		GLOGP( 3, std::showbase << std::internal << std::setfill('0') << std::hex );
+		GLOGP( 3, "Device ID: " << details.DeviceID );
+		GLOGP( 3, "Vendor ID: " << details.VendorID );
+		GLOGP( 3, std::dec );
 
 //		return 0;
 	}
@@ -505,7 +505,7 @@ int main( int argc, char** argv )
 	{
 		GetSystemTime( &Time );
 
-		GLOG( 3, "Start time: " << Time.wMonth << "/" <<
+		GLOGP( 3, "Start time: " << Time.wMonth << "/" <<
 			Time.wDay << "/" << Time.wYear << 
 			" (" << Time.wHour << ":" << Time.wMinute << ":" <<
 			Time.wSecond << ")" << std::endl );
@@ -522,12 +522,12 @@ int main( int argc, char** argv )
 			{
                 GPUSTATISTICS stats;
 				int ret = driver[DriverType].GetOverallGpuLoad( Adapter, &stats );
-				GLOG( 3, "Adapter GPU Usage: " << stats.gpu_usage << "%" );
+				GLOGP( 3, "Adapter GPU Usage: " << stats.gpu_usage << "%" );
 			}
 			if( ShowProcessUsage )
 			{
 				int GpuUsage = driver[DriverType].GetProcessGpuLoad( Adapter, Process.hProcess );
-				GLOG( 3, "Process GPU Usage: " << GpuUsage << "%" );
+				GLOGP( 3, "Process GPU Usage: " << GpuUsage << "%" );
 			}
 
 			Sleep( 1000 );
@@ -539,7 +539,7 @@ int main( int argc, char** argv )
 #ifdef _WIN32
 		GetSystemTime( &Time );
 
-		GLOG( 3, "Stop time: " << Time.wMonth << "/" <<
+		GLOGP( 3, "Stop time: " << Time.wMonth << "/" <<
 			Time.wDay << "/" << Time.wYear << 
 			" (" << Time.wHour << ":" << Time.wMinute << ":" <<
 			Time.wSecond << ")" << std::endl );

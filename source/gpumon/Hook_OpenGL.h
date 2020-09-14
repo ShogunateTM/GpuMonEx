@@ -32,8 +32,14 @@ struct Hook_OpenGLAPI
     void (*aglSwapBuffers)( AGLContext );
     CGLError (*CGLFlushDrawable)( CGLContextObj );
 #endif
+
+#ifdef _WIN32
+    BOOL (WINAPI* SwapBuffers)( HDC );
+#endif
 };
 
-void GPUMON_API Drv_GetOpenGLHooks( Hook_OpenGLAPI* hooks );
+void GPUMON_API Drv_GetOpenGLHooks( Hook_OpenGLAPI* hooks, Hook_OpenGLAPI* originals );
+BOOL Drv_EnableOpenGLHooks();
+BOOL Drv_DisableOpenGLHooks();
 
 #endif /* Hook_OpenGL_h */

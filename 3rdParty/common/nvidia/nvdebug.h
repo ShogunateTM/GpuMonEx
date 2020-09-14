@@ -91,11 +91,7 @@ public:
 	}
 
 	// Flush the current output
-//#ifdef _WIN32
-//	void NVDebug::EndOutput()
-//#else
     void EndOutput()
-//#endif
 	{
 		m_strStream << /*std::endl <<*/ std::ends;
 
@@ -107,9 +103,30 @@ public:
 		}
 
 #ifdef _WIN32
-        printf( "%s", m_strStream.str().c_str() );
+//        printf( "%s", m_strStream.str().c_str() );
 #endif
 		OutputDebugStringA(m_strStream.str().c_str());
+
+		//m_strStream.freeze(false);
+		//m_strStream.seekp(0);
+		m_strStream.str("");
+	}
+
+	void EndOutputAndPrint()
+	{
+		m_strStream << /*std::endl <<*/ std::ends;
+
+		// Don't make a huge debug file.
+		if (m_dbgLog.tellp() < MaxDebugFileSize)
+		{
+			m_dbgLog << m_strStream.str();
+			FlushLog();
+		}
+
+        printf( "%s", m_strStream.str().c_str() );
+#ifdef _WIN32
+		OutputDebugStringA(m_strStream.str().c_str());
+#endif
 
 		//m_strStream.freeze(false);
 		//m_strStream.seekp(0);
@@ -150,6 +167,28 @@ do																\
 		NVDebug::GetSingleton().GetLastMessage()  << b << "\n";	\
 		NVDebug::GetSingleton().GetStream() << b << "\n";			\
 		NVDebug::GetSingleton().EndOutput(); }				\
+} while(0)
+
+#define DISPDBG_P(a, b)											\
+do																\
+{																\
+	if (NVDebug::GetSingletonPtr() != NULL)						\
+	if (a <= NVDebug::GetSingleton().GetLevel()) {	\
+		NVDebug::GetSingleton().FlushLastMessage();	\
+		NVDebug::GetSingleton().GetLastMessage()  << b << "\n";	\
+		NVDebug::GetSingleton().GetStream() << b << "\n";			\
+		NVDebug::GetSingleton().EndOutputAndPrint(); }				\
+} while(0)
+
+#define DISPDBG_FP(a, b)											\
+do																\
+{																\
+	if (NVDebug::GetSingletonPtr() != NULL)						\
+	if (a <= NVDebug::GetSingleton().GetLevel()) {	\
+		NVDebug::GetSingleton().FlushLastMessage();	\
+		NVDebug::GetSingleton().GetLastMessage() << __KE_FUNCTION__ << ": " << b << "\n";	\
+		NVDebug::GetSingleton().GetStream() << __KE_FUNCTION__ << ": " << b << "\n";			\
+		NVDebug::GetSingleton().EndOutputAndPrint(); }				\
 } while(0)
 
 #define NVASSERT(a, b)														\

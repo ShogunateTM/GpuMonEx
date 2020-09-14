@@ -102,13 +102,14 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;GPUMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;DLL_EXPORT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;MinHook.x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Shogunate\GpuMonEx\3rdParty\win32\minhook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Configuration)\$(ProjectName)32.dll bin</Command>
@@ -123,13 +124,14 @@
       <PreprocessorDefinitions>_DEBUG;GPUMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;DLL_EXPORT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;MinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Shogunate\GpuMonEx\3rdParty\win32\minhook\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Platform)\$(Configuration)\$(ProjectName)64.dll bin</Command>
@@ -148,7 +150,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;GPUMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;DLL_EXPORT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -156,7 +158,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;MinHook.x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Shogunate\GpuMonEx\3rdParty\win32\minhook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Configuration)\$(ProjectName)32.dll bin</Command>
@@ -173,7 +176,7 @@
       <PreprocessorDefinitions>NDEBUG;GPUMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;DLL_EXPORT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -181,7 +184,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;MinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Shogunate\GpuMonEx\3rdParty\win32\minhook\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Platform)\$(Configuration)\$(ProjectName)64.dll bin</Command>
@@ -191,18 +195,41 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\3rdParty\common\nvidia\Framerate.h" />
+    <ClInclude Include="..\..\..\source\common\ProcessEnumeration.h" />
+    <ClInclude Include="..\..\..\source\common\timer_t.h" />
+    <ClInclude Include="..\..\..\source\gpumon\APIHook.h" />
     <ClInclude Include="..\..\..\source\gpumon\DriverEnum.h" />
     <ClInclude Include="..\..\..\source\gpumon\Drv_AMDGS.h" />
     <ClInclude Include="..\..\..\source\gpumon\Drv_D3DKMT.h" />
     <ClInclude Include="..\..\..\source\gpumon\Drv_NVAPI.h" />
+    <ClInclude Include="..\..\..\source\gpumon\Hook_Direct3D10.h" />
+    <ClInclude Include="..\..\..\source\gpumon\Hook_Direct3D11.h" />
+    <ClInclude Include="..\..\..\source\gpumon\Hook_Direct3D12.h" />
+    <ClInclude Include="..\..\..\source\gpumon\Hook_Direct3D8.h" />
+    <ClInclude Include="..\..\..\source\gpumon\Hook_Direct3D9.h" />
+    <ClInclude Include="..\..\..\source\gpumon\Hook_DirectDraw.h" />
+    <ClInclude Include="..\..\..\source\gpumon\Hook_OpenGL.h" />
+    <ClInclude Include="..\..\..\source\gpumon\Hook_Vulkan.h" />
     <ClInclude Include="framework.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\3rdParty\common\nvidia\Framerate.cpp" />
+    <ClCompile Include="..\..\..\source\common\ProcessEnumeration.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\APIHook.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\dllmain.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\DriverEnum.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Drv_AMDGS.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Drv_D3DKMT.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Drv_NVAPI.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\Hook_Direct3D10.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\Hook_Direct3D11.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\Hook_Direct3D12.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\Hook_Direct3D8.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\Hook_Direct3D9.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\Hook_DirectDraw.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\Hook_OpenGL.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\Hook_Vulkan.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

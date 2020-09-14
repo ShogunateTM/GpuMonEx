@@ -521,3 +521,25 @@ bool EnumerateProcesses( GMPROCESS** ppProcesses, int* ProcessCount )
     
     return false;
 }
+
+/*
+ * Name: GetCurrentProcessName
+ * Desc: Returns the full path and name of the currently running process.
+ */
+bool GetCurrentProcessName( std::string& strProcessName )
+{
+#ifdef _WIN32
+    char strBuf[MAX_PATH];
+
+    if( !GetModuleFileNameExA( GetCurrentProcess(), NULL, strBuf, MAX_PATH ) )
+        return false;   // TODO: GetLastError()
+
+    strProcessName = strBuf;
+
+    return true;
+#endif
+
+    // TODO: MacOS and Linux
+
+    return false;
+}

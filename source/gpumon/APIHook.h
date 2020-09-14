@@ -25,5 +25,9 @@
 #include "Hook_Metal.h"
 #endif
 
+#ifdef _WIN32
+bool EnableMinHookAPI();
+void DisableMinHookAPI();
+#endif
 
 #endif /* APIHook_h */

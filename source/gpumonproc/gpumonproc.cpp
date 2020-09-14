@@ -16,8 +16,10 @@
 /* Determine the right CPU arch before doing anything */
 #if defined(X86_64)
 #define CPU_ARCH_MATCH(x) (!Is32BitProcess(x))
+#define GPUMON_DLL "C:\\Shogunate\\GpuMonEx\\bin\\gpumon64.dll"
 #elif defined(X86_32)
 #define CPU_ARCH_MATCH(x) (Is32BitProcess(x))
+#define GPUMON_DLL "C:\\Shogunate\\GpuMonEx\\bin\\gpumon32.dll"
 #endif
 
 
@@ -142,10 +144,72 @@ void at_exit()
 }
 
 
+/*
+ * Name: windows_inject
+ * Desc: Attempt to inject the gpumon DLL into the target process
+ * Source: https://github.com/Arvanaghi/Windows-DLL-Injector/blob/master/Source/DLL_Injector.c
+ */
+#ifdef _WIN32
+bool windows_inject( DWORD pid )
+{
+    HANDLE hProcess = OpenProcess( PROCESS_ALL_ACCESS/* | SYNCHRONIZE*/, FALSE, pid );
+    if( !hProcess )
+        return false;
+
+    // Allocate memory for DLL's path name to remote process
+	LPVOID dllPathAddressInRemoteMemory = VirtualAllocEx( hProcess, NULL, strlen( GPUMON_DLL ), /*MEM_RESERVE |*/ MEM_COMMIT, /*PAGE_EXECUTE_READWRITE*/ PAGE_READWRITE );
+	if( dllPathAddressInRemoteMemory == NULL ) 
+    {
+		return FALSE;
+	}
+
+	// Write DLL's path name to remote process
+	BOOL succeededWriting = WriteProcessMemory( hProcess, dllPathAddressInRemoteMemory, GPUMON_DLL, strlen( GPUMON_DLL ), NULL );
+
+	if( !succeededWriting ) 
+    {
+		return FALSE;
+	} 
+    else 
+    {
+		// Returns a pointer to the LoadLibrary address. This will be the same on the remote process as in our current process.
+		LPVOID loadLibraryAddress = (LPVOID) GetProcAddress( GetModuleHandle( L"kernel32.dll" ), "LoadLibraryA" );
+		if( loadLibraryAddress == NULL ) 
+        {
+			return FALSE;
+		}
+        else 
+        {
+			HANDLE remoteThread = CreateRemoteThread( hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE) loadLibraryAddress, dllPathAddressInRemoteMemory, CREATE_SUSPENDED, NULL );
+			if( remoteThread == NULL )
+            {
+				return FALSE;
+			}
+            
+            ResumeThread( remoteThread );
+            auto ret = WaitForSingleObject( remoteThread, 0 );
+
+            CloseHandle( hProcess );
+		}
+	}
+
+    return true;
+}
+#endif
+
 bool perform_hooks( DWORD pid )
 {
     if( pid == 0 )
         return false;
+
+#ifdef _WIN32
+    auto noerr = windows_inject( pid );
+    if( !noerr )
+    {
+        OutputDebugStringA( GetLastErrorAsString().c_str() );
+        return false;
+    }
+#endif
     
 #ifdef __APPLE__
     mach_error_t err = mach_inject( (mach_inject_entry) mac_hook_thread_entry, NULL, 0, (pid_t) pid, 0 );
@@ -184,14 +248,20 @@ int main( int argc, char** argv )
     
     /* Functions called at exit */
     atexit( at_exit );
+
+#ifdef _WIN32
+    /* Enable debug privileges */
+    if( !EnableDebugPrivileges() )
+        OutputDebugStringA( GetLastErrorAsString().c_str() );
+#endif
     
     /* Load our dynamic link library */
-    dlh = LoadLibraryA( GPUMON_DLL );
+    /*dlh = LoadLibraryA( GPUMON_DLL );
     if( !dlh )
     {
         std::cerr << "Error loading " << GPUMON_DLL << "!\nError: " << GetLastErrorAsString();
         return -1;
-    }
+    }*/
     
 #ifdef __APPLE__
     /* Get mach_inject thread function pointer */
@@ -225,9 +295,11 @@ int main( int argc, char** argv )
                 {
                     /* Do we already have this process in the list? */
                     auto p = process_map[pid];
-                    
-                    //if( pid != 94259 )
-                    //    continue;
+                    if( p.hProcess != nullptr )
+                        continue;
+
+                    if( pid != 131136 )
+                        continue;
                     
                     if( p.dwID == 0 && pid != this_pid && pid != parent_pid )
                     {

@@ -108,7 +108,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Platform)\$(Configuration)\$(ProjectName)d.exe bin</Command>
+      <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Platform)\$(Configuration)\$(ProjectName)32d.exe bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,7 +146,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Platform)\$(Configuration)\$(ProjectName).exe bin</Command>
+      <Command>cd ..\..\..\ &amp; copy obj\$(ProjectName)\$(Platform)\$(Configuration)\$(ProjectName)32.exe bin</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
