@@ -52,6 +52,9 @@
     <ClInclude Include="..\..\..\3rdParty\common\wxMathPlot\mathplot.h">
       <Filter>Header Files\wxMathPlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\GpuMonEx\statschart.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\GpuMonEx\GpuMonEx.cpp">
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\3rdParty\common\wxMathPlot\mathplot.cpp">
       <Filter>Source Files\wxMathPlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\GpuMonEx\statschart.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

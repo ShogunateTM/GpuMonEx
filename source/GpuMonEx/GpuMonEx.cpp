@@ -21,7 +21,153 @@ HMODULE hGpuMonDll = nullptr;
 GPUDRIVER driver[Drv_MAX];
 
 
+#ifdef _WIN32
+/* This will get moved later... */
+#define _ComPtr(_interface)     _com_ptr_t<_com_IIID<_interface, &__uuidof(_interface)>>
 
+/* A cheap way of ensuring that we don't accidentally uninitalize COM if it's somehow already in use
+* somewhere else within this software. 
+*/
+class ComGuard
+{
+public:
+    ComGuard() : hr(E_FAIL) 
+    {
+        hr = CoInitialize( nullptr );
+    };
+
+    ComGuard(UINT Flags)
+    {
+        hr = CoInitializeEx( nullptr, Flags );
+    }
+
+    ~ComGuard()
+    {
+        if( hr != CO_E_ALREADYINITIALIZED || SUCCEEDED( hr ) )
+            CoUninitialize();
+    }
+
+    HRESULT hr;
+};
+#endif
+
+bool GetDriverVersion( std::string& strVersionNumber, int GpuNumber )
+{
+    /*
+    * COM, and the appropriate security flags need to be set in order for this method to work. 
+    */
+
+    ComGuard guard = ComGuard( COINIT_MULTITHREADED );
+//    if( FAILED( guard.hr ) )
+//        return false;
+
+    auto hr = CoInitializeSecurity( NULL, -1, NULL, NULL, RPC_C_AUTHN_LEVEL_DEFAULT, 
+        RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE, NULL );
+    if( FAILED( hr ) )
+        return false;
+
+    /* Initialize WMI */
+    _ComPtr(IWbemLocator) pLoc;
+    hr = CoCreateInstance( CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER, IID_IWbemLocator, (LPVOID*) &pLoc );
+    if( FAILED( hr ) )
+        return false;
+
+    _ComPtr(IWbemServices) pSvc;
+    hr = pLoc->ConnectServer( _bstr_t( L"ROOT\\CIMV2" ), NULL, NULL, 0, NULL, 0, 0, &pSvc );
+    if( FAILED( hr ) )
+        return false;
+
+    hr = CoSetProxyBlanket( pSvc, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL, 
+        RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE );
+    if( FAILED( hr ) )
+        return false;
+
+    _ComPtr(IEnumWbemClassObject) pEnumerator;
+    hr = pSvc->ExecQuery( bstr_t("WQL"), bstr_t("SELECT * FROM Win32_VideoController"),
+        WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator );
+    if( FAILED( hr ) )
+        return false;
+
+    /* Now we're actually going to get the data we came here for. 
+    TODO: Enumerate the actual adapter we want to use? */
+
+    IWbemClassObject* pclsObj = nullptr;
+    ULONG Return = 0;
+    int i = 0;
+
+    while( pEnumerator )
+    {
+        hr = pEnumerator->Next( WBEM_INFINITE, 1, &pclsObj, &Return );
+
+        if( !Return )
+            break;
+
+        if( i++ != GpuNumber )
+        {
+            pclsObj->Release();
+            continue;
+        }
+
+        VARIANT vtProp;
+
+        hr = pclsObj->Get( L"DriverVersion", 0, &vtProp, 0, 0 );
+
+        std::wstring wstr( vtProp.bstrVal );
+        std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> cv;
+        strVersionNumber = cv.to_bytes( wstr );
+
+        VariantClear( &vtProp );
+
+        pclsObj->Release();
+    }
+
+    /* Cleanup should be automatic */
+
+    return true;
+}
+
+/*
+ * Name: GetOSVersionString
+ * Desc: Returns the OS name and version.
+ */
+std::string GetOSVersionString()
+{
+    std::stringstream osver;
+
+#if defined(_WIN32) /* Windows */
+
+    /* Get the build version */
+    const auto system = L"kernel32.dll";
+    DWORD dummy;
+    const auto cbInfo = ::GetFileVersionInfoSizeExW( FILE_VER_GET_NEUTRAL, system, &dummy );
+    
+    std::vector<char> buffer( cbInfo );
+    ::GetFileVersionInfoExW( FILE_VER_GET_NEUTRAL, system, dummy, buffer.size(), &buffer[0] );
+
+    void* p = nullptr;
+    UINT size = 0;
+    ::VerQueryValueW( buffer.data(), L"\\", &p, &size );
+
+    assert( size >= sizeof( VS_FIXEDFILEINFO ) );
+    assert( p != nullptr );
+
+    auto fixed = static_cast<const VS_FIXEDFILEINFO*>(p);
+
+    /* Determine the OS name (i.e. Win7, Server 2008, etc.) */
+
+    std::stringstream ss;
+
+    ss << HIWORD(fixed->dwFileVersionMS) << '.'
+        << LOWORD(fixed->dwFileVersionMS) << '.'
+        << HIWORD(fixed->dwFileVersionLS) << '.'
+        << LOWORD(fixed->dwFileVersionLS);
+
+    return ss.str();
+
+#elif defined(__APPLE__) /* MacOS */
+#else /* Linux */
+#endif
+}
 
 /*
  * Name: GetLastErrorAsString
@@ -100,6 +246,10 @@ bool InitializeGpuMon()
     }
     
     GLOG( 3, "Success" );
+
+    std::string strv;
+    GetOSVersionString();
+    GetDriverVersion( strv, 0 );
     
     return true;
 }

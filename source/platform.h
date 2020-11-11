@@ -37,6 +37,8 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <locale>
+#include <codecvt>
 #endif
 
 
@@ -47,6 +49,7 @@
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #define INITGUID                        // Initialize GUID related stuff (equivalent of including dxguid.lib)
+#define _WIN32_DCOM
 
 #include <windows.h>
 #include <mmsystem.h>
@@ -58,6 +61,11 @@
 #include <conio.h>
 #include <io.h>
 #include <stdint.h>
+
+#include <comip.h>
+#include <comdef.h>
+#include <WbemIdl.h>
+//#include <atlbase.h>
 
 #endif
 
