@@ -118,14 +118,18 @@ BOOL DoNotHook()
     return TRUE;
 }
 
-BOOL APIENTRY DllMain( HMODULE hModule,
+extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
                      )
 {
+    //__asm int 3;
+
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
+        MessageBoxA( NULL, "Initiating hook..", "HOOK!", MB_OK );   // For a while, this wasn't getting called, and now it is all of a sudden.
+                                                                    // Gee, I wonder what changed...
         /* Avoid hooking ourselves */
        // if( DoNotHook() )
        // {
@@ -138,6 +142,9 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         break;
 
     case DLL_THREAD_ATTACH:
+
+        break;
+
     case DLL_THREAD_DETACH:
     case DLL_PROCESS_DETACH:
         /* Uninitialize MinHook and stuff before we go */

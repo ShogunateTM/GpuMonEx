@@ -16,10 +16,10 @@
 /* Determine the right CPU arch before doing anything */
 #if defined(X86_64)
 #define CPU_ARCH_MATCH(x) (!Is32BitProcess(x))
-#define GPUMON_DLL "C:\\Shogunate\\GpuMonEx\\bin\\gpumon64.dll"
+#define GPUMON_DLL "gpumon64.dll"
 #elif defined(X86_32)
 #define CPU_ARCH_MATCH(x) (Is32BitProcess(x))
-#define GPUMON_DLL "C:\\Shogunate\\GpuMonEx\\bin\\gpumon32.dll"
+#define GPUMON_DLL "gpumon32.dll"
 #endif
 
 
@@ -298,8 +298,8 @@ int main( int argc, char** argv )
                     if( p.hProcess != nullptr )
                         continue;
 
-                    if( pid != 131136 )
-                        continue;
+                    //if( pid != 17520 )
+                      //  continue;
                     
                     if( p.dwID == 0 && pid != this_pid && pid != parent_pid )
                     {
