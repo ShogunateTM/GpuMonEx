@@ -103,12 +103,13 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dxgi.lib;MinHook.x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Shogunate\GpuMonEx\3rdParty\win32\minhook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -130,7 +131,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dxgi.lib;MinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Shogunate\GpuMonEx\3rdParty\win32\minhook\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -158,7 +159,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dxgi.lib;MinHook.x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Shogunate\GpuMonEx\3rdParty\win32\minhook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -184,7 +185,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dxgi.lib;MinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Shogunate\GpuMonEx\3rdParty\win32\minhook\lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -211,7 +212,7 @@
     <ClInclude Include="..\..\..\source\gpumon\Hook_DirectDraw.h" />
     <ClInclude Include="..\..\..\source\gpumon\Hook_OpenGL.h" />
     <ClInclude Include="..\..\..\source\gpumon\Hook_Vulkan.h" />
-    <ClInclude Include="framework.h" />
+    <ClInclude Include="..\..\..\source\gpumon\MinHook2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\3rdParty\common\nvidia\Framerate.cpp" />
@@ -230,6 +231,7 @@
     <ClCompile Include="..\..\..\source\gpumon\Hook_DirectDraw.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Hook_OpenGL.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Hook_Vulkan.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\Vtable.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

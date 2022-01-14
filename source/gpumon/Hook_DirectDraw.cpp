@@ -6,6 +6,7 @@
 //  Copyright © 2020 Shogunate Technologies. All rights reserved.
 //
 
+#undef DIRECT3D_VERSION
 #include "../platform.h"
 #include "DriverEnum.h"
 #include "Hook_DirectDraw.h"

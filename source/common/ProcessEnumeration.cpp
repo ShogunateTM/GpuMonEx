@@ -543,3 +543,65 @@ bool GetCurrentProcessName( std::string& strProcessName )
 
     return false;
 }
+
+
+/*
+ * Name: GetProcessDependencies
+ * Desc: Returns a list of modules used by this process
+ */
+bool GetProcessDependencies( DWORD process_id, std::vector<std::string>& dependencies, BOOL strip_module_path )
+{
+#ifdef _WIN32
+    HMODULE hMods[1024];
+    HANDLE hProcess;
+    DWORD cbNeeded;
+
+    /* Get a read only handle to this process */
+    hProcess = OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, process_id );
+    if( !hProcess )
+        return false;
+
+    /* Get a list of all the modules used by this process */
+    if( EnumProcessModules( hProcess, hMods, sizeof( hMods ), &cbNeeded ) )
+    {
+        for( UINT i = 0; i < ( cbNeeded / sizeof( HMODULE ) ); i++ )
+        {
+            char szModName[MAX_PATH];
+
+            /* This will get the full path to the module's file */
+            if( GetModuleFileNameExA( hProcess, hMods[i], szModName, sizeof( szModName ) / sizeof( char ) ) )
+            {
+                std::string strMod = szModName;
+
+                /* Are we keeping the full path of the module or just keeping the module name itself? */
+                if( strip_module_path )
+                {
+                    // Remove directory if present.
+                    // Do this before extension removal incase directory has a period character.
+                    const size_t last_slash_idx = strMod.find_last_of("\\/");
+                    if( std::string::npos != last_slash_idx )
+                    {
+                        strMod.erase(0, last_slash_idx + 1);
+                    }
+
+                    // Remove extension if present.
+                    /*const size_t period_idx = strMod.rfind('.');
+                    if( std::string::npos != period_idx )
+                    {
+                        strMod.erase(period_idx);
+                    }*/
+                }
+
+                dependencies.push_back( strMod );
+            }
+        }
+    }
+
+    /* Close process handle */
+    CloseHandle( hProcess );
+
+    return true;
+#endif
+
+    return false;
+}

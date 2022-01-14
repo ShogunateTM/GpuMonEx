@@ -11,7 +11,7 @@
 #include "Hook_OpenGL.h"
 
 #ifdef _WIN32
-#include "MinHook.h"
+#include "MinHook2.h"
 #endif
 
 
@@ -22,9 +22,12 @@ Hook_OpenGLAPI g_hooks, g_originals, g_trampolines;
 
 extern "C" BOOL WINAPI _hook__SwapBuffers( HDC hDC )
 {
-    static bool first = false;
-    
-    return SwapBuffers( hDC );
+    static BOOL first = TRUE;
+
+    if( first ) MessageBoxA( NULL, "OpenGL hook successful!", "Yeah boi!", MB_OK ), first = FALSE;
+
+    //glClearColor( 1.0f, 1.0f, 0.0f, 1.0f );
+    return g_trampolines.SwapBuffers( hDC );
 }
 
 #endif
@@ -75,11 +78,11 @@ BOOL Drv_EnableOpenGLHooks()
 
     /* Set and enable API hooks */
 
-    auto ret = MH_CreateHook( (void*) g_originals.SwapBuffers, (void*) g_hooks.SwapBuffers, (void**) &g_trampolines.SwapBuffers );
+    auto ret = pfnMH_CreateHook( (void*) g_originals.SwapBuffers, (void*) g_hooks.SwapBuffers, (void**) &g_trampolines.SwapBuffers );
     if( ret != MH_OK )
         return FALSE;
 
-    ret = MH_EnableHook( g_originals.SwapBuffers );
+    ret = pfnMH_EnableHook( g_originals.SwapBuffers );
 #endif
 
     return TRUE;
@@ -88,7 +91,7 @@ BOOL Drv_EnableOpenGLHooks()
 BOOL Drv_DisableOpenGLHooks()
 {
 #ifdef _WIN32
-    auto ret = MH_DisableHook( g_originals.SwapBuffers );
+    auto ret = pfnMH_DisableHook( g_originals.SwapBuffers );
 #endif
 
     return TRUE;

@@ -9,5 +9,8 @@
 #ifndef Hook_Direct3D10_h
 #define Hook_Direct3D10_h
 
+#include <d3d10.h>
+#include <d3d10_1.h>
+
 
 #endif /* Hook_Direct3D10_h */

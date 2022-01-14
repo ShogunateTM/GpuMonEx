@@ -17,7 +17,7 @@
  * TODO: This currently accounts for the primary display adapter.  Must be able to enumerate
  *       display adapters and have the drivers match each appropriate one.
  */
-void Drv_GetGpuDriver( int DriverType, GPUDRIVER* pDriver )
+void GPUMON_API Drv_GetGpuDriver( int DriverType, GPUDRIVER* pDriver )
 {
     if( !pDriver )
         return;

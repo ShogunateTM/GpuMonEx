@@ -39,6 +39,7 @@
 #include <memory>
 #include <locale>
 #include <codecvt>
+#include <vector>
 #endif
 
 
@@ -62,8 +63,11 @@
 #include <io.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
 #include <comip.h>
 #include <comdef.h>
+#endif
+
 #include <WbemIdl.h>
 //#include <atlbase.h>
 

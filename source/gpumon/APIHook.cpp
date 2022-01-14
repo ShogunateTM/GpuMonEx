@@ -9,8 +9,12 @@
 #include "../platform.h"
 #include "../common/timer_t.h"
 #include "../common/ProcessEnumeration.h"
+#include "../shared_data.h"
 #include <unordered_map>
 #include "APIHook.h"
+
+/* Shared data from the daemon tool */
+SHARED_DATA SharedData;
 
 #if defined(__APPLE__)
 
@@ -23,7 +27,16 @@
 
 #elif defined(_WIN32)
 
-#include "MinHook.h"
+#include "MinHook2.h"
+
+HMODULE hMinhook = NULL;
+MH_STATUS (WINAPI *pfnMH_Initialize)();
+MH_STATUS (WINAPI *pfnMH_Uninitialize)();
+MH_STATUS (WINAPI *pfnMH_CreateHook)(LPVOID pTarget, LPVOID pDetour, LPVOID *ppOriginal);
+MH_STATUS (WINAPI *pfnMH_RemoveHook)(LPVOID pTarget);
+MH_STATUS (WINAPI *pfnMH_EnableHook)(LPVOID pTarget);
+MH_STATUS (WINAPI *pfnMH_DisableHook)(LPVOID pTarget);
+const char* (WINAPI *pfnMH_StatusToString)(MH_STATUS status);
 
 #endif
 
@@ -116,22 +129,79 @@ void mac_hook_thread_entry( ptrdiff_t code_offset, void* param_block, size_t par
 
 #ifdef _WIN32
 
+bool GetSharedDataBetweenProcesses()
+{
+    HANDLE hMap = OpenFileMappingA( FILE_MAP_ALL_ACCESS, FALSE, "gpumonproc_shared" );
+    if( !hMap )
+        return false;
+
+    void* pBuffer = MapViewOfFile( hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+    if( !pBuffer )
+    {
+        CloseHandle( hMap );
+        return false;
+    }
+
+    CopyMemory( &SharedData, pBuffer, sizeof( SHARED_DATA ) );
+
+    UnmapViewOfFile( pBuffer );
+    CloseHandle( hMap );
+
+    return true;
+}
+
 bool EnableMinHookAPI()
 {
-    auto ret = MH_Initialize();
+    /*
+     * Attempt to open the Minhook DLL via LoadLibrary.  
+     */
+
+    if( !GetSharedDataBetweenProcesses() )
+    {
+        MessageBoxA( NULL, "Stupid thing didn't work!", "NIGGER", MB_OK );
+        return false;
+    }
+
+    hMinhook = LoadLibraryA( SharedData.MinHookDllPath );
+    if( !hMinhook )
+    {
+        MessageBoxA( NULL, "Well, this sucks!", "NIGGER!", MB_OK );
+        return false;
+    }
+
+    pfnMH_Initialize = (MH_STATUS (WINAPI*)()) GetProcAddress( hMinhook, "MH_Initialize" );
+    pfnMH_Uninitialize = (MH_STATUS (WINAPI*)()) GetProcAddress( hMinhook, "MH_Uninitialize" );
+    pfnMH_CreateHook = (MH_STATUS (WINAPI*)(LPVOID, LPVOID, LPVOID*)) GetProcAddress( hMinhook, "MH_CreateHook" );
+    pfnMH_RemoveHook = (MH_STATUS (WINAPI*)(LPVOID)) GetProcAddress( hMinhook, "MH_RemoveHook" );
+    pfnMH_EnableHook = (MH_STATUS (WINAPI*)(LPVOID)) GetProcAddress( hMinhook, "MH_EnableHook" );
+    pfnMH_DisableHook = (MH_STATUS (WINAPI*)(LPVOID)) GetProcAddress( hMinhook, "MH_DisableHook" );
+    pfnMH_StatusToString = (const char* (WINAPI*)(MH_STATUS)) GetProcAddress( hMinhook, "MH_StatusToString" ); 
+
+    /* Did we get 'em all? */
+    if( !pfnMH_Initialize || !pfnMH_Uninitialize || !pfnMH_CreateHook || !pfnMH_RemoveHook || !pfnMH_EnableHook || !pfnMH_DisableHook || !pfnMH_StatusToString )
+    {
+        MessageBoxA( NULL, "Well, this sucks even more!", "NIGGER!", MB_OK );
+    }
+
+    auto ret = pfnMH_Initialize();
     if( ret != MH_OK )
         return false;
 
     Drv_EnableOpenGLHooks();
+    Drv_EnableDirect3D9Hooks();
 
     return true;
 }
 
 void DisableMinHookAPI()
 {
+    Drv_DisableDirect3D9Hooks();
     Drv_DisableOpenGLHooks();
 
-    auto ret = MH_Uninitialize();
+    auto ret = pfnMH_Uninitialize();
+
+    if( hMinhook != NULL )
+        FreeLibrary( hMinhook );
 }
 
 #endif

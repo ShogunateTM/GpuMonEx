@@ -41,5 +41,6 @@ bool Is32BitProcess( DWORD dwProcessID );
 bool ProcessIsActive( GMPROCESS* pProcess );
 bool EnumerateProcesses( GMPROCESS** ppProcesses, int* ProcessCount );
 bool GetCurrentProcessName( std::string& strProcessName );
+bool GetProcessDependencies( DWORD process_id, std::vector<std::string>& dependencies, BOOL strip_module_path );
 
 #endif // __PROCESS_ENUMERATION_H__

@@ -128,27 +128,31 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
-        MessageBoxA( NULL, "Initiating hook..", "HOOK!", MB_OK );   // For a while, this wasn't getting called, and now it is all of a sudden.
+       // MessageBoxA( NULL, "Initiating hook..", "HOOK!", MB_OK );   // For a while, this wasn't getting called, and now it is all of a sudden.
                                                                     // Gee, I wonder what changed...
         /* Avoid hooking ourselves */
-       // if( DoNotHook() )
-       // {
+        if( DoNotHook() )
+            break;
+        //{
             //FreeLibrary( hModule );
-//}
+        //}
 
         /* Enable API hooking */
-       // EnableMinHookAPI();
+        EnableMinHookAPI();
 
         break;
 
     case DLL_THREAD_ATTACH:
-
         break;
 
     case DLL_THREAD_DETACH:
+        break;
+
     case DLL_PROCESS_DETACH:
         /* Uninitialize MinHook and stuff before we go */
-        //DisableMinHookAPI();
+       //MessageBoxA( NULL, "Initiating UN-hook..", "HOOK!", MB_OK );
+        if( !DoNotHook() )
+            DisableMinHookAPI();
         break;
     }
     return TRUE;
