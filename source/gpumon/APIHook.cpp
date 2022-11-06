@@ -158,14 +158,14 @@ bool EnableMinHookAPI()
 
     if( !GetSharedDataBetweenProcesses() )
     {
-        MessageBoxA( NULL, "Stupid thing didn't work!", "NIGGER", MB_OK );
+        MessageBoxA( NULL, "Stupid thing didn't work!", "CRAP!", MB_OK );
         return false;
     }
 
     hMinhook = LoadLibraryA( SharedData.MinHookDllPath );
     if( !hMinhook )
     {
-        MessageBoxA( NULL, "Well, this sucks!", "NIGGER!", MB_OK );
+        MessageBoxA( NULL, "Well, this sucks!", "CRAP!", MB_OK );
         return false;
     }
 
@@ -180,13 +180,16 @@ bool EnableMinHookAPI()
     /* Did we get 'em all? */
     if( !pfnMH_Initialize || !pfnMH_Uninitialize || !pfnMH_CreateHook || !pfnMH_RemoveHook || !pfnMH_EnableHook || !pfnMH_DisableHook || !pfnMH_StatusToString )
     {
-        MessageBoxA( NULL, "Well, this sucks even more!", "NIGGER!", MB_OK );
+        MessageBoxA( NULL, "Well, this sucks even more!", "CRAP", MB_OK );
     }
 
     auto ret = pfnMH_Initialize();
     if( ret != MH_OK )
         return false;
 
+    Drv_EnableDirect3D11Hooks();
+    Drv_EnableDirect3D8Hooks();
+    Drv_EnableDirectDrawHooks();
     Drv_EnableOpenGLHooks();
     Drv_EnableDirect3D9Hooks();
 
@@ -197,6 +200,9 @@ void DisableMinHookAPI()
 {
     Drv_DisableDirect3D9Hooks();
     Drv_DisableOpenGLHooks();
+    Drv_DisableDirectDrawHooks();
+    Drv_DisableDirect3D8Hooks();
+    Drv_DisableDirect3D11Hooks();
 
     auto ret = pfnMH_Uninitialize();
 

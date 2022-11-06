@@ -118,6 +118,16 @@ BOOL DoNotHook()
     return TRUE;
 }
 
+void Initialize( void* param )
+{
+    EnableMinHookAPI(), _endthread();
+}
+
+void Uninitialize( void* param )
+{
+    DisableMinHookAPI(), _endthread();
+}
+
 extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
@@ -138,7 +148,8 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
         //}
 
         /* Enable API hooking */
-        EnableMinHookAPI();
+        //EnableMinHookAPI();
+        _beginthread( Initialize, 0, NULL );
 
         break;
 
@@ -152,7 +163,8 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
         /* Uninitialize MinHook and stuff before we go */
        //MessageBoxA( NULL, "Initiating UN-hook..", "HOOK!", MB_OK );
         if( !DoNotHook() )
-            DisableMinHookAPI();
+            _beginthread( Uninitialize, 0, NULL );
+            //DisableMinHookAPI();
         break;
     }
     return TRUE;

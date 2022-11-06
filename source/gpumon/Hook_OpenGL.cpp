@@ -6,6 +6,11 @@
 //  Copyright © 2020 Shogunate Technologies. All rights reserved.
 //
 
+/*
+ * References:
+ * https://gist.github.com/rayferric/3b4eddf8d920748f5c6e09fc24c3e305
+ */
+
 #include "../platform.h"
 #include "DriverEnum.h"
 #include "Hook_OpenGL.h"
@@ -26,7 +31,6 @@ extern "C" BOOL WINAPI _hook__SwapBuffers( HDC hDC )
 
     if( first ) MessageBoxA( NULL, "OpenGL hook successful!", "Yeah boi!", MB_OK ), first = FALSE;
 
-    //glClearColor( 1.0f, 1.0f, 0.0f, 1.0f );
     return g_trampolines.SwapBuffers( hDC );
 }
 
@@ -46,6 +50,14 @@ extern "C" CGLError _hook__CGLFlushDrawable( CGLContextObj ctxt )
 
 #endif
 
+extern "C" void WINAPI _hook__glClearColor( GLclampf r, GLclampf g, GLclampf b, GLclampf a )
+{
+    static BOOL first = TRUE;
+
+    if( first ) MessageBoxA( NULL, "Test, hooking glClearColor", "Yeah boi!", MB_OK ), first = FALSE;
+
+    g_trampolines.glClearColor( 0.5, 0.5, b, a );
+}
 
 void Drv_GetOpenGLHooks( Hook_OpenGLAPI* hooks, Hook_OpenGLAPI* originals )
 {
@@ -58,6 +70,7 @@ void Drv_GetOpenGLHooks( Hook_OpenGLAPI* hooks, Hook_OpenGLAPI* originals )
 #endif
 
 #ifdef _WIN32
+    __asm int 3;
     /* Get the originals so we can unhook */
     auto hDLL = LoadLibraryA( "GDI32.dll" );
     if( hDLL )
@@ -67,6 +80,15 @@ void Drv_GetOpenGLHooks( Hook_OpenGLAPI* hooks, Hook_OpenGLAPI* originals )
         FreeLibrary( hDLL );
     }
 
+    hDLL = LoadLibraryA( "OpenGL32.dll" );
+    if( hDLL )
+    {
+        originals->glClearColor = (void (WINAPI*)(GLclampf, GLclampf, GLclampf, GLclampf)) GetProcAddress( hDLL, "glClearColor" );
+
+        FreeLibrary( hDLL );
+    }
+
+    hooks->glClearColor = _hook__glClearColor;
     hooks->SwapBuffers = _hook__SwapBuffers;
 #endif
 }
@@ -82,6 +104,11 @@ BOOL Drv_EnableOpenGLHooks()
     if( ret != MH_OK )
         return FALSE;
 
+    ret = pfnMH_CreateHook( (void*) g_originals.glClearColor, (void*) g_hooks.glClearColor, (void**) &g_trampolines.glClearColor );
+    if( ret != MH_OK )
+        return FALSE;
+
+    ret = pfnMH_EnableHook( g_originals.glClearColor );
     ret = pfnMH_EnableHook( g_originals.SwapBuffers );
 #endif
 
@@ -92,6 +119,7 @@ BOOL Drv_DisableOpenGLHooks()
 {
 #ifdef _WIN32
     auto ret = pfnMH_DisableHook( g_originals.SwapBuffers );
+    ret = pfnMH_DisableHook( g_originals.glClearColor );
 #endif
 
     return TRUE;

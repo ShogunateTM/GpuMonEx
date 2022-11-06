@@ -19,6 +19,7 @@
 #endif
 
 
+
 /*
  * Platform specific includes and definitions
  */
@@ -102,6 +103,14 @@ typedef struct kinfo_proc kinfo_proc;
 
 #define Sleep(x) usleep((x)*1000)
 
+#endif
+
+
+
+#if defined(X86_64)
+typedef uint64_t uint_addr_t;
+#elif defined(X86_32)
+typedef uint32_t uint_addr_t;
 #endif
 
 

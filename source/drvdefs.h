@@ -34,6 +34,19 @@ typedef struct _GPUSTATISTICS
 } GPUSTATISTICS;
 
 
+typedef struct _GPUPROCESS
+{
+    uint32_t process_id;
+
+#ifdef _WIN32
+    struct GPUSTATISTICS
+    {
+    };
+
+    struct GPUSTATISTICS statistics;
+#endif
+} GPUPROCESS;
+
 /* Windows DLL exports */
 #ifdef _WIN32
     #ifdef DLL_EXPORT

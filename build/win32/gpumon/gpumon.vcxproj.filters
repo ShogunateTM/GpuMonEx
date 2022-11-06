@@ -66,6 +66,9 @@
     <ClInclude Include="..\..\..\source\gpumon\MinHook2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\gpumon\TmpWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\gpumon\dllmain.cpp">
@@ -117,6 +120,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\gpumon\Vtable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\gpumon\TmpWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,13 +9,22 @@
 #include "../platform.h"
 #include "DriverEnum.h"
 #include "Hook_Direct3D9.h"
-
-#ifdef _WIN32
+#include "TmpWnd.h"
 #include "MinHook2.h"
-#endif
 
 
 Hook_Direct3D9API g_hooks, g_originals, g_trampolines;
+
+/*
+ * D3D VTables
+ */
+uint_addr_t Direct3D_vtable;
+uint_addr_t D3DDevice_vtable[119];
+
+uint_addr_t Direct3DEx_vtable;
+uint_addr_t D3DDeviceEx_vtable[124];
+
+
 
 extern "C" 
 {
@@ -26,7 +35,7 @@ extern "C" HRESULT WINAPI _hook__IDirect3DDevice9_Present( IDirect3DDevice9* pTh
 {
     static BOOL first = TRUE;
 
-    /*if( first )*/ MessageBoxA( NULL, "D3D9 hooked successfully!", "Yeah boi", MB_OK ), first = FALSE;
+    if( first ) MessageBoxA( NULL, "D3D9 hooked successfully!", "Yeah boi", MB_OK ), first = FALSE;
 
 	return g_trampolines.D3DDevice9_Present( pThis, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion );
 }
@@ -74,7 +83,8 @@ void Drv_GetDirect3D9Hooks( Hook_Direct3D9API* hooks, Hook_Direct3D9API* origina
      * Standard Direct3D9
      */
     {
-        static PFN_Direct3DCreate9 pfnDirect3DCreate9 = NULL;
+       static PFN_Direct3DCreate9 pfnDirect3DCreate9 = NULL;
+        //__asm int 3;
 
         /* TODO: Is it better to use LoadLibraryA instead or what? Probably doesn't matter */
         HMODULE hDLL = GetModuleHandleA( "d3d9" );
@@ -87,7 +97,7 @@ void Drv_GetDirect3D9Hooks( Hook_Direct3D9API* hooks, Hook_Direct3D9API* origina
         if( !pfnDirect3DCreate9 )
         {
             return;
-        }
+        } 
 
         LPDIRECT3D9 pD3D = pfnDirect3DCreate9( D3D_SDK_VERSION );
 
@@ -96,38 +106,39 @@ void Drv_GetDirect3D9Hooks( Hook_Direct3D9API* hooks, Hook_Direct3D9API* origina
         if( FAILED( hRes ) )
         {
             return;
-        }
+        } 
 
         D3DPRESENT_PARAMETERS d3dpp; 
         ZeroMemory( &d3dpp, sizeof(d3dpp));
-        d3dpp.Windowed = FALSE;
+        d3dpp.BackBufferWidth = 0;
+        d3dpp.BackBufferHeight = 0;
+        d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+        d3dpp.BackBufferCount = 0;
+        d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
+        d3dpp.MultiSampleQuality = NULL;
         d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-        d3dpp.BackBufferFormat = d3ddm.Format;
-        d3dpp.hDeviceWindow = GetProcessWindow();
-
-       /* WNDCLASSEXA wc = { sizeof(WNDCLASSEXA),CS_CLASSDC,TempWndProc,0L,0L,GetModuleHandleA(NULL),NULL,NULL,NULL,NULL,("1"),NULL};
-        RegisterClassExA(&wc);
-        HWND hWnd = CreateWindowA(("1"),NULL,WS_OVERLAPPEDWINDOW,100,100,300,300,GetDesktopWindow(),NULL,wc.hInstance,NULL);
-        if( !hWnd )
-        {
-            MessageBoxA( NULL, "CreateWindow FAILED", "Dang it!", MB_OK );
-            return;
-        }*/
+        d3dpp.hDeviceWindow = GetForegroundWindow();
+        d3dpp.Windowed = 1;
+        d3dpp.EnableAutoDepthStencil = 0;
+        d3dpp.AutoDepthStencilFormat = D3DFMT_UNKNOWN;
+        d3dpp.Flags = NULL;
+        d3dpp.FullScreen_RefreshRateInHz = 0;
+        d3dpp.PresentationInterval = 0;
 
         IDirect3DDevice9* pD3DDevice = NULL;
         hRes = pD3D->CreateDevice( 
             D3DADAPTER_DEFAULT,
-            D3DDEVTYPE_HAL,
+            D3DDEVTYPE_NULLREF,
             d3dpp.hDeviceWindow,
             D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_DISABLE_DRIVER_MANAGEMENT | D3DCREATE_MULTITHREADED,
             &d3dpp, &pD3DDevice );
 
         if( FAILED( hRes ) )
         {
-            d3dpp.Windowed = !d3dpp.Windowed;
+            d3dpp.Windowed = FALSE;
             hRes = pD3D->CreateDevice( 
                 D3DADAPTER_DEFAULT,
-                D3DDEVTYPE_HAL,
+                D3DDEVTYPE_NULLREF,
                 d3dpp.hDeviceWindow,
                 D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_DISABLE_DRIVER_MANAGEMENT | D3DCREATE_MULTITHREADED,
                 &d3dpp, &pD3DDevice );
@@ -139,11 +150,11 @@ void Drv_GetDirect3D9Hooks( Hook_Direct3D9API* hooks, Hook_Direct3D9API* origina
 
                 char str[128];
                 sprintf( str, "CreateDevice failures suck... (0x%X)", hRes );
-                MessageBoxA( NULL, str, "Dang it!", MB_OK );
+               // MessageBoxA( NULL, str, "Dang it!", MB_OK );
                 return;
             }
         }
-
+        
         /*ULONG* lpVtbl = (unsigned long*)*((unsigned long*)pD3DDevice);
         originals->D3DDevice9_Present = (PFN_D3DDevice9_Present) (DWORD) lpVtbl[17];*/
 
@@ -152,8 +163,19 @@ void Drv_GetDirect3D9Hooks( Hook_Direct3D9API* hooks, Hook_Direct3D9API* origina
 
         originals->D3DDevice9_Present = (PFN_D3DDevice9_Present) lpVtbl[17];*/
 
-        GetFunctionsViaVtable_D3D9( pD3DDevice, &g_originals );
+       // GetFunctionsViaVtable_D3D9( pD3DDevice, &g_originals );
 
+        //D3DDevice_vtable = (uint_addr_t*)::calloc(119, sizeof(uint_addr_t));
+        
+        ::memcpy( D3DDevice_vtable, *(uint_addr_t**) pD3DDevice, 119 * sizeof( uint_addr_t ) );
+
+        char str[64];
+        sprintf( str, "D3DDevice9::Present():= 0x%X\n", D3DDevice_vtable[17] );
+        OutputDebugStringA( str );
+        MessageBoxA( NULL, str, "K", MB_OK );
+        
+        originals->D3DDevice9_Present = (PFN_D3DDevice9_Present) ((void*) D3DDevice_vtable[17]);
+        hooks->D3DDevice9_Present = _hook__IDirect3DDevice9_Present;
 
         pD3DDevice->Release();
         pD3D->Release();
@@ -178,7 +200,7 @@ BOOL Drv_EnableDirect3D9Hooks()
     auto ret = pfnMH_CreateHook( (void*) g_originals.D3DDevice9_Present, (void*) g_hooks.D3DDevice9_Present, (void**) &g_trampolines.D3DDevice9_Present );
     if( ret != MH_OK )
     {
-        MessageBoxA( NULL, "Hooking failed!", "DANG IT!", MB_OK );
+       // MessageBoxA( NULL, "Hooking D3D9 failed!", "DANG IT!", MB_OK );
         return FALSE;
     }
 

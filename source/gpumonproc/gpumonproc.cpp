@@ -214,12 +214,14 @@ void at_exit()
  */
 bool QuitSignalReceived()
 {
+    bool ShutdownThisProcess = false;
+
 #ifdef _WIN32               /* Windows */
 #elif defined(__APPLE__)    /* MacOS */
 #else                       /* Linux */
 #endif
 
-    return false;
+    return ShutdownThisProcess;
 }
 
 /*
@@ -713,6 +715,20 @@ int main( int argc, char** argv )
         Sleep(1000);
     }
     
+    /* 
+     * We need to undo all the hooks after this process is signaled to close.  If not, then
+     * we will not be able to re-hook any processes that were already hooked until they are 
+     * closed and re-opened.
+     */
+
+    auto it = process_map.begin();
+    while( it != process_map.end() )
+    {
+        auto p = it->second;
+        undo_hooks( p.dwID );
+        it = process_map.erase(it);
+    }
+
     return error_code;
 }
 

@@ -268,6 +268,7 @@ int  KmtGetGpuUsage( int adapter )
  *
  *		  Windows: *Should* work as long as the process handle was created with PROCESS_QUERY_INFORMATION.
  */
+#if 0
 int KmtGetProcessGpuUsage( int adapter, void* pProcess )
 {
 	LUID luid = { 20 };
@@ -302,6 +303,35 @@ int KmtGetProcessGpuUsage( int adapter, void* pProcess )
 		Usage = stats.QueryResult.ProcessInformation.SystemMemory.BytesAllocated;
 
 	return Usage;
+}
+#endif
+
+/*
+* Name: KmtGetProcessGpuUsageEx
+* Desc: Returns the GPU usage of a specific process that is currently running
+*
+* NOTES: See link below.
+*		  https://processhacker.sourceforge.io/doc/gpumon_8c_source.html (Line 759)
+*/
+int KmtGetProcessGpuUsage( int adapter, void* pProcess )
+{
+#if 0
+	for (j = 0; j < gpuAdapter->NodeCount; j++)
+	{
+		memset(&queryStatistics, 0, sizeof(D3DKMT_QUERYSTATISTICS));
+		queryStatistics.Type = D3DKMT_QUERYSTATISTICS_PROCESS_NODE;
+		queryStatistics.AdapterLuid = gpuAdapter->AdapterLuid;
+		queryStatistics.hProcess = ProcessHandle;
+		queryStatistics.QueryProcessNode.NodeId = j;
+	
+		if (NT_SUCCESS(pfnD3DKMTQueryStatistics(&queryStatistics)))
+		{
+			Statistics->RunningTime += queryStatistics.QueryResult.ProcessNodeInformation.RunningTime.QuadPart;
+			Statistics->ContextSwitches += queryStatistics.QueryResult.ProcessNodeInformation.ContextSwitch;
+		}
+	}
+#endif 
+	return 0;
 }
 
 /*

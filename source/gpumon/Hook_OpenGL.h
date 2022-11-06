@@ -36,6 +36,8 @@ struct Hook_OpenGLAPI
 #ifdef _WIN32
     BOOL (WINAPI* SwapBuffers)( HDC );
 #endif
+
+    void (WINAPI* glClearColor)( GLclampf, GLclampf, GLclampf, GLclampf );
 };
 
 void GPUMON_API Drv_GetOpenGLHooks( Hook_OpenGLAPI* hooks, Hook_OpenGLAPI* originals );

@@ -75,6 +75,7 @@
     <OutDir>..\..\..\obj\$(ProjectName)\$(Configuration)\</OutDir>
     <IntDir>..\..\..\obj\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)32</TargetName>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\..\..\3rdParty\win32\dx8sdk\include</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -87,6 +88,7 @@
     <OutDir>..\..\..\obj\$(ProjectName)\$(Configuration)\</OutDir>
     <IntDir>..\..\..\obj\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)32</TargetName>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\..\..\3rdParty\win32\dx8sdk\include</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -213,6 +215,7 @@
     <ClInclude Include="..\..\..\source\gpumon\Hook_OpenGL.h" />
     <ClInclude Include="..\..\..\source\gpumon\Hook_Vulkan.h" />
     <ClInclude Include="..\..\..\source\gpumon\MinHook2.h" />
+    <ClInclude Include="..\..\..\source\gpumon\TmpWnd.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\3rdParty\common\nvidia\Framerate.cpp" />
@@ -231,6 +234,7 @@
     <ClCompile Include="..\..\..\source\gpumon\Hook_DirectDraw.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Hook_OpenGL.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Hook_Vulkan.cpp" />
+    <ClCompile Include="..\..\..\source\gpumon\TmpWnd.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Vtable.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
