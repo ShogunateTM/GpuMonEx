@@ -3,7 +3,10 @@
 #include "../common/ProcessEnumeration.h"
 #include "APIHook.h"
 
+#include <processthreadsapi.h>
 
+
+HMODULE hThis = nullptr;
 
 //Foo foo;
 
@@ -106,7 +109,7 @@ BOOL DoNotHook()
     {
         std::string strProcessName = GetFileName( strProcessPath, false, '\\' );
 
-        if( strProcessName != "GpuMonEx" &&
+        if( strProcessName != "GpuMonEx" && strProcessName != "fraps" &&
             strProcessName != "gpucmd" && strProcessName != "gpucmd64" &&
             strProcessName != "gpumonproc32" && strProcessName != "gpumonproc64" &&
             strProcessName != "gpumonproc32d" && strProcessName != "gpumonproc64d" )
@@ -120,12 +123,19 @@ BOOL DoNotHook()
 
 void Initialize( void* param )
 {
+    SetThreadDescription( GetCurrentThread(), L"Hook init thread" );
     EnableMinHookAPI(), _endthread();
 }
 
 void Uninitialize( void* param )
 {
     DisableMinHookAPI(), _endthread();
+}
+
+unsigned __stdcall UninitializeEx( void* param )
+{
+    DisableMinHookAPI(), _endthreadex(0);
+    return 0;
 }
 
 extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
@@ -147,6 +157,10 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
             //FreeLibrary( hModule );
         //}
 
+        hThis = hModule;
+
+        DisableThreadLibraryCalls( hModule );
+
         /* Enable API hooking */
         //EnableMinHookAPI();
         _beginthread( Initialize, 0, NULL );
@@ -163,8 +177,16 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
         /* Uninitialize MinHook and stuff before we go */
        //MessageBoxA( NULL, "Initiating UN-hook..", "HOOK!", MB_OK );
         if( !DoNotHook() )
-            _beginthread( Uninitialize, 0, NULL );
-            //DisableMinHookAPI();
+        {
+            //DisableThreadLibraryCalls( hModule );
+
+            //unsigned int thread_id = 0;
+            //HANDLE hThread = (HANDLE) _beginthreadex( NULL, 0, UninitializeEx, NULL, 0, &thread_id );//_beginthread( Uninitialize, 0, NULL );
+            //WaitForSingleObject( hThread, INFINITE );
+            DisableMinHookAPI();
+            //FreeLibrary( hThis );
+            FreeLibraryAndExitThread( hThis, 0 );
+        }
         break;
     }
     return TRUE;

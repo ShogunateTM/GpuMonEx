@@ -16,15 +16,25 @@
 //}
 #endif
 
+#ifdef _WIN32
+#include <Shlobj.h>
+#include <AclAPI.h>
+#include <sddl.h>
+#endif
+
 /* Determine the right CPU arch before doing anything */
 #if defined(X86_64)
 #define CPU_ARCH_MATCH(x) (!Is32BitProcess(x))
 #define GPUMON_DLL "gpumon64.dll"
+#define wGPUMON_DLL L"gpumon64.dll"
 #define MINHOOK_MODULE "Minhook.x64.dll"
+#define PEGGY_DLL "peggy64.dll"
 #elif defined(X86_32)
 #define CPU_ARCH_MATCH(x) (Is32BitProcess(x))
 #define GPUMON_DLL "gpumon32.dll"
+#define wGPUMON_DLL L"gpumon32.dll"
 #define MINHOOK_MODULE "Minhook.x86.dll"
+#define PEGGY_DLL "peggy32.dll"
 #endif
 
 
@@ -40,6 +50,9 @@ HMODULE dlh = nullptr;
 SHARED_DATA SharedData;
 void* pSharedBufferData = NULL;
 HANDLE hSharedDataMap = NULL;
+
+bool bShutdownThisProcess = false;
+
 
 /* Mach injection thread (macOS) */
 extern "C" void* mac_hook_thread_entry = nullptr;
@@ -146,6 +159,58 @@ DWORD getppid()
     return ppid;
 }
 
+/*
+ * Name: EnableReadExecutePermissions
+ * Desc: To avoid the need to manually set read and read/execute permissions to the gpumon DLL we
+ *       inject into any UWP or WinRT processes.
+ * 
+ * Source: https://www.unknowncheats.me/forum/general-programming-and-reversing/177183-basic-intermediate-techniques-uwp-app-modding.html
+ */
+DWORD EnableReadExecutePermissionsW( std::wstring wstrFilePath )
+{
+    PACL pOldDACL = NULL, pNewDACL = NULL;
+    PSECURITY_DESCRIPTOR pSD = NULL;
+    EXPLICIT_ACCESSW eaAccess;
+    SECURITY_INFORMATION siInfo = DACL_SECURITY_INFORMATION;
+    DWORD dwResult = ERROR_SUCCESS;
+    PSID pSID;
+ 
+    // Get a pointer to the existing DACL
+    dwResult = GetNamedSecurityInfoW( wstrFilePath.c_str(), SE_FILE_OBJECT, DACL_SECURITY_INFORMATION, NULL, NULL, &pOldDACL, NULL, &pSD );
+    if( dwResult != ERROR_SUCCESS )
+        goto Cleanup;
+ 
+    // Get the SID for ALL APPLICATION PACKAGES using its SID string
+    ConvertStringSidToSidW( L"S-1-15-2-1", &pSID );
+    if( pSID == NULL )
+        goto Cleanup;
+ 
+    ZeroMemory( &eaAccess, sizeof(EXPLICIT_ACCESSW) );
+    eaAccess.grfAccessPermissions = GENERIC_READ | GENERIC_EXECUTE;
+    eaAccess.grfAccessMode = SET_ACCESS;
+    eaAccess.grfInheritance = SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+    eaAccess.Trustee.TrusteeForm = TRUSTEE_IS_SID;
+    eaAccess.Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
+    eaAccess.Trustee.ptstrName = (LPWSTR) pSID;
+ 
+    // Create a new ACL that merges the new ACE into the existing DACL
+    dwResult = SetEntriesInAclW( 1, &eaAccess, pOldDACL, &pNewDACL );
+    if( ERROR_SUCCESS != dwResult )
+        goto Cleanup;
+ 
+    // Attach the new ACL as the object's DACL
+    dwResult = SetNamedSecurityInfoW( (LPWSTR)wstrFilePath.c_str(), SE_FILE_OBJECT, siInfo, NULL, NULL, pNewDACL, NULL );
+    if( ERROR_SUCCESS != dwResult )
+        goto Cleanup;
+ 
+Cleanup:
+    if( pSD != NULL )
+        LocalFree( (HLOCAL) pSD );
+    if( pNewDACL != NULL )
+        LocalFree( (HLOCAL) pNewDACL );
+ 
+    return dwResult;
+}
 #endif
 
 /*
@@ -214,14 +279,12 @@ void at_exit()
  */
 bool QuitSignalReceived()
 {
-    bool ShutdownThisProcess = false;
-
 #ifdef _WIN32               /* Windows */
 #elif defined(__APPLE__)    /* MacOS */
 #else                       /* Linux */
 #endif
 
-    return ShutdownThisProcess;
+    return bShutdownThisProcess;
 }
 
 /*
@@ -410,6 +473,247 @@ BOOL InjectModule( DWORD pid )
     return FALSE;
 }
 
+#if 0
+bool callFunction (char * functionName, char * format, ...) 
+{
+	// Used for building code reference
+	BYTE	codeFormat[] =	"\xE8\x01\x00\x00\x00"	// call codeStart;
+							"\xC3"					// ret (returnAddress)
+
+							// codeStart :
+							"\xB8\x00\x00\x00\x00"	// mov eax, functionAddress
+
+							//"\x68\x00\x00\x00\x00"// push arguments : will be increasing
+													// according to total arguments
+							// 11
+							"\xFF\xD0"				// call eax (MessageBoxA) or the function called
+							"\x68\x00\x00\x00\x00"	// push returnAddress
+							"\xC3";					// ret;
+
+	// Used to build the code
+	BYTE*	codeBuild;								// Stores the finished code
+	size_t	codeLength = 0;							// Calculate code total length
+	int		codeAddLength = 0;						// Calculate additional length like string length, etc
+	int		codePos = 0;							// The current position to insert byte;
+	int		codeDataPos = 0;						// The current position to insert data;
+
+	// Used to detect the arguments and build the code
+	va_list argumentsList;
+	char*	strArgumentParsed;						// Parse all string related arguments
+	int		totalArguments = 0;						// the total argument found. Used for calculating code length
+
+	// For finding all data about the function called by the user
+	DWORD	functionAddress = 0;
+
+	// For code injection
+	BYTE*	codeAlloc;								// Will be used for the address to inject the finished code
+	HANDLE	threadHandle = 0;						// Handling the thread that will execute the code
+	DWORD	threadExitCode = 0;						// Stores the end of the thread
+
+    HINSTANCE hLibrary = LoadLibrary (dll.c_str());
+    if (!hLibrary) {
+
+        log._stream << "Attempted to load a dll but failed" << std::endl;
+        return false;
+    }
+
+    FARPROC pPrototype = GetProcAddress (hLibrary, functionName);
+    if (!pPrototype) {
+
+        log._stream << "Could not find function '" << functionName << "' in library - error code: " << GetLastError() << std::endl;
+        return false;
+    }
+
+    FARPROC pRelative = (FARPROC)((DWORD)pPrototype - (DWORD)hLibrary);
+
+    LPVOID pFunction = (LPVOID)((DWORD)pRelative + dwBaseAddress);
+
+    log._stream << "Attempting to call '" << functionName << "' at location:" << pFunction << std::endl;
+
+	// Check only if got anything in the format
+	if(format != "")
+	{
+		// Check the total arguments and calculate the total additional data size
+		va_start(argumentsList, format);
+		for(int i = 0; format[i] != '\0'; i++)
+		{
+			// Calculate the total arguments found
+			if(format[i] == '%')
+			{
+				totalArguments++;
+				i++;
+			}
+
+			// Calculate all the additional data size
+			switch(format[i])
+			{
+				case 'd':
+				case 'x':
+					// Skip because DWORD directly use the asm PUSH statement
+					va_arg(argumentsList, DWORD);
+					break;
+				case 's':
+					// Add the size of arguments to additional code length
+					codeAddLength += lstrlen(va_arg(argumentsList, char*)) + 1;
+					break;
+			}
+		}
+		va_end(argumentsList);
+	}
+
+	// Start building the code
+	codeLength = (totalArguments * 5) + sizeof(codeFormat) + codeAddLength;
+	codeBuild = new BYTE[codeLength];
+	
+	// Initialize the position
+	codePos = 0;
+	codeDataPos = codeLength - codeAddLength - 1;
+
+	// Allocate memory address for code injection here since we are using it for building
+	// the code
+
+    //pRemote = VirtualAllocEx (hProcess, NULL, numBytes, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	codeAlloc = (BYTE*)VirtualAllocEx(hProcess, NULL, codeLength, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if(!codeAlloc)
+	{
+		log._stream << "Failed to allocate memory address" << std::endl;
+		return false;
+	}
+
+	// Add the first 7 bytes from the code reference
+	for(int i = 0; i < 7; i++, codePos++)
+		codeBuild[codePos] = codeFormat[i];
+
+	//printf("\n\n %.02X \n\n", codePos);
+
+	// Skip the 7th byte and move to the next one
+	// codePos++;
+
+	// For the 8th byte to 11th byte, add the function address
+	*(DWORD*)&codeBuild[codePos] = functionAddress;
+
+	// Skip 4 bytes and move to the next one
+	codePos += 4;
+
+	//for(int i = 0; i < totalArguments * 5;i++, codePos++)
+	//	codeBuild[codePos] = 0x00;
+
+	// Skip all the push statement and move to the next one
+	codePos += (totalArguments * 5);
+
+	// Again, add the next 3 bytes from the code reference
+	for(int i = 11; i < 14; i++, codePos++)
+		codeBuild[codePos] = codeFormat[i];
+
+	// Add the address of the ret to push statement
+	*(DWORD*)&codeBuild[codePos] = (DWORD)codeAlloc + 5;
+
+	// Skip 4 bytes and move to the next one
+	codePos += 4;
+
+	// Add the last 1 bytes from the code reference
+	//for(int i = 18; i < 20; i++, codePos++)
+	codeBuild[codePos] = codeFormat[18];
+
+	// Step backward 8 bytes to build all the push statement
+	// Since asm is backward ex: (..., arg3, arg2, arg1, arg0)function
+	// We should also going backwards
+	codePos -= 7;
+
+	if(format != "")
+	{
+		// Build all the push statements and also insert the arguments
+		va_start(argumentsList, format);
+		for(int i = 0; format[i] != '\0'; i++)
+		{
+			// This is to insert the push statement
+			codePos -= 5;
+
+			if(format[i] == '%')
+			{
+				// insert the push statement and skip 1 byte;
+				codeBuild[codePos] = 0x68;
+				codePos++;
+
+				// move to the character after %
+				i++;
+
+				switch(format[i])
+				{
+					case 'd':
+					case 'x':
+						// Add the DWORD into the code
+						*(DWORD*)&codeBuild[codePos] = va_arg(argumentsList, DWORD);
+						break;
+					case 's':
+						// Parse the string to our string parser
+						strArgumentParsed = va_arg(argumentsList, char*);
+
+						// Add the address of the string to the push statement
+						*(DWORD*)&codeBuild[codePos] = (DWORD)(codeAlloc + codeDataPos);
+
+						// For every character in the string add to the code in the data section
+						for(int j = 0; j < lstrlen(strArgumentParsed); j++, codeDataPos++)
+							codeBuild[codeDataPos] = strArgumentParsed[j];
+
+						// Add the next byte as the string ending
+						codeBuild[codeDataPos] = 0x00;
+
+						// Move the data position by 1 skipping the string end
+						codeDataPos++;
+						break;
+				}
+
+				// Move backwards 1 bytes to build the next push statement
+				codePos--;
+			}
+		}
+		va_end(argumentsList);
+	}
+
+	if(!WriteProcessMemory(hProcess, (LPVOID)codeAlloc, codeBuild, codeLength, NULL))
+	{
+		log._stream << "Failed to write process memory" << std::endl;
+		return false;
+	}
+
+	threadHandle = CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)codeAlloc, 0, 0, NULL);
+	if(!threadHandle)
+	{
+		log._stream << "Failed to create remote thread" << std::endl;
+		return false;
+	}
+
+	if(WaitForMultipleObjects(1, &threadHandle, TRUE, 5000) != 0)
+	{
+		log._stream << "Failed on waiting \n" << std::endl;
+		return false;
+	}
+
+	if(!GetExitCodeThread(threadHandle, &threadExitCode))
+	{
+		log._stream << "Failed to retrieve thread exit code \n\n" << std::endl;
+		return false;
+	}
+
+    if (codeAlloc) {
+	    if(!VirtualFreeEx(hProcess, codeAlloc, 0, MEM_RELEASE))
+	    {
+		    log._stream << "Failed to free virtual allocation. " << std::endl;
+		    return false;
+	    }
+
+    }
+	return true;
+}
+#endif
+
+struct ExitParams
+{
+    HMODULE hModule;
+    int exitcode;
+};
+
 BOOL UndoInjectModule( DWORD pid )
 {
 #ifdef _WIN32   /* Windows desktop */
@@ -438,16 +742,35 @@ BOOL UndoInjectModule( DWORD pid )
     HANDLE ProcessHandle = NULL;
 
     ProcessHandle = OpenProcess( PROCESS_ALL_ACCESS, FALSE, pid );
-
     if( ProcessHandle == NULL )
     {
         return FALSE;
     }
 
-    LPTHREAD_START_ROUTINE FreeLibraryAddress = NULL;
-    HMODULE Kernel32Module = GetModuleHandleA( "Kernel32" );
+    char DllFullPath[MAX_PATH];
 
-    FreeLibraryAddress = (LPTHREAD_START_ROUTINE) GetProcAddress( Kernel32Module, "FreeLibrary" );
+    /* If we don't use the FULL path to the DLL we are injecting, it won't work and this whole thing is for nothing! */
+    /*if( !GetFullPathNameA( PEGGY_DLL, MAX_PATH, DllFullPath, nullptr ) )
+    {
+        CloseHandle( ProcessHandle );
+        return FALSE;
+    }*/
+
+    /*PVOID BufferData = VirtualAllocEx( ProcessHandle, NULL, sizeof( struct ExitParams ), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE );
+    if( BufferData == NULL )
+    {
+        CloseHandle( ProcessHandle );
+        return FALSE;
+    }
+
+    SIZE_T ReturnLength;
+    struct ExitParams exit_params = { me.hModule, 0 };
+    BOOL bOK = WriteProcessMemory( ProcessHandle, BufferData, &exit_params, sizeof( struct ExitParams ), &ReturnLength );*/
+
+    LPTHREAD_START_ROUTINE FreeLibraryAddress = NULL;
+    HMODULE Kernel32Module = LoadLibraryA( /*DllFullPath*/ "Kernel32.dll" );
+
+    FreeLibraryAddress = (LPTHREAD_START_ROUTINE) GetProcAddress( Kernel32Module, /*"_FreeLibraryRemote@4"*/ "FreeLibrary" );
     pfnNtCreateThreadEx NtCreateThreadEx = (pfnNtCreateThreadEx) GetProcAddress( GetModuleHandleA( "ntdll.dll" ), "NtCreateThreadEx" );
     if( NtCreateThreadEx == NULL )
     {
@@ -457,13 +780,13 @@ BOOL UndoInjectModule( DWORD pid )
 
     HANDLE ThreadHandle = NULL;
 
-    NtCreateThreadEx( &ThreadHandle, 0x1FFFFF, NULL, ProcessHandle, (LPTHREAD_START_ROUTINE) FreeLibraryAddress, me.modBaseAddr, FALSE, NULL, NULL, NULL, NULL );
+    NtCreateThreadEx( &ThreadHandle, 0x1FFFFF, NULL, ProcessHandle, (LPTHREAD_START_ROUTINE) FreeLibraryAddress, /*me.modBaseAddr*/me.hModule /*&exit_params*/, FALSE, NULL, NULL, NULL, NULL );
     if( ThreadHandle == NULL )
     {
-        CloseHandle(ProcessHandle);
+        CloseHandle( ProcessHandle );
         return FALSE;
     }
-    if( WaitForSingleObject( ThreadHandle, INFINITE ) == WAIT_FAILED )
+    if( WaitForSingleObjectEx( ThreadHandle, INFINITE, FALSE ) == WAIT_FAILED )
     {
         return FALSE;
     }
@@ -607,13 +930,32 @@ int main( int argc, char** argv )
     timer_t timer;
     
     /* Are we targeting a specific process? */
-    if( argc == 2 )
-        target_pid = atoi( argv[1] );
+    if( argc > 2 )
+    {
+        if( !strcmp( argv[1], "-pid" ) )
+            target_pid = atoi( argv[2] );
+        else if( !strcmp( argv[1], "-pname" ) )
+            target_pid = GetProcessIdByName( argv[2] );
 
+        if( target_pid == 0 )   /* Process is not running and therefore does not exist */
+        {
+            std::stringstream ss;
+
+            ss << "main(): Process ID '" << argv[2] << "' not found!" << std::endl;
+            OutputDebugStringA( ss.str().c_str() );
+            target_pid = 0;
+        }
+    }
+    
     /* Functions called at exit */
     atexit( at_exit );
 
 #ifdef _WIN32
+    /* Programatically enable read and read/execute privileges for the "ALL APPLICATION PACKAGES" group for WinRT/UWP apps */
+    DWORD result = EnableReadExecutePermissionsW( wGPUMON_DLL );
+    if( result != ERROR_SUCCESS )
+        OutputDebugStringA( GetLastErrorAsString().c_str() );
+
     /* Enable debug privileges */
     if( !EnableDebugPrivileges() )
         OutputDebugStringA( GetLastErrorAsString().c_str() );

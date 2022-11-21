@@ -15,10 +15,14 @@
 
 
 typedef HRESULT (WINAPI* PFN_IDXGISwapChain_Present)( IDXGISwapChain*, UINT SyncInterval, UINT Flags );
+typedef HRESULT (WINAPI* PFN_IDXGISwapChain1_Present1)( IDXGISwapChain1*, UINT SyncInterval, UINT PresentFlags, const DXGI_PRESENT_PARAMETERS *pPresentParameters );
+
 
 struct Hook_Direct3D11API
 {
-    PFN_IDXGISwapChain_Present DXGISwapChain_Present;   // 8
+    PFN_IDXGISwapChain_Present DXGISwapChain_Present;       // vtbl[8]
+
+    PFN_IDXGISwapChain1_Present1 DXGISwapChain1_Present1;   // vtbl[22]
 };
 
 Hook_Direct3D11API g_hooks, g_originals, g_trampolines;
@@ -37,6 +41,15 @@ extern "C" HRESULT WINAPI _hook__IDXGISwapChain_Present( IDXGISwapChain* pThis, 
     if( first ) MessageBoxA( NULL, "D3D11 hooked successfully!", "Yeah boi", MB_OK ), first = FALSE;
 
     return g_trampolines.DXGISwapChain_Present( pThis, SyncInterval, Flags );
+}
+
+extern "C" HRESULT WINAPI _hook__IDXGISwapChain1_Present1( IDXGISwapChain1* pThis, UINT SyncInterval, UINT Flags, const DXGI_PRESENT_PARAMETERS *pPresentParameters )
+{
+    static BOOL first = TRUE;
+
+    if( first ) MessageBoxA( NULL, "D3D11 hooked successfully!", "Yeah boi", MB_OK ), first = FALSE;
+
+    return g_trampolines.DXGISwapChain1_Present1( pThis, SyncInterval, Flags, pPresentParameters );
 }
 
 
@@ -156,6 +169,8 @@ BOOL Drv_EnableDirect3D11Hooks()
 BOOL Drv_DisableDirect3D11Hooks()
 {
     auto ret = pfnMH_DisableHook( g_originals.DXGISwapChain_Present );
+
+    ret = pfnMH_RemoveHook( g_originals.DXGISwapChain_Present );
 
     return TRUE;
 }

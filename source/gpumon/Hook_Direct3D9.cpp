@@ -216,7 +216,9 @@ BOOL Drv_EnableDirect3D9Hooks()
 
 BOOL Drv_DisableDirect3D9Hooks()
 {
-    auto ret = pfnMH_DisableHook( g_originals.D3DDevice9_Present );
+    auto ret = pfnMH_DisableHook( g_originals.D3DDevice9_Present ); 
+
+    ret = pfnMH_RemoveHook( g_originals.D3DDevice9_Present );
 
     return TRUE;
 }

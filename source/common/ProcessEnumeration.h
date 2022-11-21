@@ -34,6 +34,7 @@ typedef struct _GMPROCESS
 BOOL EnableDebugPrivileges();
 bool CreateNewProcess( const CHAR* szProcessName, GMPROCESS* pProcess );
 bool OpenProcessByName( const CHAR* szProcessName, GMPROCESS* pProcess );
+DWORD GetProcessIdByName( const CHAR* szProcessName );
 bool OpenProcessByID( DWORD dwProcessID, GMPROCESS* pProcess );
 void CloseProcess( GMPROCESS* pProcess );
 void TerminateProcess( GMPROCESS* pProcess );

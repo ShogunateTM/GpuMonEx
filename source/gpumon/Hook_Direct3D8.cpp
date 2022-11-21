@@ -6,6 +6,7 @@
 //  Copyright © 2020 Shogunate Technologies. All rights reserved.
 //
 
+
 #define INCLUDE_D3D8
 
 #include "../platform.h"
@@ -14,6 +15,7 @@
 #include "TmpWnd.h"
 #include "MinHook2.h"
 
+#ifdef X86_32   // x64 not supported
 
 Hook_Direct3D8API g_hooks, g_originals, g_trampolines;
 
@@ -178,5 +180,9 @@ BOOL Drv_DisableDirect3D8Hooks()
 {
     auto ret = pfnMH_DisableHook( g_originals.D3DDevice8_Present );
 
+    ret = pfnMH_RemoveHook( g_originals.D3DDevice8_Present );
+
     return TRUE;
 }
+
+#endif

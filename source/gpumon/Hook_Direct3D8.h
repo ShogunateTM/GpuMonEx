@@ -9,6 +9,8 @@
 #ifndef Hook_Direct3D8_h
 #define Hook_Direct3D8_h
 
+#ifdef X86_32	// 32-bit x86 only
+
 /* 
  * Direct3D8 header 
  */
@@ -51,5 +53,7 @@ BOOL Drv_DisableDirect3D8Hooks();
 #ifdef __cplusplus
 }
 #endif
+
+#endif // X86_32
 
 #endif /* Hook_Direct3D8_h */

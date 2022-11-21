@@ -188,7 +188,9 @@ bool EnableMinHookAPI()
         return false;
 
     Drv_EnableDirect3D11Hooks();
+#ifdef X86_32
     Drv_EnableDirect3D8Hooks();
+#endif
     Drv_EnableDirectDrawHooks();
     Drv_EnableOpenGLHooks();
     Drv_EnableDirect3D9Hooks();
@@ -198,10 +200,13 @@ bool EnableMinHookAPI()
 
 void DisableMinHookAPI()
 {
+    //__asm int 3;
     Drv_DisableDirect3D9Hooks();
     Drv_DisableOpenGLHooks();
     Drv_DisableDirectDrawHooks();
+#ifdef X86_32
     Drv_DisableDirect3D8Hooks();
+#endif
     Drv_DisableDirect3D11Hooks();
 
     auto ret = pfnMH_Uninitialize();

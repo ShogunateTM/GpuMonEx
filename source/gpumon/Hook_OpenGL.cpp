@@ -70,7 +70,7 @@ void Drv_GetOpenGLHooks( Hook_OpenGLAPI* hooks, Hook_OpenGLAPI* originals )
 #endif
 
 #ifdef _WIN32
-    __asm int 3;
+   // __asm int 3;
     /* Get the originals so we can unhook */
     auto hDLL = LoadLibraryA( "GDI32.dll" );
     if( hDLL )
@@ -120,6 +120,9 @@ BOOL Drv_DisableOpenGLHooks()
 #ifdef _WIN32
     auto ret = pfnMH_DisableHook( g_originals.SwapBuffers );
     ret = pfnMH_DisableHook( g_originals.glClearColor );
+
+    ret = pfnMH_RemoveHook( g_originals.SwapBuffers );
+    ret = pfnMH_RemoveHook( g_originals.glClearColor );
 #endif
 
     return TRUE;

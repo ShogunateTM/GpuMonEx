@@ -13,7 +13,9 @@
 #include "TmpWnd.h"
 #include "MinHook2.h"
 
+#ifdef X86_32
 #include <d3dx.h>
+#endif
 
 
 Hook_DirectDrawAPI g_hooks, g_originals, g_trampolines;
@@ -146,7 +148,7 @@ BOOL Drv_EnableDirectDrawHooks()
     auto ret = pfnMH_CreateHook( (void*) g_originals.DDrawSurface_Blt, (void*) g_hooks.DDrawSurface_Blt, (void**) &g_trampolines.DDrawSurface_Blt );
     if( ret != MH_OK )
     {
-       // MessageBoxA( NULL, "Hooking DirectDraw failed!", "DANG IT!", MB_OK );
+        MessageBoxA( NULL, "Hooking DirectDraw failed!", "DANG IT!", MB_OK );
         return FALSE;
     }
 
@@ -163,6 +165,8 @@ BOOL Drv_EnableDirectDrawHooks()
 BOOL Drv_DisableDirectDrawHooks()
 {
     auto ret = pfnMH_DisableHook( g_originals.DDrawSurface_Blt );
+
+    ret = pfnMH_RemoveHook( g_originals.DDrawSurface_Blt );
 
     return TRUE;
 }
