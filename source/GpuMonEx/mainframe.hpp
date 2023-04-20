@@ -10,10 +10,13 @@
 #define mainframe_hpp
 
 #include <stdio.h>
+#include <sstream>
 #include <wx/wx.h>
 #include <wx/panel.h>
 #include <wx/notebook.h>
 #include "statschart.hpp"
+
+#include "../gpumon/DriverEnum.h"
 
 
 
@@ -64,6 +67,48 @@ namespace gpumonex
                 if( !m_thread )
                     return;
 
+                /* Driver handle instance*/
+                extern GPUDRIVER driver[Drv_MAX];
+                GPUDETAILS gpudetails;
+                wxArrayString   m_arrItems;
+                int i = 0;
+
+                while(true)
+                {
+                    if( !driver[Drv_BASE].GetGpuDetails( i++, &gpudetails ) )
+                        break;
+
+                    std::stringstream ss;
+                    ss << gpudetails.DeviceDesc /*<< " (Vendor ID: 0x" << gpudetails.VendorID << " Device ID: 0x" << gpudetails.DeviceID << ")"*/;
+                    
+                    // Create common wxArrayString array
+                    m_arrItems.Add( wxString::FromUTF8( ss.str() ) );
+                }
+
+                /* 
+                 * Display details of the primary driver version first 
+                 */
+
+                m_combobox = new wxComboBox(this, -1, m_arrItems[0], wxDefaultPosition+wxPoint( 20, 0 ), wxDefaultSize, m_arrItems, 0, wxDefaultValidator, _T("ID_COMBOBOX1"));
+
+                i = 2;
+
+                extern bool GetDriverVersion( std::string& strVersionNumber, int GpuNumber );
+
+                std::stringstream ss, ss2, ss3;
+                std::string vn;
+
+                m_text[0] = new wxStaticText( this, -1, "Display Adapter", wxPoint(0, 20));
+
+                GetDriverVersion( vn, 0 );
+                driver[Drv_BASE].GetGpuDetails( 0, &gpudetails );
+                ss3 << "Driver version: " << vn;
+                m_text[1] = new wxStaticText( this, -1, ss3.str(), wxPoint(0, 20 * i)); i++;
+                ss << "Vendor ID: 0x" << gpudetails.VendorID;
+                m_text[2] = new wxStaticText( this, -1, ss.str(), wxPoint(0, 20 * i)); i++;
+                ss2 << "Device ID: 0x" << gpudetails.DeviceID;
+                m_text[3] = new wxStaticText( this, -1, ss2.str(), wxPoint(0, 20 * i)); i++;
+
                 auto error = m_thread->Create();
                 if( error != wxTHREAD_NO_ERROR )
                 {
@@ -87,8 +132,11 @@ namespace gpumonex
 
             virtual void Update();
 
+        private:
+            wxComboBox* m_combobox;
+
         protected:
-            wxStaticText* m_text;
+            wxStaticText* m_text[4];
         };
         
         class wxGpuStatisticsPanel : public wxGpuMonPanel

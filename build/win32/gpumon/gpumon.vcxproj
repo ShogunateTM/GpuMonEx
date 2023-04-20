@@ -104,7 +104,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;GPUMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;DLL_EXPORT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;..\..\..\3rdParty\common\stb\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -127,7 +127,7 @@
       <PreprocessorDefinitions>_DEBUG;GPUMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;DLL_EXPORT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;..\..\..\3rdParty\common\stb\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,7 +153,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;GPUMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;DLL_EXPORT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;..\..\..\3rdParty\common\stb\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -179,7 +179,7 @@
       <PreprocessorDefinitions>NDEBUG;GPUMON_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;DLL_EXPORT</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\3rdParty\common\microsoft;..\..\..\3rdParty\common\nvidia;..\..\..\3rdParty\win32\WDK\;..\..\..\3rdParty\win32\minhook\include;..\..\..\3rdParty\common\stb\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

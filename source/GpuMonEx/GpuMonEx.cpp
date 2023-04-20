@@ -43,7 +43,7 @@ public:
 
     ~ComGuard()
     {
-        if( hr != CO_E_ALREADYINITIALIZED || SUCCEEDED( hr ) )
+        if( hr != CO_E_ALREADYINITIALIZED || hr != 0x80010106 || SUCCEEDED( hr ) )
             CoUninitialize();
     }
 
@@ -63,7 +63,7 @@ bool GetDriverVersion( std::string& strVersionNumber, int GpuNumber )
 
     auto hr = CoInitializeSecurity( NULL, -1, NULL, NULL, RPC_C_AUTHN_LEVEL_DEFAULT, 
         RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE, NULL );
-    if( FAILED( hr ) )
+    if( FAILED( hr ) && hr != 0x80010119 )
         return false;
 
     /* Initialize WMI */

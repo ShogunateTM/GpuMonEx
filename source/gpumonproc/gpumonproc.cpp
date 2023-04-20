@@ -943,7 +943,7 @@ int main( int argc, char** argv )
 
             ss << "main(): Process ID '" << argv[2] << "' not found!" << std::endl;
             OutputDebugStringA( ss.str().c_str() );
-            target_pid = 0;
+            target_pid = -1;
         }
     }
     

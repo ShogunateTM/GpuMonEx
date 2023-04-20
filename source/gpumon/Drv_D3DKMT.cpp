@@ -437,6 +437,7 @@ int D3DKMT_GetGpuDetails( int AdapterNumber, GPUDETAILS* pGpuDetails )
 		return 0;
 
 	wcstombs( pGpuDetails->DeviceDesc, desc.Description, 128 );
+	sprintf( pGpuDetails->DriverDesc, "TODO" );
 	pGpuDetails->DeviceID = desc.DeviceId;
 	pGpuDetails->VendorID = desc.VendorId;
 

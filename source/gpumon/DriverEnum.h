@@ -23,6 +23,15 @@ enum
 
 
 /*
+ * Driver API base per OS (TODO: Linux)
+ */
+#ifdef _WIN32
+#define Drv_BASE Drv_D3DKMT
+#elif defined(__APPLE__)
+#define Drv_BASE Drv_IOKIT
+#endif
+
+/*
  * Driver structure 
  */
 typedef struct _GPUDRIVER

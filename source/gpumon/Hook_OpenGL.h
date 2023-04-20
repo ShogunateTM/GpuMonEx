@@ -38,6 +38,7 @@ struct Hook_OpenGLAPI
 #endif
 
     void (WINAPI* glClearColor)( GLclampf, GLclampf, GLclampf, GLclampf );
+    void (WINAPI* glDrawPixels)( GLsizei, GLsizei, GLenum, GLenum, const void* );
 };
 
 void GPUMON_API Drv_GetOpenGLHooks( Hook_OpenGLAPI* hooks, Hook_OpenGLAPI* originals );
