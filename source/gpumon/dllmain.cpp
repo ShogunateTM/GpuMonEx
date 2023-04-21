@@ -185,7 +185,7 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
             //WaitForSingleObject( hThread, INFINITE );
             DisableMinHookAPI();
             //FreeLibrary( hThis );
-            FreeLibraryAndExitThread( hThis, 0 );
+            //FreeLibraryAndExitThread( hThis, 0 );
         }
         break;
     }

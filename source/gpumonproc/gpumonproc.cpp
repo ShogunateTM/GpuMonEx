@@ -915,7 +915,7 @@ bool undo_hooks( DWORD pid )
  *        (*) For debugging purposes, we'll allow command line usage to target a specific process
  *        rather than inject into every process if necessary to avoid it.
  *
- *       Windows: We need this process to run in the background yet portable, so we still ned
+ *       Windows: We need this process to run in the background yet portable, so we still need
  *       to call the WinMain entry point.  We then call int main after converting the parameters
  *       to the appropriate format.
  *
