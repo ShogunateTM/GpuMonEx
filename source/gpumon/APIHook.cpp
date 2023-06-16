@@ -158,14 +158,14 @@ bool EnableMinHookAPI()
 
     if( !GetSharedDataBetweenProcesses() )
     {
-        MessageBoxA( NULL, "Stupid thing didn't work!", "CRAP!", MB_OK );
+        MessageBoxA( NULL, "Error initialzing process shared data!", "GpuMonEx", MB_ICONERROR );
         return false;
     }
 
     hMinhook = LoadLibraryA( SharedData.MinHookDllPath );
     if( !hMinhook )
     {
-        MessageBoxA( NULL, "Well, this sucks!", "CRAP!", MB_OK );
+        MessageBoxA( NULL, "Unable to load Minhook!", "GpuMonEx", MB_ICONERROR );
         return false;
     }
 
@@ -180,7 +180,7 @@ bool EnableMinHookAPI()
     /* Did we get 'em all? */
     if( !pfnMH_Initialize || !pfnMH_Uninitialize || !pfnMH_CreateHook || !pfnMH_RemoveHook || !pfnMH_EnableHook || !pfnMH_DisableHook || !pfnMH_StatusToString )
     {
-        MessageBoxA( NULL, "Well, this sucks even more!", "CRAP", MB_OK );
+        MessageBoxA( NULL, "Failed to get Minhook APIs!", "GpuMonEx", MB_ICONERROR );
     }
 
     auto ret = pfnMH_Initialize();

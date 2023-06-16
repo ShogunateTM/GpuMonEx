@@ -826,16 +826,18 @@ bool ContainsGpuRelatedDependencies( DWORD pid, DWORD* out_flags )
 
     struct dependency_t target_dependencies[] 
 #ifdef _WIN32
-        = { { "ddraw.dll",      GMPROCESS_USES_DDRAW },
+        = { /*{ "ddraw.dll",      GMPROCESS_USES_DDRAW },
             { "d3d8.dll",       GMPROCESS_USES_D3D8 },
             { "d3d9.dll",       GMPROCESS_USES_D3D9 },
             { "d3d9ex.dll",     GMPROCESS_USES_D3D9 },
             { "d3d10.dll",      GMPROCESS_USES_D3D10 },
             { "d3d11.dll",      GMPROCESS_USES_D3D11 },
-            { "d3d12.dll",      GMPROCESS_USES_D3D12 },
+            { "d3d12.dll",      GMPROCESS_USES_D3D12 },*/
             { "opengl32.dll",   GMPROCESS_USES_OPENGL } }
 #endif
     ;
+
+    int target_dependencies_count = sizeof( target_dependencies ) / sizeof( struct dependency_t );
 
     std::vector<std::string> dependencies;
     bool dependency_found = false;
@@ -846,7 +848,7 @@ bool ContainsGpuRelatedDependencies( DWORD pid, DWORD* out_flags )
     {
         for( auto d = dependencies.begin(); d != dependencies.end(); ++d )
         {
-            for( int i = 0; i < 8; i++ )
+            for( int i = 0; i < target_dependencies_count; i++ )
             {
                 if( iequals( (*d), target_dependencies[i].module ) )
                 {

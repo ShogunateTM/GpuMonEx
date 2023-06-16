@@ -25,10 +25,15 @@
 #include "stb_truetype.h"
 
 #include <sstream>
+#include <atomic>
 
 
 FrameRate fps;
-Hook_OpenGLAPI g_hooks, g_originals, g_trampolines;
+Hook_OpenGLAPI      g_hooks, g_originals, g_trampolines;
+std::atomic<bool>   unhooking_ogl(false);
+bool                unhooked_ogl = false;
+
+#define GUARD while(unhooking_ogl);
 
 
 void BlitFPS()
@@ -130,9 +135,11 @@ extern "C" BOOL WINAPI _hook__SwapBuffers( HDC hDC )
 
     if( first ) MessageBoxA( NULL, "OpenGL hook successful!", "Yeah boi!", MB_OK ), first = FALSE;
 
-    BlitFPS();
+    //BlitFPS();
 
-    return g_trampolines.SwapBuffers( hDC );
+    GUARD;
+
+    return unhooked_ogl ? g_originals.SwapBuffers( hDC ) : g_trampolines.SwapBuffers( hDC );
 }
 
 #endif
@@ -157,12 +164,16 @@ extern "C" void WINAPI _hook__glClearColor( GLclampf r, GLclampf g, GLclampf b, 
 
     if( first ) MessageBoxA( NULL, "Test, hooking glClearColor", "Yeah boi!", MB_OK ), first = FALSE;
 
-    g_trampolines.glClearColor( 0.5, 0.5, b, a );
+    GUARD;
+
+    return unhooked_ogl ? g_originals.glClearColor( r, g, b, a ) : g_trampolines.glClearColor( 0.5, 0.5, b, a );
 }
 
-extern "C" void WINAPI _hook__glDrawPixels(GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels)
+extern "C" void WINAPI _hook__glDrawPixels( GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels )
 {
-    g_trampolines.glDrawPixels( width, height, format, type, pixels );
+    GUARD;
+
+    return unhooked_ogl ? g_originals.glDrawPixels( width, height, format, type, pixels ) : g_trampolines.glDrawPixels( width, height, format, type, pixels );
 }
 
 void Drv_GetOpenGLHooks( Hook_OpenGLAPI* hooks, Hook_OpenGLAPI* originals )
@@ -230,6 +241,8 @@ BOOL Drv_EnableOpenGLHooks()
 
 BOOL Drv_DisableOpenGLHooks()
 {
+    unhooking_ogl = true;
+
 #ifdef _WIN32
     auto ret = pfnMH_DisableHook( g_originals.SwapBuffers );
     ret = pfnMH_DisableHook( g_originals.glClearColor );
@@ -239,6 +252,9 @@ BOOL Drv_DisableOpenGLHooks()
     ret = pfnMH_RemoveHook( g_originals.glClearColor );
     ret = pfnMH_RemoveHook( g_originals.glDrawPixels );
 #endif
+
+    unhooking_ogl = false;
+    unhooked_ogl = true;
 
     return TRUE;
 }

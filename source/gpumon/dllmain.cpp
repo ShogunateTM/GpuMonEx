@@ -4,8 +4,10 @@
 #include "APIHook.h"
 
 #include <processthreadsapi.h>
+#include <atomic>
 
 
+std::atomic<bool> unhooking(false);
 HMODULE hThis = nullptr;
 
 //Foo foo;
@@ -183,7 +185,9 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule,
             //unsigned int thread_id = 0;
             //HANDLE hThread = (HANDLE) _beginthreadex( NULL, 0, UninitializeEx, NULL, 0, &thread_id );//_beginthread( Uninitialize, 0, NULL );
             //WaitForSingleObject( hThread, INFINITE );
+            unhooking = true;
             DisableMinHookAPI();
+            unhooking = false;
             //FreeLibrary( hThis );
             //FreeLibraryAndExitThread( hThis, 0 );
         }
