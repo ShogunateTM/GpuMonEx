@@ -434,11 +434,13 @@ int main( int argc, char** argv )
 		}
 	}
     
-#ifdef __i386__
-    std::cout << "32-bit mode...\n\n";
+#ifdef X86_32
+    std::cout << "x86 32-bit mode...\n\n";
+#elif defined(X86_64)
+    std::cout << "x86 64-bit mode...\n\n";
 #else
-    std::cout << "64-bit mode...\n\n";
-#endif
+	/* TODO: Natively support ARM? */
+#endif	
 
 	if( DebugEnabled )
 		dbg = std::make_unique<NVDebug>( DebugLevel, DebugFile );
