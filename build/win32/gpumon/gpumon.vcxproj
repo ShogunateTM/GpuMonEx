@@ -215,7 +215,6 @@
     <ClInclude Include="..\..\..\source\gpumon\Hook_OpenGL.h" />
     <ClInclude Include="..\..\..\source\gpumon\Hook_Vulkan.h" />
     <ClInclude Include="..\..\..\source\gpumon\MinHook2.h" />
-    <ClInclude Include="..\..\..\source\gpumon\TmpWnd.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\3rdParty\common\nvidia\Framerate.cpp" />

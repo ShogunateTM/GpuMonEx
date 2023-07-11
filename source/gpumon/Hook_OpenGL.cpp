@@ -244,13 +244,21 @@ BOOL Drv_DisableOpenGLHooks()
     unhooking_ogl = true;
 
 #ifdef _WIN32
-    auto ret = pfnMH_DisableHook( g_originals.SwapBuffers );
-    ret = pfnMH_DisableHook( g_originals.glClearColor );
-    ret = pfnMH_DisableHook( g_originals.glDrawPixels );
+    auto ret = MH_UNKNOWN;
+    
+    if( pfnMH_DisableHook )
+    {
+        ret = pfnMH_DisableHook( g_originals.SwapBuffers );
+        ret = pfnMH_DisableHook( g_originals.glClearColor );
+        ret = pfnMH_DisableHook( g_originals.glDrawPixels );
+    }
 
-    ret = pfnMH_RemoveHook( g_originals.SwapBuffers );
-    ret = pfnMH_RemoveHook( g_originals.glClearColor );
-    ret = pfnMH_RemoveHook( g_originals.glDrawPixels );
+    if( pfnMH_RemoveHook )
+    {
+        ret = pfnMH_RemoveHook( g_originals.SwapBuffers );
+        ret = pfnMH_RemoveHook( g_originals.glClearColor );
+        ret = pfnMH_RemoveHook( g_originals.glDrawPixels );
+    }
 #endif
 
     unhooking_ogl = false;

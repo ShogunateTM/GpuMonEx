@@ -176,9 +176,11 @@ BOOL Drv_EnableDirect3D8Hooks()
 
 BOOL Drv_DisableDirect3D8Hooks()
 {
-    auto ret = pfnMH_DisableHook( g_originals.D3DDevice8_Present );
+    auto ret = MH_UNKNOWN;
+    
+    if( pfnMH_DisableHook ) ret = pfnMH_DisableHook( g_originals.D3DDevice8_Present );
 
-    ret = pfnMH_RemoveHook( g_originals.D3DDevice8_Present );
+    if( pfnMH_RemoveHook ) ret = pfnMH_RemoveHook( g_originals.D3DDevice8_Present );
 
     return TRUE;
 }

@@ -166,9 +166,11 @@ BOOL Drv_EnableDirect3D11Hooks()
 
 BOOL Drv_DisableDirect3D11Hooks()
 {
-    auto ret = pfnMH_DisableHook( g_originals.DXGISwapChain_Present );
+    auto ret = MH_UNKNOWN;
+    
+    if( pfnMH_DisableHook ) ret = pfnMH_DisableHook( g_originals.DXGISwapChain_Present );
 
-    ret = pfnMH_RemoveHook( g_originals.DXGISwapChain_Present );
+    if( pfnMH_RemoveHook ) ret = pfnMH_RemoveHook( g_originals.DXGISwapChain_Present );
 
     return TRUE;
 }

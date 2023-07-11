@@ -19,9 +19,11 @@ Hook_Direct3D9API g_hooks, g_originals, g_trampolines;
  */
 uint_addr_t Direct3D_vtable;
 uint_addr_t D3DDevice_vtable[119];
+bool initialized_d3d9 = false;
 
 uint_addr_t Direct3DEx_vtable;
 uint_addr_t D3DDeviceEx_vtable[124];
+bool initialized_d3d9ex = false;
 
 
 
@@ -215,9 +217,11 @@ BOOL Drv_EnableDirect3D9Hooks()
 
 BOOL Drv_DisableDirect3D9Hooks()
 {
-    auto ret = pfnMH_DisableHook( g_originals.D3DDevice9_Present ); 
+    auto ret = MH_UNKNOWN;
+    
+    if( pfnMH_DisableHook ) ret = pfnMH_DisableHook( g_originals.D3DDevice9_Present ); 
 
-    ret = pfnMH_RemoveHook( g_originals.D3DDevice9_Present );
+    if( pfnMH_RemoveHook ) ret = pfnMH_RemoveHook( g_originals.D3DDevice9_Present );
 
     return TRUE;
 }

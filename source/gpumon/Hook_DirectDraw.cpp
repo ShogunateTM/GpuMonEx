@@ -163,9 +163,11 @@ BOOL Drv_EnableDirectDrawHooks()
 
 BOOL Drv_DisableDirectDrawHooks()
 {
-    auto ret = pfnMH_DisableHook( g_originals.DDrawSurface_Blt );
+    auto ret = MH_UNKNOWN;
+    
+    if( pfnMH_DisableHook ) ret = pfnMH_DisableHook( g_originals.DDrawSurface_Blt );
 
-    ret = pfnMH_RemoveHook( g_originals.DDrawSurface_Blt );
+    if( pfnMH_RemoveHook ) ret = pfnMH_RemoveHook( g_originals.DDrawSurface_Blt );
 
     return TRUE;
 }
