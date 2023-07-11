@@ -125,7 +125,14 @@ BOOL DoNotHook()
 
 void Initialize( void* param )
 {
+# if 0 /* 
+        * TODO: This is only supported on Win10 and later.  Yes, 8.x and earlier are not supported by M$ anymore, but idc.
+        *       Either use the alternative solution below for OSes that don't support it, detect the appropriate function to use based on the OS, or don't use it at all.
+        * Source(s): https://stackoverflow.com/questions/36543301/detecting-windows-10-version/36545162#36545162
+        *            https://stackoverflow.com/questions/905876/how-to-set-name-to-a-win32-thread
+        */
     SetThreadDescription( GetCurrentThread(), L"Hook init thread" );
+#endif
     EnableMinHookAPI(), _endthread();
 }
 

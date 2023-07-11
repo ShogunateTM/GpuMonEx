@@ -9,7 +9,6 @@
 #include "../platform.h"
 #include "DriverEnum.h"
 #include "Hook_Direct3D11.h"
-#include "TmpWnd.h"
 #include "MinHook2.h"
 
 
@@ -62,7 +61,6 @@ extern "C" HRESULT WINAPI _hook__IDXGISwapChain1_Present1( IDXGISwapChain1* pThi
 
 void Drv_GetDirect3D11Hooks( Hook_Direct3D11API* hooks, Hook_Direct3D11API* originals )
 {
-    CTmpWnd TmpWnd;
     static PFN_D3D11_CREATE_DEVICE_AND_SWAP_CHAIN pfnD3D11CreateDeviceAndSwapChain = NULL;
     //__asm int 3;
 

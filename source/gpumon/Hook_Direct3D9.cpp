@@ -9,7 +9,6 @@
 #include "../platform.h"
 #include "DriverEnum.h"
 #include "Hook_Direct3D9.h"
-#include "TmpWnd.h"
 #include "MinHook2.h"
 
 

@@ -12,7 +12,6 @@
 #include "../platform.h"
 #include "DriverEnum.h"
 #include "Hook_Direct3D8.h"
-#include "TmpWnd.h"
 #include "MinHook2.h"
 
 #ifdef X86_32   // x64 not supported
@@ -56,7 +55,6 @@ void Drv_GetDirect3D8Hooks( Hook_Direct3D8API* hooks, Hook_Direct3D8API* origina
     * Standard Direct3D8
     */
     {
-        CTmpWnd TmpWnd;
         static PFN_Direct3DCreate8 pfnDirect3DCreate8 = NULL;
         //__asm int 3;
 

@@ -10,7 +10,6 @@
 #include "../platform.h"
 #include "DriverEnum.h"
 #include "Hook_DirectDraw.h"
-#include "TmpWnd.h"
 #include "MinHook2.h"
 
 #ifdef X86_32

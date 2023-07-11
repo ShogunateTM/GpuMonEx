@@ -234,7 +234,6 @@
     <ClCompile Include="..\..\..\source\gpumon\Hook_DirectDraw.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Hook_OpenGL.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Hook_Vulkan.cpp" />
-    <ClCompile Include="..\..\..\source\gpumon\TmpWnd.cpp" />
     <ClCompile Include="..\..\..\source\gpumon\Vtable.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
