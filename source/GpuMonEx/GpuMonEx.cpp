@@ -337,7 +337,11 @@ private:
     {
         if( !InitializeGpuMon() )
         {
-            wxMessageBox( wxT( "Error loading driver communication library!" ), wxT( "GpuMonEx" ), wxICON_EXCLAMATION );
+            std::string lastmsg = NVDebug::GetSingleton().GetLastMessage().str();
+            wxString str = wxT( "Error loading driver communication library!\n\nLast Error Message:\n" );
+            str += lastmsg;
+
+            wxMessageBox( str, wxT( "GpuMonEx" ), wxICON_EXCLAMATION );
             return ERR_DRVFAIL;
         }
         
