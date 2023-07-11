@@ -281,6 +281,7 @@ int main( int argc, char** argv )
 
 	std::atexit( []()
 		{
+			if( !hGpuMonDll ) return;	/* Avoid double uninitialization */
 			if( driver[Drv_D3DKMT].Uninitialize ) driver[Drv_D3DKMT].Uninitialize(); 
 			if( driver[Drv_NVAPI].Uninitialize ) driver[Drv_NVAPI].Uninitialize();
 			if( driver[Drv_AMDGS].Uninitialize ) driver[Drv_AMDGS].Uninitialize();
@@ -551,7 +552,9 @@ int main( int argc, char** argv )
 	/*if( logfi.is_open() )
 		logfi.close();*/
 
-	TerminateProcess( &Process );
+	/* Close process monitoring (if it was requested in the first place) */
+	if( ShowProcessUsage )
+		TerminateProcess( &Process );
     
     UninitializeGpuMon();
     

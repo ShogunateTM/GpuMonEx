@@ -3,7 +3,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LocalDebuggerWorkingDirectory>..\..\..\bin</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>--adapter-info --adapter-usage --logging out.txt --debug-level 4</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--adapter-info --adapter-usage --logging out.txt --debug-level 4 --duration 10</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LocalDebuggerWorkingDirectory>..\..\..\bin</LocalDebuggerWorkingDirectory>
