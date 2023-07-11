@@ -46,8 +46,36 @@ typedef struct _GPUDRIVER
     int (*GetOverallGpuLoad)( int, GPUSTATISTICS* );
     int (*GetProcessGpuLoad)( int, void* );
     int (*GetGpuTemperature)( int );
+
+    int (*AlreadyInitialized)();
+    int (*GetLastError)( char** );
 } GPUDRIVER;
 
+
+/*
+ * Base driver interface
+ */
+class IGpuDriver
+{
+public:
+    IGpuDriver();
+    virtual ~IGpuDriver();
+
+    virtual BOOL Query( int, OUT IGpuDriver** );
+    virtual void Release();
+
+    virtual int GetGpuDetails( int, GPUDETAILS* ) PURE;
+    virtual int GetOverallGpuLoad( int, GPUSTATISTICS* ) PURE;
+    virtual int GetProcessGpuLoad( int, void* ) PURE;
+    virtual int GetGpuTemperature( int ) PURE;
+
+    virtual int GetStatus() PURE;
+};
+
+class IGpuDriverD3DKMT;
+class IGpuDriverNVAPI;
+class IGpuDriverAMDGS;
+class IGpuDriverIOKIT;
 
 
 #ifdef __cplusplus

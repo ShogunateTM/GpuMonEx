@@ -44,7 +44,7 @@ void gpumonex::wx::wxGpuStatisticsPanel::Update()
 
     /* This is VERY lazy, I know.  So I'll fix it... later... */
 #ifdef _WIN32
-    int drvtype = Drv_NVAPI; //Drv_D3DKMT;
+    int drvtype = /*Drv_NVAPI;*/ Drv_D3DKMT;
 #elif defined(__APPLE__)
     int drvtype = Drv_IOKIT;
 #endif
